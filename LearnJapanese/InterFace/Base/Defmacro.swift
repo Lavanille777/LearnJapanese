@@ -10,7 +10,8 @@ import UIKit
 @_exported import SnapKit
 
 ///主题色
-let mainColor = 0xbbbbbb
+let mainColor = 0x333643
+let mainGray = 0xbbbbbb
 
 ///屏幕宽高
 let SCREEN_WIDTH = UIScreen.main.bounds.width
@@ -18,13 +19,12 @@ let SCREEN_HEIGHT = UIScreen.main.bounds.height
 
 /// 判断是否为刘海屏
 var isiPhoneX: Bool {
-    if #available(iOS 11, *) {
-        if let w = UIApplication.shared.delegate?.window,
-          let window = w, window.safeAreaInsets.left > 0 || window.safeAreaInsets.bottom > 0 {
-            return true
-        }
+    guard #available(iOS 11.0, *) else {
+        return false
     }
-    return false
+    let isX = UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
+    print("是不是刘海屏呢--->\(isX)")
+    return isX
 }
 
 /// 状态栏高度 44.0 20.0
@@ -34,7 +34,7 @@ let NavBarHeight: CGFloat = 44.0
 /// 导航栏高度(导航条和状态栏总高度)
 let NavPlusStatusH: CGFloat = (StatusBarHeight + NavBarHeight)
 /// iPhone X底部多余的高度
-let IPHONEX_BH:CGFloat = isiPhoneX ? 34.0:0.0
+let IPHONEX_BH:CGFloat = UIApplication.shared.windows[0].safeAreaInsets.bottom
 
 /// 基于iPhone6的屏宽比例
 let Scale_iPhone6: CGFloat = SCREEN_WIDTH/375.0
