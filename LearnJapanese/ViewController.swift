@@ -22,7 +22,6 @@ class ViewController: UIViewController {
     
     func setupUI(){
         self.view.backgroundColor = .white
-        
         self.view.addSubview(toLoginBtn)
         toLoginBtn.setTitle("登录", for: .normal)
         toLoginBtn.setTitleColor(HEXCOLOR(h: 0x101010, alpha: 1.0), for: .normal)

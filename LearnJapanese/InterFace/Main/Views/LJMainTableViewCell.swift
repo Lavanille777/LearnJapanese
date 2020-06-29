@@ -11,6 +11,8 @@ import UIKit
 class LJMainTableViewCell: UITableViewCell {
     ///背景图片
     var bgImgV: UIImageView = UIImageView()
+    ///遮罩
+    var bgMaskV: UIView = UIView()
     ///标题
     var titleL: UILabel = UILabel()
 
@@ -35,12 +37,20 @@ class LJMainTableViewCell: UITableViewCell {
     func setupUI(){
         self.selectionStyle = .none
         self.addSubview(bgImgV)
+        bgImgV.contentMode = .center
+        bgImgV.image = UIImage.init(named: "cell_bg")
         bgImgV.layer.cornerRadius = WidthScale(10)
         bgImgV.layer.masksToBounds = true
         bgImgV.backgroundColor = .orange
         bgImgV.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(120)))
+        }
+        
+        bgImgV.addSubview(bgMaskV)
+        bgMaskV.backgroundColor = HEXCOLOR(h: 0x000000, alpha: 0.2)
+        bgMaskV.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
         }
     }
 
