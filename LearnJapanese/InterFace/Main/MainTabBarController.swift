@@ -18,9 +18,16 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     func setupUI(){
         self.view.backgroundColor = .white
-        self.navigationController?.navigationBar.isHidden = true
         self.delegate = self
         self.tabBar.isTranslucent = true
         addTabbarChildController()
@@ -34,7 +41,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func addTabbarChildController(){
-        setupOneChildViewController(mainVC, title: "首页", normalImage: "fa5-book", selectedImage: "fa5-book")
+        setupOneChildViewController(mainVC, title: "首页", normalImage: "tabbar_1_sel", selectedImage: "tabbar_1_sel")
 //        setupOneChildViewController(messageCtrl, title: "消息", normalImage: "tabbar_2_nor", selectedImage: "tabbar_2_sel")
 //        setupOneChildViewController(mineCtrl, title: "我的", normalImage: "tabbar_3_nor", selectedImage: "tabbar_3_sel")
     }

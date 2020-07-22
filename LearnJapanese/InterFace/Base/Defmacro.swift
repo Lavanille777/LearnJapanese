@@ -23,7 +23,6 @@ var isiPhoneX: Bool {
         return false
     }
     let isX = UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
-    print("是不是刘海屏呢--->\(isX)")
     return isX
 }
 
@@ -33,6 +32,8 @@ let StatusBarHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
 let NavBarHeight: CGFloat = 44.0
 /// 导航栏高度(导航条和状态栏总高度)
 let NavPlusStatusH: CGFloat = (StatusBarHeight + NavBarHeight)
+/// iPhone X顶部部多余的高度
+let IPHONEX_TH:CGFloat = UIApplication.shared.windows[0].safeAreaInsets.top
 /// iPhone X底部多余的高度
 let IPHONEX_BH:CGFloat = UIApplication.shared.windows[0].safeAreaInsets.bottom
 
