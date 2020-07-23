@@ -12,6 +12,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     
     var transitionContext : UIViewControllerContextTransitioning!
     var transitingView : UIView!
+    var velocity: CGFloat = 0
     
     var fromVC: UIViewController!
     var toView: UIView!
@@ -53,36 +54,47 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
             for view in fromVC.view.subviews {
                 if view.tag != 101 && view.tag != 100{
-                    view.alpha = 1 - percentComplete
+                    if percentComplete <= 0.5{
+                        view.alpha = 1 - percentComplete * 2
+                    }else{
+                        view.alpha = 0
+                    }
                 }
             }
-            if percentComplete > 0.8 {
-                fromVC.targetTitleL.snp.remakeConstraints { (make) in
-                    make.centerY.equalToSuperview().offset(-WidthScale(8))
-                    make.left.equalToSuperview().inset(WidthScale(20))
+            if percentComplete > 0.7 && fromVC.targetTitleL.font == UIFont.boldSystemFont(ofSize: WidthScale(24)){
+                UIView.animate(withDuration: 0.25, animations: {
+                    fromVC.targetTitleL.snp.remakeConstraints { (make) in
+                        make.centerY.equalToSuperview().offset(-WidthScale(8))
+                        make.left.equalToSuperview().inset(WidthScale(20))
+                    }
+                    fromVC.view.layoutIfNeeded()
+                }) { (finished) in
+                    fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
                 }
-                fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
-            }else {
-                fromVC.targetTitleL.snp.remakeConstraints { (make) in
-                    make.left.equalToSuperview().inset(WidthScale(20))
-                    make.top.equalToSuperview().inset(NavPlusStatusH)
+            }else if percentComplete < 0.4 && fromVC.targetTitleL.font == UIFont.systemFont(ofSize: WidthScale(20)){
+                UIView.animate(withDuration: 0.25, animations: {
+                    fromVC.targetTitleL.snp.remakeConstraints { (make) in
+                        make.left.equalToSuperview().inset(WidthScale(20))
+                        make.top.equalToSuperview().inset(NavPlusStatusH)
+                    }
+                    fromVC.view.layoutIfNeeded()
+                }) { (finished) in
+                   fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
                 }
-                fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
             }
             
             
         }
-        
         let width = originRect.width - (originRect.width - targetRect.width) * percentComplete
         let height = originRect.height - (originRect.height - targetRect.height) * percentComplete
-        transitingView.layoutIfNeeded()
+        
         transitingView.frame = CGRect(x: percentComplete * targetRect.origin.x, y: percentComplete * targetRect.origin.y, width: width, height: height)
-        maskView.alpha = 1 - percentComplete * 0.1
+        maskView.alpha = 1 - percentComplete * 0.5
         toView?.transform = CGAffineTransform(scaleX: 0.8 + 0.2 * percentComplete, y: 0.8 + 0.2 * percentComplete)
     }
     
     func finishBy(cancelled: Bool) {
-        if cancelled {
+        if cancelled && velocity < 500{
             UIView.animate(withDuration: 0.2, animations: {
                 self.transitingView.frame = self.originRect
                 self.toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -95,7 +107,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     }
                     fromVC.targetTitleL.snp.remakeConstraints { (make) in
                         make.left.equalToSuperview().inset(WidthScale(20))
-                        make.top.equalToSuperview().inset(NavPlusStatusH + WidthScale(20))
+                        make.top.equalToSuperview().inset(NavPlusStatusH)
                     }
                     fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
                 }
@@ -105,10 +117,9 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                 self.transitionContext!.completeTransition(false)
             })
 
-
-            
         } else {
-            UIView.animate(withDuration: 0.2, animations: {
+            self.transitionContext!.finishInteractiveTransition()
+            UIView.animate(withDuration: 0.15, animations: {
                 self.transitingView!.frame = self.targetRect
                 self.transitingView.layoutIfNeeded()
                 self.maskView.effect = nil
@@ -126,9 +137,8 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
                 }
             }, completion: {completed in
-                self.maskView.removeFromSuperview()
-                self.transitionContext!.finishInteractiveTransition()
                 self.transitionContext!.completeTransition(true)
+                self.maskView.removeFromSuperview()
                 self.transitingView.removeFromSuperview()
                 self.toView?.layer.cornerRadius = 0
             })

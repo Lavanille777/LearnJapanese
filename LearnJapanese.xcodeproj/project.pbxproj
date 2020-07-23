@@ -29,6 +29,12 @@
 		0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A424C6C94000D691A3 /* LJPopTransitionAnimator.swift */; };
 		0182A8A724C6CCEC00D691A3 /* LJPopInteractiveTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A624C6CCEC00D691A3 /* LJPopInteractiveTransitioning.swift */; };
 		0182A8A924C7E6A700D691A3 /* LJNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A824C7E6A700D691A3 /* LJNavigationBar.swift */; };
+		0182A8AC24C848F400D691A3 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 0182A8AB24C848F400D691A3 /* db.sqlite */; };
+		0182A8B124C936DE00D691A3 /* wordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8B024C936DE00D691A3 /* wordModel.swift */; };
+		0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8B224C93FEA00D691A3 /* SQLManager.swift */; };
+		0182A8B524C9428600D691A3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0182A8B424C9428500D691A3 /* SystemConfiguration.framework */; };
+		0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8B724C964CD00D691A3 /* SearchWordViewController.swift */; };
+		0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8BA24C9667E00D691A3 /* SearchWordTbCell.swift */; };
 		01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */; };
 		01D67E0B247655EE00319B3E /* LJMainTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */; };
 		19C144AF2976B4F72E34FDEA /* Pods_LearnJapanese.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8397573D4FB5120421BA66F9 /* Pods_LearnJapanese.framework */; };
@@ -59,6 +65,12 @@
 		0182A8A424C6C94000D691A3 /* LJPopTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJPopTransitionAnimator.swift; sourceTree = "<group>"; };
 		0182A8A624C6CCEC00D691A3 /* LJPopInteractiveTransitioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJPopInteractiveTransitioning.swift; sourceTree = "<group>"; };
 		0182A8A824C7E6A700D691A3 /* LJNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJNavigationBar.swift; sourceTree = "<group>"; };
+		0182A8AB24C848F400D691A3 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
+		0182A8B024C936DE00D691A3 /* wordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wordModel.swift; sourceTree = "<group>"; };
+		0182A8B224C93FEA00D691A3 /* SQLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLManager.swift; sourceTree = "<group>"; };
+		0182A8B424C9428500D691A3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0182A8B724C964CD00D691A3 /* SearchWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordViewController.swift; sourceTree = "<group>"; };
+		0182A8BA24C9667E00D691A3 /* SearchWordTbCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWordTbCell.swift; sourceTree = "<group>"; };
 		01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakingPlanViewController.swift; sourceTree = "<group>"; };
 		01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableHeaderView.swift; sourceTree = "<group>"; };
 		0F107955AFD77AC2F031B008 /* Pods-LearnJapanese.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnJapanese.debug.xcconfig"; path = "Target Support Files/Pods-LearnJapanese/Pods-LearnJapanese.debug.xcconfig"; sourceTree = "<group>"; };
@@ -71,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0182A8B524C9428600D691A3 /* SystemConfiguration.framework in Frameworks */,
 				19C144AF2976B4F72E34FDEA /* Pods_LearnJapanese.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,13 +150,15 @@
 		0174D9C6246BCA6000390CEF /* LearnJapanese */ = {
 			isa = PBXGroup;
 			children = (
+				0182A8AF24C936B000D691A3 /* Models */,
+				0182A8AA24C8488800D691A3 /* Resource */,
 				0174D9DD246BE30700390CEF /* InterFace */,
 				0174D9C7246BCA6000390CEF /* AppDelegate.swift */,
 				0174D9C9246BCA6000390CEF /* SceneDelegate.swift */,
-				0174D9CB246BCA6000390CEF /* ViewController.swift */,
 				0174D9CD246BCA6000390CEF /* Main.storyboard */,
 				0174D9D2246BCA6300390CEF /* LaunchScreen.storyboard */,
 				0174D9D5246BCA6300390CEF /* Info.plist */,
+				0182A8B224C93FEA00D691A3 /* SQLManager.swift */,
 			);
 			path = LearnJapanese;
 			sourceTree = "<group>";
@@ -151,9 +166,9 @@
 		0174D9DD246BE30700390CEF /* InterFace */ = {
 			isa = PBXGroup;
 			children = (
+				0182A8B624C9647900D691A3 /* Dictionary */,
 				01C7419724A98F5000DC5996 /* Plans */,
 				0135EC7F24750F2F00AF0F32 /* Base */,
-				0174D9D0246BCA6300390CEF /* Assets.xcassets */,
 				0135EC7E24726C2100AF0F32 /* Main */,
 				0174D9DE246BE31B00390CEF /* Login */,
 			);
@@ -163,9 +178,44 @@
 		0174D9DE246BE31B00390CEF /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0174D9CB246BCA6000390CEF /* ViewController.swift */,
 				0174D9DF246BE9ED00390CEF /* LoginViewController.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		0182A8AA24C8488800D691A3 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0174D9D0246BCA6300390CEF /* Assets.xcassets */,
+				0182A8AB24C848F400D691A3 /* db.sqlite */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		0182A8AF24C936B000D691A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0182A8B024C936DE00D691A3 /* wordModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0182A8B624C9647900D691A3 /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				0182A8B924C9664E00D691A3 /* Views */,
+				0182A8B724C964CD00D691A3 /* SearchWordViewController.swift */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		0182A8B924C9664E00D691A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0182A8BA24C9667E00D691A3 /* SearchWordTbCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		01C7419724A98F5000DC5996 /* Plans */ = {
@@ -188,6 +238,7 @@
 		887AC4984713E6F1CC8A7BC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0182A8B424C9428500D691A3 /* SystemConfiguration.framework */,
 				8397573D4FB5120421BA66F9 /* Pods_LearnJapanese.framework */,
 			);
 			name = Frameworks;
@@ -256,6 +307,7 @@
 				0174D9D4246BCA6300390CEF /* LaunchScreen.storyboard in Resources */,
 				0174D9D1246BCA6300390CEF /* Assets.xcassets in Resources */,
 				0174D9CF246BCA6000390CEF /* Main.storyboard in Resources */,
+				0182A8AC24C848F400D691A3 /* db.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0174D9CC246BCA6000390CEF /* ViewController.swift in Sources */,
+				0182A8B124C936DE00D691A3 /* wordModel.swift in Sources */,
 				0182A8A924C7E6A700D691A3 /* LJNavigationBar.swift in Sources */,
 				0174D9C8246BCA6000390CEF /* AppDelegate.swift in Sources */,
 				0182A8A724C6CCEC00D691A3 /* LJPopInteractiveTransitioning.swift in Sources */,
@@ -318,9 +371,12 @@
 				0135EC8924752E6C00AF0F32 /* MainTabBarController.swift in Sources */,
 				01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */,
 				01D67E0B247655EE00319B3E /* LJMainTableHeaderView.swift in Sources */,
+				0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */,
+				0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */,
 				0174D9E0246BE9ED00390CEF /* LoginViewController.swift in Sources */,
 				0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */,
 				017EC2E324BC3DA6003364D5 /* LJMainCollectionView.swift in Sources */,
+				0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */,
 				0135EC8124750F5000AF0F32 /* LJBaseViewController.swift in Sources */,
 				0182A89F24C5743000D691A3 /* LJMainTableColVCell.swift in Sources */,
 				017EC2E524BC3E29003364D5 /* LJMainCollectionViewCell.swift in Sources */,

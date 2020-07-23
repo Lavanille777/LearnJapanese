@@ -8,6 +8,8 @@
 import UIKit
 
 @_exported import SnapKit
+@_exported import Realm
+@_exported import RealmSwift
 
 ///主题色
 let mainColor = 0x333643

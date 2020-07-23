@@ -1,16 +1,33 @@
 PODS:
+  - Realm (5.2.0):
+    - Realm/Headers (= 5.2.0)
+  - Realm/Headers (5.2.0)
+  - RealmSwift (5.2.0):
+    - Realm (= 5.2.0)
   - SnapKit (5.0.1)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
 
 DEPENDENCIES:
+  - RealmSwift
   - SnapKit
+  - SQLite.swift
 
 SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Realm
+    - RealmSwift
+    - SQLite.swift
   trunk:
     - SnapKit
 
 SPEC CHECKSUMS:
+  Realm: f749c723e272f08fdf1939af5e61d2bd09b203e8
+  RealmSwift: bf0ab78b52c5bafba8b3ad73be8dfb4c1ea5cf01
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
 
-PODFILE CHECKSUM: 04458e274d2d48dd49ad78345265b1fc96d1aea7
+PODFILE CHECKSUM: 248ee4be5efb654df6861f2aac369f6c6e3d9da9
 
 COCOAPODS: 1.8.4

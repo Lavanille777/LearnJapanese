@@ -41,7 +41,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,7 +79,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             make.top.equalToSuperview()
             make.height.equalTo(WidthScale(60 + (isiPhoneX ? 24 : 0)))
         }
-
+        
         
         view.layoutIfNeeded()
         
@@ -98,7 +98,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 }
                 self.view.layoutIfNeeded()
                 floatView.isHidden = true
-                 maskView.layer.mask = nil
+                maskView.layer.mask = nil
             }else if scrollView.contentOffset.y < -StatusBarHeight{
                 headerView.title2L.snp.remakeConstraints { (make) in
                     make.left.equalToSuperview().inset(WidthScale(20))
@@ -113,7 +113,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 }
                 floatView.isHidden = false
                 maskView.layer.mask = maskLayer
-
+                
             }
         }
     }
@@ -147,17 +147,11 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 break
             }
             
-            //先添加手势
-//            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(interactWith))
-//                    self.view.addGestureRecognizer(tapGesture)
-//            cell.addGestureRecognizer(tapGesture)
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        switch indexPath.row {
-//        case 0:
         didSelectIndexPath = indexPath
         let vc = MakingPlanViewController()
         
@@ -174,10 +168,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             break
         }
         vc.bgImgV.image = UIImage.init(named: "cell\(indexPath.row)")
-            self.navigationController?.pushViewController(vc, animated: true)
-//        default:
-//            break
-//        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -202,50 +193,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     var presentationTransition : UIViewControllerAnimatedTransitioning = LJPushTransitionAnimator(duration: 0.25)
     //页面返回的动画
     var dismissionTransition : UIViewControllerAnimatedTransitioning = LJPopTransitionAnimator(duration: 0.25)
-    //交互式动画的进度管理器
-//    var interactiveTransition : UIPercentDrivenInteractiveTransition!
-
-//    //手势触发，开始交互动画
-//     @objc func interactWith(gestureRecognizer : UIGestureRecognizer){
-//
-//            switch gestureRecognizer.state {
-//            case .began:
-//                //构建交互式动画的管理器
-//                interactiveTransition =  UIPercentDrivenInteractiveTransition()
-//                //触发转场，代码1
-//                self.navigationController?.pushViewController(MakingPlanViewController(), animated: true)
-//
-//            case .changed:
-//                //获取进度，代码2
-//                let progress = progressOfGestureRecognizer(gestureRecognizer)
-//                print(progress)
-//                //更新进度
-//                interactiveTransition.updateInteractiveTransition(progress)
-//
-//            case .ended,.cancelled:
-//                 //判断动画是回到开头还是结尾，代码3
-//                if isTowardEndingForGestureRecognizer(gestureRecognizer){
-//                    interactiveTransition.finish()
-//
-//                }else{
-//                    interactiveTransition.cancel()
-//
-//                }
-//
-//                interactiveTransition = nil
-//
-//            default:
-//                break
-//            }
-//        }
-//
-//    func progressOfGestureRecognizer(gestureRecognizer : UIGestureRecognizer){
-//        //使用滑动距离和屏幕宽度之比作为进度
-//        let location = gestureRecognizer.locationInView()
-//        let rate = (touchBeginning.x - location.x) / UIScreen.mainScreen().bounds.width
-//        return max(0, rate)
-//    }
-
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {
@@ -255,10 +202,5 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         }
         return nil
     }
-    
-//    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        
-//        return interactiveTransition
-//    }
     
 }

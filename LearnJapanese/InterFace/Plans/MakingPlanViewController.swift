@@ -35,15 +35,24 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
     ///生成计划
     var generatingPlansTitleL: UILabel = UILabel()
     var generatingPlansL: UILabel = UILabel()
-
+    
+    ///确定计划按钮
+    var confirmPlanBtn: UIButton = UIButton()
+    
+    ///选中的按钮
+    var selectedBtn: UIButton?{
+        didSet{
+            planChanged()
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let gesture = UIScreenEdgePanGestureRecognizer(target:self,action:#selector(handleGesture(gestureRecognizer:)))
-        gesture.edges = .left
-        self.view.addGestureRecognizer(gesture)
+        
         setupUI()
-        self.createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)
-        self.navgationBarV.backgroundColor = .clear
+        createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)
+        navgationBarV.backgroundColor = .clear
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,8 +65,10 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
     }
     
     func setupUI() {
-        view.backgroundColor = .white
-        
+        let gesture = UIScreenEdgePanGestureRecognizer(target:self,action:#selector(handleGesture(gestureRecognizer:)))
+        gesture.edges = .left
+        self.view.addGestureRecognizer(gesture)
+
         view.addSubview(bgImgV)
         bgImgV.tag = 101
         bgImgV.contentMode = .center
@@ -105,6 +116,17 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             make.width.height.equalTo(WidthScale(30))
         }
         
+        
+        view.addSubview(generatingPlansTitleL)
+        generatingPlansTitleL.text = "先确定一个目标和期限吧"
+        generatingPlansTitleL.numberOfLines = 0
+        generatingPlansTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        generatingPlansTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
+        generatingPlansTitleL.snp.makeConstraints { (make) in
+            make.top.equalTo(examnationTimeV.snp.bottom).offset(WidthScale(60))
+            make.left.equalTo(examnationTimeV)
+        }
+        
         let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日";
         examnationTimeL.text = formatter.string(from: Date())
@@ -115,6 +137,20 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             make.left.equalTo(dateSelectImgV.snp.right).offset(WidthScale(20))
             make.centerY.equalTo(dateSelectImgV)
         }
+        
+        view.addSubview(confirmPlanBtn)
+        confirmPlanBtn.setTitle("确认计划", for: .normal)
+        confirmPlanBtn.setTitleColor(.white, for: .normal)
+        confirmPlanBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
+        confirmPlanBtn.layer.masksToBounds = true
+        confirmPlanBtn.layer.cornerRadius = WidthScale(15)
+        confirmPlanBtn.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().inset(WidthScale(40) + IPHONEX_BH)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(CGSize(width: WidthScale(200), height: WidthScale(44)))
+        }
+        view.layoutIfNeeded()
+        confirmPlanBtn.addGradientLayer(colors: [HEXCOLOR(h: 0x66ccff, alpha: 0.5).cgColor, HEXCOLOR(h: 0x66ccff, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
         
         view.addSubview(datePickerBgV)
         datePickerBgV.isHidden = true
@@ -152,18 +188,51 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         }
     }
     
-    @objc func datePickerBtnAction(){
+    func planChanged(){
         
-            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-                self.datePickerBgV.snp.remakeConstraints { (make) in
-                    make.left.right.equalToSuperview()
-                    make.top.equalTo(self.view.snp.bottom)
-                    make.height.equalTo(WidthScale(300))
-                }
-                self.view.layoutIfNeeded()
-            }, completion: {(finished) in
-                self.datePickerBgV.isHidden = true
-            })
+        let formatter: DateFormatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日";
+        let today: String = formatter.string(from: Date())
+        
+        if examnationTimeL.text == today{
+            generatingPlansTitleL.text = "再确认一下时间吧"
+        }else if let btn = selectedBtn {
+            let days = datePicker.date.timeIntervalSinceNow / (3600 * 24)
+            generatingPlansTitleL.text = "你选择的是\(btn.titleLabel?.text ?? "")\n\n需要掌握\(btn.tag)个词汇\n\n距离考试还剩下\(Int(days))天"
+        }else{
+            generatingPlansTitleL.text = "还没选择目标呢"
+        }
+        
+        generatingPlansTitleL.alpha = 0
+        generatingPlansTitleL.snp.remakeConstraints { (make) in
+            make.top.equalTo(examnationTimeV.snp.bottom).offset(WidthScale(100))
+            make.left.equalTo(examnationTimeV)
+        }
+        view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 1) {
+            self.generatingPlansTitleL.alpha = 1
+            self.generatingPlansTitleL.snp.remakeConstraints { (make) in
+                make.top.equalTo(self.examnationTimeV.snp.bottom).offset(WidthScale(60))
+                make.left.equalTo(self.examnationTimeV)
+            }
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    @objc func datePickerBtnAction(){
+        planChanged()
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.datePickerBgV.snp.remakeConstraints { (make) in
+                make.left.right.equalToSuperview()
+                make.top.equalTo(self.view.snp.bottom)
+                make.height.equalTo(WidthScale(300))
+            }
+            self.view.layoutIfNeeded()
+        }, completion: {(finished) in
+            self.datePickerBgV.isHidden = true
+        })
     }
     
     @objc func examnationTimeVAction(){
@@ -179,7 +248,7 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             }
             self.view.layoutIfNeeded()
         }, completion: nil)
-
+        
     }
     
     @objc func dateChanged(){
@@ -200,15 +269,10 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             btn.layer.borderColor = HEXCOLOR(h: 0x66ccff, alpha: 0.3).cgColor
             btn.layer.borderWidth = WidthScale(1)
             btn.layer.masksToBounds = true
-            btn.tag = i
+            btn.tag = (7 - i) * 1000
             btn.addTarget(self, action: #selector(targetSelectAction), for: .touchUpInside)
             targetButtons.append(btn)
             view.addSubview(btn)
-            if btn.tag == 0{
-                btn.isSelected = true
-                btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: WidthScale(14))
-            }
-            btn.isSelected = btn.tag == 0
             btn.snp.makeConstraints { (make) in
                 make.centerX.equalTo(self.view.snp.left).inset(WidthScale(CGFloat(40 + i * 60)))
                 make.width.equalTo(WidthScale(44))
@@ -220,14 +284,15 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
     }
     
     @objc func targetSelectAction(_ sender: UIButton){
-        for btn in targetButtons {
+        for (index, btn) in targetButtons.enumerated() {
             if btn.tag == sender.tag{
+                selectedBtn = sender
                 btn.isSelected = true
                 btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: WidthScale(14))
                 btn.layer.borderWidth = WidthScale(2)
                 UIView.animate(withDuration: 0.2, animations: {
                     btn.snp.remakeConstraints { (make) in
-                        make.centerX.equalTo(self.view.snp.left).inset(WidthScale(CGFloat(40 + btn.tag * 60)))
+                        make.centerX.equalTo(self.view.snp.left).inset(WidthScale(CGFloat(40 + index * 60)))
                         make.size.equalTo(CGSize(width: btn.frame.size.width * 1.2, height: btn.frame.size.height * 1.2))
                         make.centerY.equalTo(self.targetTitleL.snp.bottom).offset(WidthScale(30))
                     }
@@ -241,7 +306,7 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
                 }) { (isComplete) in
                     UIView.animate(withDuration: 0.2, animations: {
                         btn.snp.remakeConstraints { (make) in
-                            make.centerX.equalTo(self.view.snp.left).inset(WidthScale(CGFloat(40 + btn.tag * 60)))
+                            make.centerX.equalTo(self.view.snp.left).inset(WidthScale(CGFloat(40 + index * 60)))
                             make.size.equalTo(CGSize(width: btn.frame.size.width / 1.2, height: btn.frame.size.height / 1.2))
                             make.centerY.equalTo(self.targetTitleL.snp.bottom).offset(WidthScale(30))
                         }
@@ -262,20 +327,21 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         }
     }
     
-    
     //MARK: 导航动画
     // 以下----使用UIPercentDrivenInteractiveTransition交互控制器
     @objc func handleGesture(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         var progress = gestureRecognizer.translation(in: gestureRecognizer.view?.superview).x / (SCREEN_WIDTH * 0.8)
         progress = min(1.0, max(0.0, progress))
+        print(gestureRecognizer.velocity(in: gestureRecognizer.view?.superview).x)
         
-        if gestureRecognizer.state == .began {
+        if gestureRecognizer.state == .began{
             self.interactivePopTransition = LJPopInteractiveTransitioning()
             interactionInProgress = true
             self.navigationController?.popViewController(animated: true)
         } else if gestureRecognizer.state == .changed {
             interactivePopTransition.update(progress)
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
+            interactivePopTransition.velocity = gestureRecognizer.velocity(in: gestureRecognizer.view?.superview).x
             interactivePopTransition.finishBy(cancelled: progress < 0.4)
             interactionInProgress = false
             self.interactivePopTransition = nil
