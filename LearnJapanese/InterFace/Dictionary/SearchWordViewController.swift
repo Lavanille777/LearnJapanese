@@ -29,7 +29,7 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     }()
     
     ///单词数据源
-    var wordModelArr: [wordModel] = []{
+    var wordModelArr: [WordModel] = []{
         didSet{
             wordTableView.reloadData()
         }

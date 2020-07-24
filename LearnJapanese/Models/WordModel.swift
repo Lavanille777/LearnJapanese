@@ -8,7 +8,7 @@
 
 import UIKit
 
-class wordModel: NSObject {
+class WordModel: NSObject {
     ///日语单词
     @objc dynamic var japanese: String = ""
     ///罗马音

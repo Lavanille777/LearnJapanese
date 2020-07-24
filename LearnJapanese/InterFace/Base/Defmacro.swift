@@ -10,6 +10,8 @@ import UIKit
 @_exported import SnapKit
 @_exported import Realm
 @_exported import RealmSwift
+///用户信息
+var userInfo: UserModel = UserModel()
 
 ///主题色
 let mainColor = 0x333643

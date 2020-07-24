@@ -53,7 +53,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                 toView?.layoutIfNeeded()
                 toView?.isHidden = false
                 
-                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
+                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
                     maskView.effect = UIBlurEffect.init(style: .regular)
                     toViewC.navigationController?.navigationBar.alpha = 1
                     toView?.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
@@ -71,7 +71,6 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                     //结束动画，否则会干扰下次动画
                     transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 })
-                
             }
             
         }

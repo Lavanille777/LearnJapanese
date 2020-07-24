@@ -10,8 +10,6 @@ import UIKit
 
 class MakingPlanViewController: LJBaseViewController, UINavigationControllerDelegate {
     
-    var interactionInProgress = false //用于指示交互是否在进行中。
-    
     ///交互控制器
     private var interactivePopTransition : LJPopInteractiveTransitioning!
     ///日期选择器
@@ -73,6 +71,7 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         bgImgV.tag = 101
         bgImgV.contentMode = .center
         bgImgV.isUserInteractionEnabled = true
+        bgImgV.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         bgImgV.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
@@ -139,11 +138,13 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         }
         
         view.addSubview(confirmPlanBtn)
+        confirmPlanBtn.alpha = 0
         confirmPlanBtn.setTitle("确认计划", for: .normal)
         confirmPlanBtn.setTitleColor(.white, for: .normal)
         confirmPlanBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
         confirmPlanBtn.layer.masksToBounds = true
         confirmPlanBtn.layer.cornerRadius = WidthScale(15)
+        confirmPlanBtn.addTarget(self, action: #selector(confirmPlanBtnAciton), for: .touchUpInside)
         confirmPlanBtn.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(40) + IPHONEX_BH)
             make.centerX.equalToSuperview()
@@ -159,14 +160,14 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             make.top.equalTo(view.snp.bottom)
             make.height.equalToSuperview()
         }
-        
+
         datePickerBgEffectV.effect = UIBlurEffect(style: .prominent)
         datePickerBgV.addSubview(datePickerBgEffectV)
         datePickerBgEffectV.snp.makeConstraints { (make) in
             make.bottom.left.right.equalToSuperview()
             make.height.equalTo(WidthScale(330))
         }
-        
+
         datePickerBgEffectV.contentView.addSubview(datePickerBtn)
         datePickerBtn.setTitle("确认", for: .normal)
         datePickerBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
@@ -176,18 +177,14 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             make.top.equalToSuperview().inset(WidthScale(5))
             make.centerX.equalToSuperview()
         }
-        
-        datePickerBgEffectV.contentView.addSubview(datePicker)
+
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "zh")
         datePicker.addTarget(self, action: #selector(dateChanged),
                              for: .valueChanged)
-        datePicker.snp.makeConstraints { (make) in
-            make.bottom.left.right.equalToSuperview()
-            make.height.equalTo(WidthScale(290))
-        }
     }
     
+    ///计划变更
     func planChanged(){
         
         let formatter: DateFormatter = DateFormatter()
@@ -195,11 +192,16 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         let today: String = formatter.string(from: Date())
         
         if examnationTimeL.text == today{
+            confirmPlanBtn.alpha = 0
             generatingPlansTitleL.text = "再确认一下时间吧"
         }else if let btn = selectedBtn {
             let days = datePicker.date.timeIntervalSinceNow / (3600 * 24)
             generatingPlansTitleL.text = "你选择的是\(btn.titleLabel?.text ?? "")\n\n需要掌握\(btn.tag)个词汇\n\n距离考试还剩下\(Int(days))天"
+            UIView.animate(withDuration: 0.5) {
+                self.confirmPlanBtn.alpha = 1
+            }
         }else{
+            confirmPlanBtn.alpha = 0
             generatingPlansTitleL.text = "还没选择目标呢"
         }
         
@@ -221,6 +223,18 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
         
     }
     
+    @objc func confirmPlanBtnAciton(){
+        userInfo.targetLevel = 8 - ((selectedBtn?.tag ?? 2000) / 1000)
+        userInfo.targetDate = datePicker.date
+        userInfo.havePlan = true
+        userInfo.rememberWordsCount = 0
+        if SQLManager.updateUser(userInfo){
+            Dprint("更新成功")
+        }else{
+            Dprint("更新失败")
+        }
+    }
+    
     @objc func datePickerBtnAction(){
         planChanged()
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
@@ -232,23 +246,29 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
             self.view.layoutIfNeeded()
         }, completion: {(finished) in
             self.datePickerBgV.isHidden = true
+            self.datePicker.removeFromSuperview()
         })
     }
     
     @objc func examnationTimeVAction(){
+        datePickerBgEffectV.contentView.addSubview(datePicker)
+        datePicker.snp.makeConstraints { (make) in
+            make.bottom.left.right.equalToSuperview()
+            make.height.equalTo(WidthScale(290))
+        }
+        view.layoutIfNeeded()
         
         datePicker.minimumDate = Date()
         ///最长五年
         datePicker.maximumDate = Date(timeInterval: 5 * 31536000, since: Date())
         datePickerBgV.isHidden = false
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-            self.datePickerBgV.snp.makeConstraints { (make) in
+            self.datePickerBgV.snp.remakeConstraints { (make) in
                 make.bottom.left.right.equalToSuperview()
                 make.height.equalToSuperview()
             }
             self.view.layoutIfNeeded()
         }, completion: nil)
-        
     }
     
     @objc func dateChanged(){
@@ -332,19 +352,25 @@ class MakingPlanViewController: LJBaseViewController, UINavigationControllerDele
     @objc func handleGesture(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         var progress = gestureRecognizer.translation(in: gestureRecognizer.view?.superview).x / (SCREEN_WIDTH * 0.8)
         progress = min(1.0, max(0.0, progress))
-        print(gestureRecognizer.velocity(in: gestureRecognizer.view?.superview).x)
         
         if gestureRecognizer.state == .began{
-            self.interactivePopTransition = LJPopInteractiveTransitioning()
-            interactionInProgress = true
+            Dprint("手势开始")
+            interactivePopTransition = LJPopInteractiveTransitioning()
+            datePickerBtnAction()
             self.navigationController?.popViewController(animated: true)
         } else if gestureRecognizer.state == .changed {
             interactivePopTransition.update(progress)
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             interactivePopTransition.velocity = gestureRecognizer.velocity(in: gestureRecognizer.view?.superview).x
-            interactivePopTransition.finishBy(cancelled: progress < 0.4)
-            interactionInProgress = false
-            self.interactivePopTransition = nil
+            if interactivePopTransition.transitionContext != nil && interactivePopTransition.interactionInProgress{
+                interactivePopTransition.finishBy(cancelled: progress < 0.4)
+                interactivePopTransition = nil
+            }else{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    self.interactivePopTransition.finishBy(cancelled: progress < 0.4)
+                    self.interactivePopTransition = nil
+                }
+            }
         }
     }
     

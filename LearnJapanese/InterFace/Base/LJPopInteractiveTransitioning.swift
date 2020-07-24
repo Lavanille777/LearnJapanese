@@ -9,12 +9,14 @@
 import UIKit
 
 class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransitioning {
+    var interactionInProgress = false //用于指示交互是否在进行中。
     
     var transitionContext : UIViewControllerContextTransitioning!
     var transitingView : UIView!
     var velocity: CGFloat = 0
     
     var fromVC: UIViewController!
+    var toVC: UIViewController!
     var toView: UIView!
     var maskView: UIVisualEffectView!
     
@@ -22,8 +24,8 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     var originRect: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
+        interactionInProgress = true
         self.transitionContext = transitionContext
-        
         let fromView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!.view
         let toView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!.view
         maskView = UIVisualEffectView()
@@ -51,6 +53,9 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     }
     
     open func update(_ percentComplete: CGFloat){
+        guard transitionContext != nil else{
+            return
+        }
         if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
             for view in fromVC.view.subviews {
                 if view.tag != 101 && view.tag != 100{
@@ -82,23 +87,23 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                    fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
                 }
             }
-            
-            
         }
         let width = originRect.width - (originRect.width - targetRect.width) * percentComplete
         let height = originRect.height - (originRect.height - targetRect.height) * percentComplete
-        
+
         transitingView.frame = CGRect(x: percentComplete * targetRect.origin.x, y: percentComplete * targetRect.origin.y, width: width, height: height)
         maskView.alpha = 1 - percentComplete * 0.5
         toView?.transform = CGAffineTransform(scaleX: 0.8 + 0.2 * percentComplete, y: 0.8 + 0.2 * percentComplete)
     }
     
     func finishBy(cancelled: Bool) {
+        self.transitionContext!.cancelInteractiveTransition()
         if cancelled && velocity < 500{
-            UIView.animate(withDuration: 0.2, animations: {
+            UIView.animate(withDuration: 0.15, animations: {
                 self.transitingView.frame = self.originRect
                 self.toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.maskView.effect = nil
+                self.transitingView.layer.cornerRadius = 0
                 if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
                     for view in fromVC.view.subviews {
                         if view.tag != 101 && view.tag != 100{
@@ -112,13 +117,12 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
                 }
             }, completion: {completed in
+                self.interactionInProgress = false
                 self.maskView.removeFromSuperview()
-                self.transitionContext!.cancelInteractiveTransition()
                 self.transitionContext!.completeTransition(false)
             })
 
         } else {
-            self.transitionContext!.finishInteractiveTransition()
             UIView.animate(withDuration: 0.15, animations: {
                 self.transitingView!.frame = self.targetRect
                 self.transitingView.layoutIfNeeded()
@@ -137,10 +141,26 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
                 }
             }, completion: {completed in
-                self.transitionContext!.completeTransition(true)
+                self.toView?.layer.cornerRadius = 0
                 self.maskView.removeFromSuperview()
                 self.transitingView.removeFromSuperview()
-                self.toView?.layer.cornerRadius = 0
+                self.transitionContext!.completeTransition(true)
+                if let toVC = self.transitionContext.viewController(forKey: .to) as? MainTabBarController, let cell = toVC.mainVC.mainTableView.cellForRow(at: toVC.mainVC.didSelectIndexPath) as? LJMainTableViewCell{
+                    toVC.view.layoutIfNeeded()
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+                        cell.transform = CGAffineTransform.init(a: 0.98, b: 0, c: 0, d: 0.98, tx: 0, ty: WidthScale(5))
+                    }) { (finish) in
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear, animations: {
+                            cell.transform = CGAffineTransform.init(a: 1.0, b: 0, c: 0, d: 1.02, tx: 0, ty: 0)
+                        }) { (finish) in
+                            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                                cell.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                            }) { (finish) in
+                                self.interactionInProgress = false
+                            }
+                        }
+                    }
+                }
             })
         }
     }

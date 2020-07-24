@@ -41,7 +41,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,7 +51,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     func setupUI(){
         view.backgroundColor = .white
         view.addSubview(bgImageView)
-        bgImageView.image = UIImage.init(named: "bgimg")
+//        bgImageView.image = UIImage.init(named: "bgimg")
         bgImageView.contentMode = .scaleAspectFill
         bgImageView.isUserInteractionEnabled = true
         bgImageView.addSubview(maskView)
@@ -119,7 +118,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,7 +135,11 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             
             switch indexPath.row {
             case 0:
-                cell.titleL.text = "制定计划"
+                if userInfo.havePlan{
+                    cell.titleL.text = "我的计划"
+                }else{
+                    cell.titleL.text = "制定计划"
+                }
             case 1:
                 cell.titleL.text = "温故知新"
             case 3:
@@ -157,7 +160,11 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         
         switch indexPath.row {
         case 0:
-            vc.targetTitleL.text = "制定计划"
+            if userInfo.havePlan{
+                vc.targetTitleL.text = "我的计划"
+            }else{
+                vc.targetTitleL.text = "制定计划"
+            }
         case 1:
             vc.targetTitleL.text = "温故知新"
         case 3:
@@ -173,7 +180,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2{
-            return WidthScale(160)
+            return WidthScale(170)
         }
         return WidthScale(140)
     }

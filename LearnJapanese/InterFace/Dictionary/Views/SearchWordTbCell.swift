@@ -16,7 +16,7 @@ class SearchWordTbCell: UITableViewCell {
     ///释义
     var chineseL: UILabel = UILabel()
     
-    var model: wordModel = wordModel(){
+    var model: WordModel = WordModel(){
         didSet{
             japaneseL.text = model.japanese
             pronunciationL.text = model.pronunciation

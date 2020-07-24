@@ -9,6 +9,7 @@
 import UIKit
 
 class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 6
     }

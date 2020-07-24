@@ -44,7 +44,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                 let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
-                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
                     fromView?.frame = rect
                     fromView?.layoutIfNeeded()
                     toView?.alpha = 1
@@ -68,6 +68,19 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                     fromView?.removeFromSuperview()
                     maskView.removeFromSuperview()
                     transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+                        cell.transform = CGAffineTransform.init(a: 0.98, b: 0, c: 0, d: 0.98, tx: 0, ty: WidthScale(5))
+                    }) { (finish) in
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear, animations: {
+                            cell.transform = CGAffineTransform.init(a: 1.02, b: 0, c: 0, d: 1.02, tx: 0, ty: 0)
+                        }) { (finish) in
+                            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
+                                cell.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                            }) { (finish) in
+//                                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                            }
+                        }
+                    }
                 })
             }
             
