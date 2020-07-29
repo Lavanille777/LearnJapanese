@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LJBaseViewController: UIViewController {
+class LJBaseViewController: UIViewController{
     ///键盘高度
     var keyBoardHeight: CGFloat = 0
     

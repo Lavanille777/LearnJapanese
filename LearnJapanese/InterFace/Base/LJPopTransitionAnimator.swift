@@ -9,21 +9,30 @@
 import UIKit
 
 class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
-      var duration : TimeInterval
-       var completeHander : ((Bool) -> Void)?
-       
-       init(duration : TimeInterval = 0.25){
-           self.duration = duration
-           super.init()
-       }
-       //方法1
-       func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-           return duration
-       }
-       
+    var duration : TimeInterval
+    var completeHander : ((Bool) -> Void)?
+    var touchView: UIView?
+    
+    init(duration : TimeInterval = 0.25){
+        self.duration = duration
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(setTouchView), name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil)
+    }
+    
+    @objc func setTouchView(_ noti: Notification) {
+        if let view = noti.userInfo?["view"] as? UIView{
+            touchView = view
+        }
+    }
+    
+    //方法1
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+        return duration
+    }
+    
     // 方法2
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromViewC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? MakingPlanViewController else{
+        guard let fromViewC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? LJMainAnimationViewController else{
             return
         }
         let fromView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!.view
@@ -32,7 +41,6 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
         if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? MainTabBarController{
             let maskView: UIVisualEffectView = UIVisualEffectView()
             maskView.effect = UIBlurEffect.init(style: .regular)
-            //这句一定要，这时toView是不会自己加上来的
             transitionContext.containerView.addSubview(toView!)
             transitionContext.containerView.addSubview(maskView)
             maskView.snp.makeConstraints { (make) in
@@ -40,11 +48,12 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
             }
             toView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             transitionContext.containerView.addSubview(fromView!)
-            if let cell = vc.mainVC.mainTableView.cellForRow(at: vc.mainVC.didSelectIndexPath) as? LJMainTableViewCell{
+            
+            if let cell = touchView as? LJMainTableViewCell{
                 let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
-                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
+                UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
                     fromView?.frame = rect
                     fromView?.layoutIfNeeded()
                     toView?.alpha = 1
@@ -60,7 +69,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                         make.centerY.equalToSuperview().offset(-WidthScale(8))
                         make.left.equalToSuperview().inset(WidthScale(20))
                     }
-                    fromViewC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
+                    fromViewC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
                     fromViewC.view.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     //结束动画，否则会干扰下次动画
@@ -77,7 +86,46 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
                                 cell.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                             }) { (finish) in
-//                                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                                //                                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                            }
+                        }
+                    }
+                })
+            }
+            else if let cell = touchView as? LJMainCollectionViewCell, let fromViewC = fromViewC as? LJImageTextViewController{
+                let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+                fromView?.layer.masksToBounds = true
+                fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
+                fromViewC.textL.contentMode = .center
+                fromViewC.scrollV.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                fromViewC.textL.alpha = 0
+                UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
+                    toView?.alpha = 1
+                    maskView.effect = nil
+                    toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    fromViewC.view.frame = rect
+                    fromViewC.imageV.snp.remakeConstraints { (make) in
+                        make.top.equalToSuperview()
+                        make.left.right.equalTo(fromViewC.view)
+                        make.height.equalTo(fromViewC.view.frame.width * WidthScale(140/160))
+                    }
+                    fromViewC.navgationBarV.alpha = 0
+                    fromViewC.view.layoutIfNeeded()
+                }, completion: { (finished) -> Void in
+                    //结束动画，否则会干扰下次动画
+                    fromView?.removeFromSuperview()
+                    maskView.removeFromSuperview()
+                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                    UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+                        cell.transform = CGAffineTransform.init(a: 0.98, b: 0, c: 0, d: 0.98, tx: 0, ty: WidthScale(5))
+                    }) { (finish) in
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveLinear, animations: {
+                            cell.transform = CGAffineTransform.init(a: 1.02, b: 0, c: 0, d: 1.02, tx: 0, ty: 0)
+                        }) { (finish) in
+                            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
+                                cell.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                            }) { (finish) in
+                                //                                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                             }
                         }
                     }
@@ -88,5 +136,9 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
         
         
     }
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(MAINVIEWPUSHTOUCH), object: nil)
+    }
+    
 }

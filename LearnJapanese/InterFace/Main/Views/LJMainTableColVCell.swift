@@ -10,22 +10,16 @@ import UIKit
 
 class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
-    }
+    var popAnimation: LJPopTransitionAnimator?
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LJMainCollectionViewCell", for: indexPath) as! LJMainCollectionViewCell
-        
-        return cell
-    }
+    var replaceInteractivePopTransition: LJPopInteractiveTransitioning?
     
-    lazy var tableColV: LJMainCollectionView = {
+    lazy var tableColV: UICollectionView = {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = WidthScale(20)
         flowLayout.itemSize = CGSize(width: WidthScale(160), height: WidthScale(140))
         flowLayout.scrollDirection = .horizontal
-        let tableColV: LJMainCollectionView = LJMainCollectionView.init(frame: .zero, collectionViewLayout: flowLayout)
+        let tableColV: UICollectionView = UICollectionView.init(frame: .zero, collectionViewLayout: flowLayout)
         tableColV.register(LJMainCollectionViewCell.self, forCellWithReuseIdentifier: "LJMainCollectionViewCell")
         tableColV.dataSource = self
         tableColV.delegate = self
@@ -34,12 +28,12 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
         tableColV.backgroundColor = .clear
         return tableColV
     }()
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
@@ -61,5 +55,48 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
             make.edges.equalToSuperview()
         }
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LJMainCollectionViewCell", for: indexPath) as! LJMainCollectionViewCell
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else {
+            return
+        }
+        
+        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell])
+        
+        let vc = LJImageTextViewController()
+        vc.popAnimation = popAnimation
+        vc.replaceInteractivePopTransition = replaceInteractivePopTransition!
+        self.currentNavViewController()?.pushViewController(vc, animated: true)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isScrooling = false
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        isScrooling = true
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        isScrooling = true
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isScrooling = true
+    }
+    
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
 }

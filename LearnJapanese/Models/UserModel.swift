@@ -21,4 +21,8 @@ class UserModel: NSObject {
     @objc dynamic var targetDate: Date = Date()
     ///单词记忆量
     @objc dynamic var rememberWordsCount: Int = 0
+    ///登录日期
+    @objc dynamic var loginDate: Date = Date()
+    ///今日单词记忆量
+    @objc dynamic var todayWordsCount: Int = 0
 }

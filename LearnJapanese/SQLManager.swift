@@ -28,6 +28,7 @@ class SQLManager: NSObject {
     static let data = Expression<String>("data")
     static let data2 = Expression<String>("data2")
     static let data3 = Expression<String>("data3")
+    static let isRemembered = Expression<Bool>("isRemembered")
     
     ///用户表
     let userTable: Table = Table("users")
@@ -44,6 +45,10 @@ class SQLManager: NSObject {
     static let targetDate = Expression<Date>("targetDate")
     ///单词记忆量
     static let rememberWordsCount = Expression<Int>("rememberWordsCount")
+    ///登录时间
+    static let loginDate = Expression<Date>("loginDate")
+    ///单词记忆量
+    static let todayWordsCount = Expression<Int>("todayWordsCount")
     
     /// 单例
     ///
@@ -96,9 +101,53 @@ class SQLManager: NSObject {
             if let items = try db?.prepare(SQLManager.shared().jcTable){
                 for item in items {
                     let model: WordModel = WordModel()
+                    model.id = item[id]
                     model.japanese = item[data]
                     model.pronunciation = item[data2]
                     model.chinese = item[data3]
+                    model.isRemembered = item[isRemembered]
+                    wordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return wordArray
+    }
+    ///查询未记词
+    static func queryAllUnrememberedWord() -> [WordModel]? {
+        var wordArray: [WordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(!isRemembered)){
+                for item in items {
+                    let model: WordModel = WordModel()
+                    model.id = item[id]
+                    model.japanese = item[data]
+                    model.pronunciation = item[data2]
+                    model.chinese = item[data3]
+                    model.isRemembered = item[isRemembered]
+                    wordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return wordArray
+    }
+    ///查询已记词
+    static func queryAllRememberedWord() -> [WordModel]? {
+        var wordArray: [WordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(isRemembered)){
+                for item in items {
+                    let model: WordModel = WordModel()
+                    model.id = item[id]
+                    model.japanese = item[data]
+                    model.pronunciation = item[data2]
+                    model.chinese = item[data3]
+                    model.isRemembered = item[isRemembered]
                     wordArray.append(model)
                 }
             }
@@ -143,6 +192,20 @@ class SQLManager: NSObject {
         return wordArray
     }
     
+    ///更新单词
+    static func updateWord(_ model: WordModel) -> Bool {
+        do {
+            let db = SQLManager.shared().db
+            let update = SQLManager.shared().jcTable.filter(id == model.id).update(data <- model.japanese, data2 <- model.pronunciation, data3 <- model.chinese, isRemembered <- model.isRemembered)
+            if let rowId = try db?.run(update){
+                return rowId > 0
+            }
+        } catch _ {
+            Dprint("数据库更新失败")
+        }
+        return false
+    }
+    
     // MARK: 用户表相关操作
     static func queryAllUsers() -> [UserModel]? {
         var userArray: [UserModel] = []
@@ -157,6 +220,8 @@ class SQLManager: NSObject {
                     model.targetLevel = item[targetLevel]
                     model.targetDate = item[targetDate]
                     model.rememberWordsCount = item[rememberWordsCount]
+                    model.todayWordsCount = item[todayWordsCount]
+                    model.loginDate = item[loginDate]
                     userArray.append(model)
                 }
             }
@@ -169,7 +234,7 @@ class SQLManager: NSObject {
     static func updateUser(_ model: UserModel) -> Bool {
         do {
             let db = SQLManager.shared().db
-            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount)
+            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount, loginDate <- model.loginDate, todayWordsCount <- model.todayWordsCount)
             if let rowId = try db?.run(update){
                 return rowId > 0
             }
@@ -193,6 +258,8 @@ class SQLManager: NSObject {
                     model.targetLevel = item[targetLevel]
                     model.targetDate = item[targetDate]
                     model.rememberWordsCount = item[rememberWordsCount]
+                    model.loginDate = item[loginDate]
+                    model.todayWordsCount = item[todayWordsCount]
                     userArray.append(model)
                 }
             }

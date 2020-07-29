@@ -44,6 +44,21 @@ let IPHONEX_BH:CGFloat = UIApplication.shared.windows[0].safeAreaInsets.bottom
 /// 基于iPhone6的屏宽比例
 let Scale_iPhone6: CGFloat = SCREEN_WIDTH/375.0
 
+// MARK: - 字体
+
+let FontYuanTiRegular = "STYuanti-SC-Regular"
+
+let FontYuanTiBold = "STYuanti-SC-Bold"
+
+let FontHanziPenW3 = "HanziPenSC-W3"
+
+let FontHanziPenW5 = "HanziPenSC-W5"
+
+// MARK: - 通知
+///首页点击
+let MAINVIEWPUSHTOUCH = "main_view_push_touch"
+
+var isScrooling: Bool = false
 
 /// 尺寸适配 以iPhone6为基准
 /// - Parameter cgfNum: 传入iPhone6设计下的宽高
@@ -51,7 +66,6 @@ let Scale_iPhone6: CGFloat = SCREEN_WIDTH/375.0
 func WidthScale(_ cgfNum: CGFloat) -> CGFloat {
     return CGFloat(cgfNum * Scale_iPhone6)
 }
-
 
 /// 获取label自适应文字后的宽度
 /// - Parameter label: 传入UILabel
@@ -62,6 +76,11 @@ func getWidthOfLabel(withLabel label: UILabel) -> CGFloat {
     }
     Dprint("=====未设置UIFont=====")
     return 0
+}
+
+///角度转换
+func angleToRadian(_ angle: Double)->CGFloat {
+    return CGFloat(angle/Double(180.0) * Double.pi)
 }
 
 /// 根据十六进制数生成颜色 HEXCOLOR(h:0xe6e6e6,alpha:0.8)

@@ -23,6 +23,19 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     var targetRect: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     var originRect: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
+    var touchView: UIView?
+    
+    override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(setTouchView), name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil)
+    }
+    
+    @objc func setTouchView(_ noti: Notification) {
+        if let view = noti.userInfo?["view"] as? UIView{
+            touchView = view
+        }
+    }
+    
     func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         interactionInProgress = true
         self.transitionContext = transitionContext
@@ -41,12 +54,21 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         transitionContext.containerView.addSubview(fromView!)
         
         if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? MainTabBarController{
-            if let cell = vc.mainVC.mainTableView.cellForRow(at: vc.mainVC.didSelectIndexPath) as? LJMainTableViewCell{
+            if let cell = touchView as? LJMainTableViewCell{
+                targetRect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+                originRect = fromView!.frame
+                fromView?.layer.masksToBounds = true
+                fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
+            }else if let cell = touchView as? LJMainCollectionViewCell{
                 targetRect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
                 originRect = fromView!.frame
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
             }
+        }
+        
+        if let fromVC = self.transitionContext.viewController(forKey: .from) as? LJImageTextViewController{
+            fromVC.scrollV.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
         self.toView = toView
         self.transitingView = fromView
@@ -56,44 +78,42 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         guard transitionContext != nil else{
             return
         }
-        if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
-            for view in fromVC.view.subviews {
-                if view.tag != 101 && view.tag != 100{
-                    if percentComplete <= 0.5{
-                        view.alpha = 1 - percentComplete * 2
-                    }else{
-                        view.alpha = 0
+        if let fromVC = self.transitionContext.viewController(forKey: .from) as? LJMainAnimationViewController{
+            let width = originRect.width - (originRect.width - targetRect.width) * percentComplete
+            let height = originRect.height - (originRect.height - targetRect.height) * percentComplete
+            
+            transitingView.frame = CGRect(x: percentComplete * targetRect.origin.x, y: percentComplete * targetRect.origin.y, width: width, height: height)
+            maskView.alpha = 1 - percentComplete * 0.5
+            fromVC.navgationBarV.alpha = 1 - percentComplete
+            toView?.transform = CGAffineTransform(scaleX: 0.8 + 0.2 * percentComplete, y: 0.8 + 0.2 * percentComplete)
+            if let fromVC = fromVC as? LJImageTextViewController{
+                fromVC.imageV.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview()
+                    make.left.right.equalTo(fromVC.view)
+                    make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                }
+            }else{
+                for view in fromVC.view.subviews {
+                    if view.tag != 101 && view.tag != 100{
+                        if percentComplete <= 0.5{
+                            view.alpha = 1 - percentComplete * 2
+                        }else{
+                            view.alpha = 0
+                        }
                     }
                 }
             }
-            if percentComplete > 0.7 && fromVC.targetTitleL.font == UIFont.boldSystemFont(ofSize: WidthScale(24)){
-                UIView.animate(withDuration: 0.25, animations: {
-                    fromVC.targetTitleL.snp.remakeConstraints { (make) in
-                        make.centerY.equalToSuperview().offset(-WidthScale(8))
-                        make.left.equalToSuperview().inset(WidthScale(20))
-                    }
-                    fromVC.view.layoutIfNeeded()
-                }) { (finished) in
-                    fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
-                }
-            }else if percentComplete < 0.4 && fromVC.targetTitleL.font == UIFont.systemFont(ofSize: WidthScale(20)){
-                UIView.animate(withDuration: 0.25, animations: {
-                    fromVC.targetTitleL.snp.remakeConstraints { (make) in
-                        make.left.equalToSuperview().inset(WidthScale(20))
-                        make.top.equalToSuperview().inset(NavPlusStatusH)
-                    }
-                    fromVC.view.layoutIfNeeded()
-                }) { (finished) in
-                   fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
-                }
+            fromVC.targetTitleL.snp.remakeConstraints { (make) in
+                make.top.equalToSuperview().offset((fromVC.view.frame.height / 2 - NavPlusStatusH - fromVC.targetTitleL.frame.height) * percentComplete + NavPlusStatusH)
+                make.left.equalToSuperview().inset(WidthScale(20))
+            }
+            fromVC.view.layoutIfNeeded()
+            if percentComplete > 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiRegular, size: WidthScale(24)){
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
+            }else if percentComplete < 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiRegular, size: WidthScale(20)){
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(24))
             }
         }
-        let width = originRect.width - (originRect.width - targetRect.width) * percentComplete
-        let height = originRect.height - (originRect.height - targetRect.height) * percentComplete
-
-        transitingView.frame = CGRect(x: percentComplete * targetRect.origin.x, y: percentComplete * targetRect.origin.y, width: width, height: height)
-        maskView.alpha = 1 - percentComplete * 0.5
-        toView?.transform = CGAffineTransform(scaleX: 0.8 + 0.2 * percentComplete, y: 0.8 + 0.2 * percentComplete)
     }
     
     func finishBy(cancelled: Bool) {
@@ -104,48 +124,75 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                 self.toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.maskView.effect = nil
                 self.transitingView.layer.cornerRadius = 0
-                if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
-                    for view in fromVC.view.subviews {
-                        if view.tag != 101 && view.tag != 100{
-                            view.alpha = 1
+                if let fromVC = self.transitionContext.viewController(forKey: .from) as? LJMainAnimationViewController{
+                    if let fromVC = fromVC as? LJImageTextViewController{
+                        fromVC.imageV.snp.remakeConstraints { (make) in
+                            make.top.equalToSuperview()
+                            make.left.right.equalTo(fromVC.view)
+                            make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                        }
+                        fromVC.navgationBarV.alpha = 1
+                    }else{
+                        for view in fromVC.view.subviews {
+                            if view.tag != 101 && view.tag != 100{
+                                view.alpha = 1
+                            }
                         }
                     }
                     fromVC.targetTitleL.snp.remakeConstraints { (make) in
                         make.left.equalToSuperview().inset(WidthScale(20))
                         make.top.equalToSuperview().inset(NavPlusStatusH)
                     }
-                    fromVC.targetTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(24))
+                    fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(24))
                 }
             }, completion: {completed in
                 self.interactionInProgress = false
                 self.maskView.removeFromSuperview()
                 self.transitionContext!.completeTransition(false)
             })
-
+            
         } else {
-            UIView.animate(withDuration: 0.15, animations: {
-                self.transitingView!.frame = self.targetRect
-                self.transitingView.layoutIfNeeded()
-                self.maskView.effect = nil
-                self.toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
-                if let fromVC = self.transitionContext.viewController(forKey: .from) as? MakingPlanViewController{
+            if let fromVC = self.transitionContext.viewController(forKey: .from) as? LJMainAnimationViewController{
+                if let fromVC = fromVC as? LJImageTextViewController{
+                    fromVC.imageV.snp.remakeConstraints { (make) in
+                        make.top.equalToSuperview()
+                        make.left.right.equalTo(fromVC.view)
+                        make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                    }
+                    fromVC.navgationBarV.alpha = 0
+                }else{
                     for view in fromVC.view.subviews {
                         if view.tag != 101 && view.tag != 100{
                             view.alpha = 0
                         }
                     }
-                    fromVC.targetTitleL.snp.remakeConstraints { (make) in
-                        make.centerY.equalToSuperview().offset(-WidthScale(8))
-                        make.left.equalToSuperview().inset(WidthScale(20))
-                    }
-                    fromVC.targetTitleL.font = UIFont.systemFont(ofSize: WidthScale(20))
                 }
+                fromVC.targetTitleL.snp.remakeConstraints { (make) in
+                    make.centerY.equalToSuperview().offset(-WidthScale(8))
+                    make.left.equalToSuperview().inset(WidthScale(20))
+                }
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
+            }
+            UIView.animate(withDuration: 0.2, animations: {
+                self.transitingView!.frame = self.targetRect
+                self.maskView.effect = nil
+                self.toView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                if let fromVC = self.transitionContext.viewController(forKey: .from) as? LJMainAnimationViewController{
+                    if let fromVC = fromVC as? LJImageTextViewController{
+                        fromVC.imageV.snp.remakeConstraints { (make) in
+                            make.top.equalToSuperview()
+                            make.left.right.equalTo(fromVC.view)
+                            make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                        }
+                    }
+                }
+                self.transitingView.layoutIfNeeded()
             }, completion: {completed in
                 self.toView?.layer.cornerRadius = 0
                 self.maskView.removeFromSuperview()
                 self.transitingView.removeFromSuperview()
                 self.transitionContext!.completeTransition(true)
-                if let toVC = self.transitionContext.viewController(forKey: .to) as? MainTabBarController, let cell = toVC.mainVC.mainTableView.cellForRow(at: toVC.mainVC.didSelectIndexPath) as? LJMainTableViewCell{
+                if let toVC = self.transitionContext.viewController(forKey: .to) as? MainTabBarController, let cell = self.touchView{
                     toVC.view.layoutIfNeeded()
                     UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
                         cell.transform = CGAffineTransform.init(a: 0.98, b: 0, c: 0, d: 0.98, tx: 0, ty: WidthScale(5))
@@ -168,9 +215,13 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     open func cancel(){
         
     }
-
+    
     open func finish(){
         
     }
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name(MAINVIEWPUSHTOUCH), object: nil)
+    }
+    
 }

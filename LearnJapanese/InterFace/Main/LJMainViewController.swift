@@ -22,6 +22,13 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     var didSelectIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     
+    //页面推进的动画
+    var presentationTransition : LJPushTransitionAnimator = LJPushTransitionAnimator(duration: 0.25)
+    //页面返回的动画
+    var dismissionTransition : LJPopTransitionAnimator = LJPopTransitionAnimator(duration: 0.25)
+    
+    var replaceInteractivePopTransition: LJPopInteractiveTransitioning = LJPopInteractiveTransitioning()
+    
     ///主视图表格
     lazy var mainTableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .grouped)
@@ -43,15 +50,20 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainTableView.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.delegate = self
     }
     
     func setupUI(){
+        
         view.backgroundColor = .white
         view.addSubview(bgImageView)
-//        bgImageView.image = UIImage.init(named: "bgimg")
         bgImageView.contentMode = .scaleAspectFill
         bgImageView.isUserInteractionEnabled = true
         bgImageView.addSubview(maskView)
@@ -88,7 +100,12 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         
     }
     
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isScrooling = false
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        isScrooling = true
         if scrollView is UITableView{
             if scrollView.contentOffset.y < -WidthScale(isiPhoneX ? 24 : 0) && scrollView.contentOffset.y >= -StatusBarHeight{
                 headerView.title2L.snp.remakeConstraints { (make) in
@@ -124,14 +141,13 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 2{
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LJMainTableColVCell.self), for: indexPath) as! LJMainTableColVCell
+            cell.popAnimation = dismissionTransition
+            cell.replaceInteractivePopTransition = replaceInteractivePopTransition
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LJMainTableViewCell.self), for: indexPath) as! LJMainTableViewCell
-            if let img = UIImage.init(named: "cell\(indexPath.row)"){
-                cell.bgImgV.image = img
-            }else{
-                cell.bgImgV.image = UIImage.init(named: "cell0")
-            }
+            
+//            cell.bgImgV.image = UIImage.init(named: "cell3")
             
             switch indexPath.row {
             case 0:
@@ -140,10 +156,11 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 }else{
                     cell.titleL.text = "制定计划"
                 }
+//                cell.bgImgV.image = UIImage.init(named: "cell3")
             case 1:
-                cell.titleL.text = "温故知新"
+                cell.titleL.text = "学点儿新词"
             case 3:
-                cell.titleL.text = "查看进度"
+                cell.titleL.text = "温故知新"
             case 4:
                 cell.titleL.text = "一学一练"
             default:
@@ -156,26 +173,34 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didSelectIndexPath = indexPath
-        let vc = MakingPlanViewController()
-        
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell])
         switch indexPath.row {
         case 0:
-            if userInfo.havePlan{
-                vc.targetTitleL.text = "我的计划"
-            }else{
-                vc.targetTitleL.text = "制定计划"
-            }
+            let vc = MakingPlanViewController()
+            vc.popAnimation = dismissionTransition
+            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+            self.navigationController?.pushViewController(vc, animated: true)
         case 1:
-            vc.targetTitleL.text = "温故知新"
+            let vc = LearnNewWordViewController()
+            vc.popAnimation = dismissionTransition
+            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+            self.navigationController?.pushViewController(vc, animated: true)
         case 3:
-            vc.targetTitleL.text = "查看进度"
+            let vc = ReviewWordsViewController()
+            vc.popAnimation = dismissionTransition
+            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+            self.navigationController?.pushViewController(vc, animated: true)
+            break
         case 4:
-            vc.targetTitleL.text = "一学一练"
+            break
         default:
             break
         }
-        vc.bgImgV.image = UIImage.init(named: "cell\(indexPath.row)")
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -190,16 +215,12 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
         return headerView
     }
     
     
     //MARK: - 导航动画
-    
-    //页面推进的动画
-    var presentationTransition : UIViewControllerAnimatedTransitioning = LJPushTransitionAnimator(duration: 0.25)
-    //页面返回的动画
-    var dismissionTransition : UIViewControllerAnimatedTransitioning = LJPopTransitionAnimator(duration: 0.25)
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {

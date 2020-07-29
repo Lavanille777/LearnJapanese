@@ -9,6 +9,7 @@
 import UIKit
 
 class LJMainTableViewCell: UITableViewCell {
+    
     ///背景图片
     var bgImgV: UIImageView = UIImageView()
     ///遮罩
@@ -18,11 +19,9 @@ class LJMainTableViewCell: UITableViewCell {
     
     var contentV: UIView = UIView()
     
-    var timer: Timer?
-    
     ///高斯模糊
     var blurEffect = UIBlurEffect(style: .regular)
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -41,12 +40,10 @@ class LJMainTableViewCell: UITableViewCell {
     }
     
     func setupUI(){
+        
+        self.addPressAnimation()
+        
         self.selectionStyle = .none
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(pressAction))
-        longPress.minimumPressDuration = 0
-        longPress.cancelsTouchesInView = false
-        longPress.delegate = self
-        self.addGestureRecognizer(longPress)
         self.addSubview(contentV)
         
         self.backgroundColor = .clear
@@ -74,7 +71,7 @@ class LJMainTableViewCell: UITableViewCell {
         }
         
         self.addSubview(titleL)
-        titleL.font = UIFont.systemFont(ofSize: WidthScale(20))
+        titleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
         titleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
         titleL.snp.makeConstraints { (make) in
             make.left.equalTo(bgImgV).inset(WidthScale(20))
@@ -82,28 +79,6 @@ class LJMainTableViewCell: UITableViewCell {
         }
          
     }
-    
-    @objc func pressAction(_ sender: UILongPressGestureRecognizer){
-         var scale: CGFloat = 1
-         if sender.state == .began {
-            timer = Timer.scheduledTimer(withTimeInterval: 0.017, repeats: true, block: { (timer) in
-                scale -= 0.003
-                if scale > 0.95{
-                    self.transform = CGAffineTransform.init(scaleX: scale, y: scale)
-                }
-            })
-            timer?.fire()
-         }
-         if sender.state == .ended || sender.state == .cancelled{
-            UIView.animate(withDuration: 0.1) {
-                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-             if let timer = timer{
-                 timer.invalidate()
-             }
-             timer = nil
-         }
-     }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true

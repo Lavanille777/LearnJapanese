@@ -14,9 +14,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
         if let model = SQLManager.queryUserById(1){
             userInfo = model
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "yyyy.MM.dd"
+            if dateFormat.string(from: userInfo.loginDate) != dateFormat.string(from: Date()){
+                userInfo.todayWordsCount = 0
+                userInfo.loginDate = Date()
+                if SQLManager.updateUser(userInfo){
+                    Dprint("更新数据库成功")
+                }else{
+                    Dprint("更新数据库失败")
+                }
+            }
         }
+        
+        for name in UIFont.familyNames {
+            for fontName in UIFont.fontNames(forFamilyName: name)
+            {
+                print(fontName)
+            }
+        }
+        
         return true
     }
     

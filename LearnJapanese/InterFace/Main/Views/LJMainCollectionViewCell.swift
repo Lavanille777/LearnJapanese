@@ -8,12 +8,11 @@
 
 import UIKit
 
-class LJMainCollectionViewCell: UICollectionViewCell {
+class LJMainCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     var bgView: UIView = UIView()
     
-    ///高斯模糊
-    var blurEffect = UIBlurEffect(style: .dark)
+    var bgImgV: UIImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,10 +21,9 @@ class LJMainCollectionViewCell: UICollectionViewCell {
     
     func setupUI(){
         self.backgroundColor = .clear
+        self.addPressAnimation()
         addSubview(bgView)
-        bgView.backgroundColor = .darkGray
-        bgView.alpha = 0.5
-        bgView.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 1).cgColor
+        bgView.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 1).cgColor
         bgView.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         bgView.layer.shadowRadius = WidthScale(5)
         bgView.layer.shadowOpacity = 1.0
@@ -33,9 +31,23 @@ class LJMainCollectionViewCell: UICollectionViewCell {
         bgView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
+        
+        bgView.addSubview(bgImgV)
+        bgImgV.image = UIImage(named: "colCell")
+        bgImgV.layer.cornerRadius = WidthScale(10)
+        bgImgV.layer.masksToBounds = true
+        bgImgV.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("LJMainCollectionViewCell===初始化失败")
     }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    
 }
