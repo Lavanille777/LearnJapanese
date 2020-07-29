@@ -8,7 +8,6 @@ target 'LearnJapanese' do
   # Pods for LearnJapanese
   
   pod 'SnapKit'   #自动布局
-  pod 'RealmSwift'   #realm数据库
   pod 'SQLite.swift' #sqlite数据库  目前使用中
   
 end
