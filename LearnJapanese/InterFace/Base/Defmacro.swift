@@ -8,8 +8,7 @@
 import UIKit
 
 @_exported import SnapKit
-@_exported import Realm
-@_exported import RealmSwift
+
 ///用户信息
 var userInfo: UserModel = UserModel()
 

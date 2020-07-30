@@ -12,6 +12,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
     var duration : TimeInterval
     var completeHander : ((Bool) -> Void)?
     var touchView: UIView?
+    var touchViewRect: CGRect?
     
     init(duration : TimeInterval = 0.25){
         self.duration = duration
@@ -20,8 +21,9 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
     }
     
     @objc func setTouchView(_ noti: Notification) {
-        if let view = noti.userInfo?["view"] as? UIView{
+        if let view = noti.userInfo?["view"] as? UIView, let rect = noti.userInfo?["rect"] as? CGRect{
             touchView = view
+            touchViewRect = rect
         }
     }
     
@@ -49,8 +51,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
             toView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             transitionContext.containerView.addSubview(fromView!)
             
-            if let cell = touchView as? LJMainTableViewCell{
-                let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            if let cell = touchView as? LJMainTableViewCell, let rect = touchViewRect{
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
                 UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
@@ -92,13 +93,10 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                     }
                 })
             }
-            else if let cell = touchView as? LJMainCollectionViewCell, let fromViewC = fromViewC as? LJImageTextViewController{
-                let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            else if let cell = touchView as? LJMainCollectionViewCell, let fromViewC = fromViewC as? LJImageTextViewController, let rect = touchViewRect{
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
-                fromViewC.textL.contentMode = .center
                 fromViewC.scrollV.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-                fromViewC.textL.alpha = 0
                 UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseInOut, animations: { () -> Void in
                     toView?.alpha = 1
                     maskView.effect = nil

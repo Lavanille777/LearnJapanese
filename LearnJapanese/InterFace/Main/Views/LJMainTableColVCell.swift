@@ -67,11 +67,12 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? LJMainCollectionViewCell else {
             return
         }
-        
-        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell])
+        Dprint(cell.convert(cell.bgImgV.bounds, to: nil))
+        let rect = cell.convert(cell.bgImgV.frame, to: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         
         let vc = LJImageTextViewController()
         vc.popAnimation = popAnimation

@@ -14,6 +14,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     var completeHander : ((Bool) -> Void)?
     
     var touchView: UIView?
+    var touchViewRect: CGRect?
     var fromVC: UIViewController?
     var toVC: UIViewController?
     
@@ -24,8 +25,9 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
     }
     
     @objc func setTouchView(_ noti: Notification) {
-        if let view = noti.userInfo?["view"] as? UIView{
+        if let view = noti.userInfo?["view"] as? UIView, let rect = noti.userInfo?["rect"] as? CGRect{
             touchView = view
+            touchViewRect = rect
         }
     }
     
@@ -58,8 +60,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
             toView?.layer.cornerRadius = WidthScale(10)
             
             //主页列表转场动画
-            if let cell = touchView as? LJMainTableViewCell{
-                let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            if let cell = touchView as? LJMainTableViewCell, let rect = touchViewRect{
                 toView?.frame = rect
                 toView?.layoutIfNeeded()
                 for view in toVC.view.subviews {
@@ -101,8 +102,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                     })
                 })
             }//文化介绍部分的点击动画
-            else if let cell = touchView as? LJMainCollectionViewCell, let toVC = toVC as? LJImageTextViewController{
-                let rect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            else if let cell = touchView as? LJMainCollectionViewCell, let toVC = toVC as? LJImageTextViewController, let rect = touchViewRect{
                 toVC.view.frame = rect
                 toVC.imageV.snp.remakeConstraints { (make) in
                     make.top.equalToSuperview()

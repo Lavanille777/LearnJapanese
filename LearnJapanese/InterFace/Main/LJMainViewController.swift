@@ -107,29 +107,40 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         isScrooling = true
         if scrollView is UITableView{
-            if scrollView.contentOffset.y < -WidthScale(isiPhoneX ? 24 : 0) && scrollView.contentOffset.y >= -StatusBarHeight{
-                headerView.title2L.snp.remakeConstraints { (make) in
-                    make.left.equalToSuperview().inset(WidthScale(20 + 6 * abs(StatusBarHeight + scrollView.contentOffset.y)))
-                    make.top.equalToSuperview().inset(WidthScale(56 - 1.4 * (StatusBarHeight + scrollView.contentOffset.y)))
-                }
-                self.view.layoutIfNeeded()
-                floatView.isHidden = true
-                maskView.layer.mask = nil
-            }else if scrollView.contentOffset.y < -StatusBarHeight{
-                headerView.title2L.snp.remakeConstraints { (make) in
-                    make.left.equalToSuperview().inset(WidthScale(20))
-                    make.top.equalToSuperview().inset(WidthScale(56))
-                }
-                floatView.isHidden = true
-                maskView.layer.mask = nil
-            }else{
-                headerView.title2L.snp.remakeConstraints { (make) in
-                    make.left.equalToSuperview().inset(WidthScale(20 + 6 * StatusBarHeight))
-                    make.top.equalToSuperview().inset(WidthScale(56 - 1.4 * StatusBarHeight))
-                }
-                floatView.isHidden = false
-                maskView.layer.mask = maskLayer
-                
+            if scrollView.contentOffset.y < -WidthScale(isiPhoneX ? 24 : 0){
+                self.floatView.isHidden = true
+                self.maskView.layer.mask = nil
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+                    self.headerView.title2L.snp.remakeConstraints { (make) in
+                        make.left.equalToSuperview().inset(WidthScale(20))
+                        make.top.equalToSuperview().inset(WidthScale(56))
+                    }
+                    self.floatView.title2L.snp.remakeConstraints { (make) in
+                        make.left.equalToSuperview().inset(WidthScale(20))
+                        make.top.equalTo(self.floatView.title1L.snp.bottom).offset(WidthScale(10))
+                    }
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+            }else if self.floatView.isHidden{
+                view.layer.removeAllAnimations()
+                self.floatView.isHidden = false
+                self.maskView.layer.mask = self.maskLayer
+                UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+                    self.floatView.title2L.snp.remakeConstraints { (make) in
+                        make.left.equalToSuperview().inset(WidthScale(140))
+                        make.top.equalToSuperview().offset(WidthScale(28) + WidthScale(isiPhoneX ? 24 : 0))
+                    }
+                    self.headerView.title2L.snp.remakeConstraints { (make) in
+                        make.left.equalTo(self.headerView.title1L.snp.right).offset(WidthScale(20))
+                        make.centerY.equalTo(self.headerView.title1L)
+                    }
+                    self.view.layoutIfNeeded()
+                    self.floatView.layoutIfNeeded()
+                }, completion: {(finished) in
+                    if finished{
+                        self.maskView.layer.mask = self.maskLayer
+                    }
+                })
             }
         }
     }
@@ -147,7 +158,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LJMainTableViewCell.self), for: indexPath) as! LJMainTableViewCell
             
-//            cell.bgImgV.image = UIImage.init(named: "cell3")
+            //            cell.bgImgV.image = UIImage.init(named: "cell3")
             
             switch indexPath.row {
             case 0:
@@ -156,10 +167,13 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 }else{
                     cell.titleL.text = "制定计划"
                 }
-//                cell.bgImgV.image = UIImage.init(named: "cell3")
+                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xffcccc, alpha: 1.0)
+            //                cell.bgImgV.image = UIImage.init(named: "cell3")
             case 1:
                 cell.titleL.text = "学点儿新词"
+                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
             case 3:
+                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
                 cell.titleL.text = "温故知新"
             case 4:
                 cell.titleL.text = "一学一练"
@@ -173,10 +187,12 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didSelectIndexPath = indexPath
-        guard let cell = tableView.cellForRow(at: indexPath) else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? LJMainTableViewCell else {
             return
         }
-        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell])
+        Dprint(cell.convert(cell.bgImgV.bounds, to: self.view))
+        let rect = cell.convert(cell.bgImgV.frame, to: self.view)
+        NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         switch indexPath.row {
         case 0:
             let vc = MakingPlanViewController()
@@ -215,7 +231,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+        
         return headerView
     }
     

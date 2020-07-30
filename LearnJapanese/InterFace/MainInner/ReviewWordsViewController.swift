@@ -48,6 +48,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     }
     
     func setupUI() {
+        view.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
         targetTitleL.text = "温故知新"
         
         view.addSubview(reviewWordL)
@@ -76,7 +77,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             btn.setTitleColor(HEXCOLOR(h: 0x101010, alpha: 1.0), for: .normal)
             btn.titleLabel?.font = UIFont(name: FontYuanTiRegular, size: WidthScale(16))
             btn.addTarget(self, action: #selector(selectWordAction), for: .touchUpInside)
-            btn.backgroundColor = .white
+            btn.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
             btn.tag = index
             btn.addOncePressAnimation()
             btn.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 0.3).cgColor

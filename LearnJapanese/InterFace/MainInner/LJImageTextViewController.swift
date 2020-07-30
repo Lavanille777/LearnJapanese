@@ -46,7 +46,8 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         textL.attributedText = mutableAttrStr
         textL.snp.makeConstraints { (make) in
             make.top.equalTo(imageV.snp.bottom).offset(WidthScale(20))
-            make.left.right.equalTo(view).inset(WidthScale(15))
+            make.left.equalTo(view).inset(WidthScale(15))
+            make.width.equalTo(SCREEN_WIDTH - WidthScale(30))
             make.bottom.equalToSuperview().inset(IPHONEX_BH + WidthScale(20))
         }
         

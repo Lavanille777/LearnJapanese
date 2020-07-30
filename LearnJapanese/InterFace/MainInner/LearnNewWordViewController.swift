@@ -46,18 +46,20 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     }
     
     func setupUI() {
+        view.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+        
         targetTitleL.text = "学点儿新词"
         
         view.addSubview(wordCard)
-        wordCard.backgroundColor = HEXCOLOR(h: 0xffffff, alpha: 1.0)
+        wordCard.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
         wordCard.layer.masksToBounds = false
         wordCard.layer.cornerRadius = WidthScale(10)
         wordCard.layer.shadowRadius = WidthScale(10)
         wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 1).cgColor
         wordCard.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         wordCard.layer.shadowOpacity = 1.0
-        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-        wordCard.layer.borderWidth = WidthScale(1)
+//        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
+//        wordCard.layer.borderWidth = WidthScale(1)
         wordCard.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
             make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)   //这里用StatusBarHeight只是因为简单。。
@@ -232,15 +234,19 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     }
     
     @objc func getRandomWord() {
-        if unRememberedWordArr.count == 0{
-            unRememberedWordArr = SQLManager.queryAllUnrememberedWord() ?? []
-        }
-        if self.unRememberedWordArr.count > 0{
-            let randomIndex = Int(arc4random() % UInt32(self.unRememberedWordArr.count))
-            self.randomWord = self.unRememberedWordArr[randomIndex]
-            self.jpLabel.text = self.randomWord.japanese
-            self.pronunciationLabel.text = self.randomWord.pronunciation
-            self.chineseLabel.text = self.randomWord.chinese
+        DispatchQueue.global().async {
+            if self.unRememberedWordArr.count == 0{
+                self.unRememberedWordArr = SQLManager.queryAllUnrememberedWord() ?? []
+            }
+            DispatchQueue.main.async{
+                if self.unRememberedWordArr.count > 0{
+                    let randomIndex = Int(arc4random() % UInt32(self.unRememberedWordArr.count))
+                    self.randomWord = self.unRememberedWordArr[randomIndex]
+                    self.jpLabel.text = self.randomWord.japanese
+                    self.pronunciationLabel.text = self.randomWord.pronunciation
+                    self.chineseLabel.text = self.randomWord.chinese
+                }
+            }
         }
     }
 

@@ -40,6 +40,7 @@ class MakingPlanViewController: LJMainAnimationViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = HEXCOLOR(h: 0xffcccc, alpha: 1.0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -156,13 +157,6 @@ class MakingPlanViewController: LJMainAnimationViewController {
             make.top.equalToSuperview().inset(WidthScale(5))
             make.centerX.equalToSuperview()
         }
-        
-        datePickerBgEffectV.contentView.addSubview(datePicker)
-        datePicker.snp.makeConstraints { (make) in
-            make.bottom.left.right.equalToSuperview()
-            make.height.equalTo(WidthScale(290))
-        }
-        view.layoutIfNeeded()
 
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "zh")

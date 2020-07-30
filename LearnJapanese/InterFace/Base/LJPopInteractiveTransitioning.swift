@@ -24,6 +24,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     var originRect: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     
     var touchView: UIView?
+    var touchViewRect: CGRect?
     
     override init() {
         super.init()
@@ -31,8 +32,9 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
     }
     
     @objc func setTouchView(_ noti: Notification) {
-        if let view = noti.userInfo?["view"] as? UIView{
+        if let view = noti.userInfo?["view"] as? UIView, let rect = noti.userInfo?["rect"] as? CGRect{
             touchView = view
+            touchViewRect = rect
         }
     }
     
@@ -54,13 +56,13 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         transitionContext.containerView.addSubview(fromView!)
         
         if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? MainTabBarController{
-            if let cell = touchView as? LJMainTableViewCell{
-                targetRect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            if let cell = touchView as? LJMainTableViewCell , let rect = touchViewRect{
+                targetRect = rect
                 originRect = fromView!.frame
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
-            }else if let cell = touchView as? LJMainCollectionViewCell{
-                targetRect = cell.bgImgV.convert(cell.bgImgV.bounds, to: vc.view)
+            }else if let cell = touchView as? LJMainCollectionViewCell, let rect = touchViewRect{
+                targetRect = rect
                 originRect = fromView!.frame
                 fromView?.layer.masksToBounds = true
                 fromView?.layer.cornerRadius = cell.bgImgV.layer.cornerRadius
