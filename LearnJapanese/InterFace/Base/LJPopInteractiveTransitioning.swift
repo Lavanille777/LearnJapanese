@@ -45,7 +45,6 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         let toView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!.view
         maskView = UIVisualEffectView()
         maskView.effect = UIBlurEffect.init(style: .dark)
-        toView?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         toView?.layer.cornerRadius = WidthScale(10)
         toView?.layer.masksToBounds = true
         transitionContext.containerView.addSubview(toView!)
@@ -74,6 +73,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         }
         self.toView = toView
         self.transitingView = fromView
+        toView?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
     }
     
     open func update(_ percentComplete: CGFloat){

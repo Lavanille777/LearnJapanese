@@ -38,7 +38,8 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         tableView.backgroundColor = .clear
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: 0, right: 0)
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: IPHONEX_BH + WidthScale(20), right: 0)
         tableView.backgroundColor = .clear
         tableView.register(LJMainTableViewCell.self, forCellReuseIdentifier: String(describing: LJMainTableViewCell.self))
         tableView.register(LJMainTableColVCell.self, forCellReuseIdentifier: String(describing: LJMainTableColVCell.self))
@@ -158,8 +159,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LJMainTableViewCell.self), for: indexPath) as! LJMainTableViewCell
             
-            //            cell.bgImgV.image = UIImage.init(named: "cell3")
-            
             switch indexPath.row {
             case 0:
                 if userInfo.havePlan{
@@ -168,7 +167,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                     cell.titleL.text = "制定计划"
                 }
                 cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xffcccc, alpha: 1.0)
-            //                cell.bgImgV.image = UIImage.init(named: "cell3")
             case 1:
                 cell.titleL.text = "学点儿新词"
                 cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
@@ -176,7 +174,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
                 cell.titleL.text = "温故知新"
             case 4:
-                cell.titleL.text = "一学一练"
+                cell.titleL.text = "玩骰子"
             default:
                 break
             }
@@ -190,7 +188,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         guard let cell = tableView.cellForRow(at: indexPath) as? LJMainTableViewCell else {
             return
         }
-        Dprint(cell.convert(cell.bgImgV.bounds, to: self.view))
         let rect = cell.convert(cell.bgImgV.frame, to: self.view)
         NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         switch indexPath.row {
@@ -211,6 +208,10 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 4:
+            let vc = PlayDiceViewController()
+            vc.popAnimation = dismissionTransition
+            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+            self.navigationController?.pushViewController(vc, animated: true)
             break
         default:
             break

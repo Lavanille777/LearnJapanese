@@ -8,13 +8,19 @@
 
 import UIKit
 
-class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDelegate {
+class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     var scrollV: UIScrollView = UIScrollView()
     ///顶部图片
     var imageV: UIImageView = UIImageView()
     ///文字介绍
     var textL: UILabel = UILabel()
+    
+    var titleL: UILabel = UILabel()
+    
+    var titleBGV: UIView = UIView()
+    
+    var titleBGVGradientLayer: CAGradientLayer = CAGradientLayer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +40,23 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
             make.top.equalToSuperview()
             make.left.right.equalTo(view)
             make.height.equalTo(self.view.frame.width * WidthScale(140/160))
+        }
+        
+        view.addSubview(titleBGV)
+        titleBGV.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(imageV)
+            make.height.equalTo(WidthScale(50))
+        }
+        view.layoutIfNeeded()
+        titleBGVGradientLayer = titleBGV.addGradientLayer(colors: [HEXCOLOR(h: 0x101010, alpha: 0.0).cgColor, HEXCOLOR(h: 0x101010, alpha: 1.0).cgColor], locations: [0, 1], isHor: false)
+        
+        titleBGV.addSubview(titleL)
+        titleL.text = "上野公园"
+        titleL.textColor = .white
+        titleL.font = UIFont.init(name: FontHanziPenW3, size: WidthScale(18))
+        titleL.snp.makeConstraints { (make) in
+            make.bottom.right.equalToSuperview().inset(WidthScale(10))
         }
         
         scrollV.addSubview(textL)
@@ -86,6 +109,10 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
                 make.height.equalTo(self.view.frame.width * WidthScale(140/160))
             }
         }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 
 }

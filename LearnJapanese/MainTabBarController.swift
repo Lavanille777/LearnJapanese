@@ -14,6 +14,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     let mainVC: LJMainViewController = LJMainViewController()
     ///查词典子控制器
     let dictionaryVC: SearchWordViewController = SearchWordViewController()
+    ///我的子控制器
+    let mineCtrl: MineViewController = MineViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +47,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     private func addTabbarChildController(){
         setupOneChildViewController(mainVC, title: "首页", normalImage: "tabbar_1_sel", selectedImage: "tabbar_1_sel")
         setupOneChildViewController(dictionaryVC, title: "词典", normalImage: "tabbar_1_sel", selectedImage: "tabbar_1_sel")
-//        setupOneChildViewController(mineCtrl, title: "我的", normalImage: "tabbar_3_nor", selectedImage: "tabbar_3_sel")
+        setupOneChildViewController(mineCtrl, title: "我的", normalImage: "tabbar_1_sel", selectedImage: "tabbar_1_sel")
     }
 
 }

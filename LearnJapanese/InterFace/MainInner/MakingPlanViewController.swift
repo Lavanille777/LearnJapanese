@@ -261,6 +261,7 @@ class MakingPlanViewController: LJMainAnimationViewController {
             }else{
                 userInfo.targetLevel = 8 - ((self.selectedBtn?.tag ?? 2000) / 1000)
                 userInfo.targetDate = self.datePicker.date
+                userInfo.ensureTargetDate = Date()
                 userInfo.havePlan = true
             }
             userInfo.rememberWordsCount = 0

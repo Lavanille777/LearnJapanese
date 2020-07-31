@@ -91,7 +91,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             view.addSubview(btn)
             btn.snp.makeConstraints { (make) in
                 make.top.equalTo(reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
-                make.left.right.equalToSuperview().inset(WidthScale(20))
+                make.left.right.equalToSuperview().inset(WidthScale(40))
                 make.height.equalTo(WidthScale(70))
             }
         }
@@ -133,7 +133,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             btn.isEnabled = false
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.switchWord()
             self.skipBtn.isEnabled = true
             for btn in self.selectionBtnArr {
@@ -148,7 +148,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
                 btn.snp.remakeConstraints { (make) in
                     make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
                     make.right.equalTo(self.view.snp.left)
-                    make.width.equalTo(SCREEN_WIDTH - WidthScale(40))
+                    make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                     make.height.equalTo(WidthScale(70))
                 }
                 self.view.layoutIfNeeded()
@@ -156,7 +156,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
                 btn.snp.remakeConstraints { (make) in
                     make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
                     make.left.equalTo(self.view.snp.right)
-                    make.width.equalTo(SCREEN_WIDTH - WidthScale(40))
+                    make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                     make.height.equalTo(WidthScale(70))
                 }
                 if index == self.selectionBtnArr.count - 1{
@@ -167,7 +167,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
                     btn.snp.remakeConstraints { (make) in
                         make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
                         make.centerX.equalToSuperview()
-                        make.width.equalTo(SCREEN_WIDTH - WidthScale(40))
+                        make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                         make.height.equalTo(WidthScale(70))
                     }
                     self.view.layoutIfNeeded()

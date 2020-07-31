@@ -43,6 +43,8 @@ class SQLManager: NSObject {
     static let targetLevel = Expression<Int>("targetLevel")
     ///目标时间
     static let targetDate = Expression<Date>("targetDate")
+    ///确定目标日期
+    static let ensureTargetDate = Expression<Date>("ensureTargetDate")
     ///单词记忆量
     static let rememberWordsCount = Expression<Int>("rememberWordsCount")
     ///登录时间
@@ -222,6 +224,7 @@ class SQLManager: NSObject {
                     model.rememberWordsCount = item[rememberWordsCount]
                     model.todayWordsCount = item[todayWordsCount]
                     model.loginDate = item[loginDate]
+                    model.ensureTargetDate = item[ensureTargetDate]
                     userArray.append(model)
                 }
             }
@@ -234,7 +237,7 @@ class SQLManager: NSObject {
     static func updateUser(_ model: UserModel) -> Bool {
         do {
             let db = SQLManager.shared().db
-            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount, loginDate <- model.loginDate, todayWordsCount <- model.todayWordsCount)
+            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount, loginDate <- model.loginDate, todayWordsCount <- model.todayWordsCount, ensureTargetDate <- model.ensureTargetDate)
             if let rowId = try db?.run(update){
                 return rowId > 0
             }
@@ -260,6 +263,7 @@ class SQLManager: NSObject {
                     model.rememberWordsCount = item[rememberWordsCount]
                     model.loginDate = item[loginDate]
                     model.todayWordsCount = item[todayWordsCount]
+                    model.ensureTargetDate = item[ensureTargetDate]
                     userArray.append(model)
                 }
             }

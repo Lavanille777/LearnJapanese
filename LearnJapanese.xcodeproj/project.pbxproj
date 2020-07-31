@@ -26,6 +26,8 @@
 		017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017EC2D724B454C2003364D5 /* UIViewEx.swift */; };
 		017EC2DA24B5BE3B003364D5 /* LJMainTableFloatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017EC2D924B5BE3B003364D5 /* LJMainTableFloatView.swift */; };
 		017EC2E524BC3E29003364D5 /* LJMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017EC2E424BC3E29003364D5 /* LJMainCollectionViewCell.swift */; };
+		0180B80324D3F9E400128A5D /* PlayDiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */; };
+		0180B80524D416AE00128A5D /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80424D416AE00128A5D /* MineViewController.swift */; };
 		0182A89F24C5743000D691A3 /* LJMainTableColVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A89E24C5743000D691A3 /* LJMainTableColVCell.swift */; };
 		0182A8A124C6921B00D691A3 /* LJPushTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A024C6921B00D691A3 /* LJPushTransitionAnimator.swift */; };
 		0182A8A324C6BFBF00D691A3 /* UIImageEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A224C6BFBF00D691A3 /* UIImageEx.swift */; };
@@ -71,6 +73,8 @@
 		017EC2D724B454C2003364D5 /* UIViewEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewEx.swift; sourceTree = "<group>"; };
 		017EC2D924B5BE3B003364D5 /* LJMainTableFloatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableFloatView.swift; sourceTree = "<group>"; };
 		017EC2E424BC3E29003364D5 /* LJMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainCollectionViewCell.swift; sourceTree = "<group>"; };
+		0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDiceViewController.swift; sourceTree = "<group>"; };
+		0180B80424D416AE00128A5D /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		0182A89E24C5743000D691A3 /* LJMainTableColVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableColVCell.swift; sourceTree = "<group>"; };
 		0182A8A024C6921B00D691A3 /* LJPushTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJPushTransitionAnimator.swift; sourceTree = "<group>"; };
 		0182A8A224C6BFBF00D691A3 /* UIImageEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageEx.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 			children = (
 				0135EC8E24764ADD00AF0F32 /* Views */,
 				0135EC8A24761F4000AF0F32 /* LJMainViewController.swift */,
+				0180B80424D416AE00128A5D /* MineViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 				01895D6124CE7B14001551C7 /* LearnNewWordViewController.swift */,
 				01895D6B24D00532001551C7 /* ReviewWordsViewController.swift */,
 				01895D6D24D018EF001551C7 /* LJImageTextViewController.swift */,
+				0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */,
 			);
 			path = MainInner;
 			sourceTree = "<group>";
@@ -403,6 +409,7 @@
 				0135EC8924752E6C00AF0F32 /* MainTabBarController.swift in Sources */,
 				01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */,
 				01D67E0B247655EE00319B3E /* LJMainTableHeaderView.swift in Sources */,
+				0180B80324D3F9E400128A5D /* PlayDiceViewController.swift in Sources */,
 				01895D6224CE7B14001551C7 /* LearnNewWordViewController.swift in Sources */,
 				0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */,
 				0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */,
@@ -417,6 +424,7 @@
 				0182A89F24C5743000D691A3 /* LJMainTableColVCell.swift in Sources */,
 				017EC2E524BC3E29003364D5 /* LJMainCollectionViewCell.swift in Sources */,
 				0135EC8B24761F4000AF0F32 /* LJMainViewController.swift in Sources */,
+				0180B80524D416AE00128A5D /* MineViewController.swift in Sources */,
 				0182A8A124C6921B00D691A3 /* LJPushTransitionAnimator.swift in Sources */,
 				017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */,
 				0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */,
@@ -567,14 +575,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MWCUD5FL9X;
+				DEVELOPMENT_TEAM = 9RDTB937LX;
 				INFOPLIST_FILE = LearnJapanese/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = lavanille.LearnJapanese1;
+				PRODUCT_BUNDLE_IDENTIFIER = lavanille.LearnJapanese;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

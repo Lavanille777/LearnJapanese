@@ -70,7 +70,6 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
         guard let cell = collectionView.cellForItem(at: indexPath) as? LJMainCollectionViewCell else {
             return
         }
-        Dprint(cell.convert(cell.bgImgV.bounds, to: nil))
         let rect = cell.convert(cell.bgImgV.frame, to: nil)
         NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         
@@ -81,19 +80,32 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        isScrooling = false
+        
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isScrooling = true
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        isScrooling = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        isScrooling = true
+        Dprint(scrollView.contentOffset)
+        if let colV = scrollView as? UICollectionView{
+//            for cell in colV.visibleCells as! [LJMainCollectionViewCell]{
+//                if let indexPath = colV.indexPath(for: cell), let layoutAttri = colV.layoutAttributesForItem(at: indexPath){
+//                    let cellFrame = colV.convert(layoutAttri.frame, to: nil)
+//                    
+//                    let angle = angleToRadian(Double(-cellFrame.origin.x) / 8)
+//                    var transform = CATransform3DIdentity
+//                    transform.m34 = -1.0 / 800
+//                    let rotation = CATransform3DRotate(transform, angle, 0, 1, 0)
+//                    cell.layer.transform = rotation
+//                }
+//            }
+        }
+        
+        
     }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
