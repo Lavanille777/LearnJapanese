@@ -34,6 +34,10 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         self.view.backgroundColor = .white
         self.delegate = self
         self.tabBar.isTranslucent = true
+//        self.tabBar.snp.remakeConstraints { (make) in
+//            make.left.right.bottom.equalToSuperview().inset(WidthScale(20))
+//            make.height.equalTo(WidthScale(44))
+//        }
         addTabbarChildController()
     }
     

@@ -16,6 +16,8 @@ class LJMainTableViewCell: UITableViewCell {
     var bgMaskV: UIView = UIView()
     ///标题
     var titleL: UILabel = UILabel()
+    ///右侧图片
+    var rightImgV: UIImageView = UIImageView()
     
     var contentV: UIView = UIView()
     
@@ -76,6 +78,14 @@ class LJMainTableViewCell: UITableViewCell {
         titleL.snp.makeConstraints { (make) in
             make.left.equalTo(bgImgV).inset(WidthScale(20))
             make.top.equalTo(bgImgV).inset(WidthScale(40))
+        }
+        
+        self.addSubview(rightImgV)
+        rightImgV.contentMode = .scaleAspectFit
+        rightImgV.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().inset(WidthScale(40))
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CGSize(width: WidthScale(88), height: WidthScale(84)))
         }
          
     }

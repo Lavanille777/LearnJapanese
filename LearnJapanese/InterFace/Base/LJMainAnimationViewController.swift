@@ -18,6 +18,8 @@ class LJMainAnimationViewController: LJBaseViewController, UINavigationControlle
     
     var bgImgV: UIImageView = UIImageView()
     
+    var titleImgV: UIImageView = UIImageView()
+    
     ///目标
     var targetTitleL: UILabel = UILabel()
     
@@ -46,6 +48,15 @@ class LJMainAnimationViewController: LJBaseViewController, UINavigationControlle
         targetTitleL.snp.remakeConstraints { (make) in
             make.left.equalToSuperview().inset(WidthScale(20))
             make.top.equalToSuperview().inset(NavPlusStatusH)
+        }
+        
+        titleImgV.image = UIImage(named: "cat")
+        titleImgV.tag = 100
+        view.addSubview(titleImgV)
+        titleImgV.snp.remakeConstraints { (make) in
+            make.right.equalToSuperview().inset(WidthScale(20))
+            make.centerY.equalTo(targetTitleL)
+            make.size.equalTo(CGSize(width: WidthScale(88), height: WidthScale(84)))
         }
         
         createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)

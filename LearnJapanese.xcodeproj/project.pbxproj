@@ -28,6 +28,8 @@
 		017EC2E524BC3E29003364D5 /* LJMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017EC2E424BC3E29003364D5 /* LJMainCollectionViewCell.swift */; };
 		0180B80324D3F9E400128A5D /* PlayDiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */; };
 		0180B80524D416AE00128A5D /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80424D416AE00128A5D /* MineViewController.swift */; };
+		0180B80724D7E59300128A5D /* LJMainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80624D7E59300128A5D /* LJMainTabBarViewController.swift */; };
+		0180B80924D7E5BB00128A5D /* LJTabbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0180B80824D7E5BB00128A5D /* LJTabbarView.swift */; };
 		0182A89F24C5743000D691A3 /* LJMainTableColVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A89E24C5743000D691A3 /* LJMainTableColVCell.swift */; };
 		0182A8A124C6921B00D691A3 /* LJPushTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A024C6921B00D691A3 /* LJPushTransitionAnimator.swift */; };
 		0182A8A324C6BFBF00D691A3 /* UIImageEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0182A8A224C6BFBF00D691A3 /* UIImageEx.swift */; };
@@ -75,6 +77,8 @@
 		017EC2E424BC3E29003364D5 /* LJMainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainCollectionViewCell.swift; sourceTree = "<group>"; };
 		0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayDiceViewController.swift; sourceTree = "<group>"; };
 		0180B80424D416AE00128A5D /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
+		0180B80624D7E59300128A5D /* LJMainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTabBarViewController.swift; sourceTree = "<group>"; };
+		0180B80824D7E5BB00128A5D /* LJTabbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJTabbarView.swift; sourceTree = "<group>"; };
 		0182A89E24C5743000D691A3 /* LJMainTableColVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableColVCell.swift; sourceTree = "<group>"; };
 		0182A8A024C6921B00D691A3 /* LJPushTransitionAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJPushTransitionAnimator.swift; sourceTree = "<group>"; };
 		0182A8A224C6BFBF00D691A3 /* UIImageEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageEx.swift; sourceTree = "<group>"; };
@@ -187,6 +191,8 @@
 				0174D9D2246BCA6300390CEF /* LaunchScreen.storyboard */,
 				0174D9D5246BCA6300390CEF /* Info.plist */,
 				0182A8B224C93FEA00D691A3 /* SQLManager.swift */,
+				0180B80824D7E5BB00128A5D /* LJTabbarView.swift */,
+				0180B80624D7E59300128A5D /* LJMainTabBarViewController.swift */,
 			);
 			path = LearnJapanese;
 			sourceTree = "<group>";
@@ -413,10 +419,12 @@
 				01895D6224CE7B14001551C7 /* LearnNewWordViewController.swift in Sources */,
 				0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */,
 				0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */,
+				0180B80924D7E5BB00128A5D /* LJTabbarView.swift in Sources */,
 				0174D9E0246BE9ED00390CEF /* LoginViewController.swift in Sources */,
 				0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */,
 				0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */,
 				01895D6424CEAD5F001551C7 /* LJCycleProgressView.swift in Sources */,
+				0180B80724D7E59300128A5D /* LJMainTabBarViewController.swift in Sources */,
 				0135EC8124750F5000AF0F32 /* LJBaseViewController.swift in Sources */,
 				013114CD24CA926600B5C969 /* UserModel.swift in Sources */,
 				01895D6E24D018EF001551C7 /* LJImageTextViewController.swift in Sources */,

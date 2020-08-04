@@ -14,6 +14,8 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
     ///顶部图片
     var imageV: UIImageView = UIImageView()
     ///文字介绍
+    var textBGV: UIView = UIView()
+    
     var textL: UILabel = UILabel()
     
     var titleL: UILabel = UILabel()
@@ -26,6 +28,7 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         super.viewDidLoad()
         self.navgationBarV.backBtn.setTitleColor(.white, for: .normal)
         view.addSubview(scrollV)
+        scrollV.backgroundColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
         scrollV.delegate = self
         scrollV.showsVerticalScrollIndicator = false
         scrollV.contentInsetAdjustmentBehavior = .never
@@ -59,7 +62,16 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
             make.bottom.right.equalToSuperview().inset(WidthScale(10))
         }
         
+        scrollV.addSubview(textBGV)
         scrollV.addSubview(textL)
+        textBGV.backgroundColor = HEXCOLOR(h: 0xFAFAF8, alpha: 1.0)
+        textBGV.layer.cornerRadius = WidthScale(20)
+        textBGV.snp.makeConstraints { (make) in
+            make.top.equalTo(imageV.snp.bottom)
+            make.left.right.equalTo(view)
+//            make.width.equalTo(SCREEN_WIDTH)
+            make.bottom.equalTo(scrollV).offset(WidthScale(1000))
+        }
         let str = "上野公园是日本最大的公园，也是东京的文化中心。它位于JR上野车站旁边，从银座乘地铁可以直达。园内有东京文化会馆、国立西洋美术馆，东京国立博物馆、东京都美术馆、上野动物园等等。上野公园是有雕刻家高村光云所作的西乡隆盛铜像，以及野口英世的铜像。除了许多文化设施外，也是春天赏樱的热门地点。\n\n有“史迹和文化财物的宝库”之称的上野公园里，有宽永寺、德川家灵庙、东昭宫、清水堂、西乡隆盛铜像等古迹，这些江户和明治时代的建筑散落在苍松翠柏之中，与湖光山色十分相宜。园内还有很多博物馆，有东京国立博物馆、国立科学博物馆、国立西洋美术馆、都立美术馆等等。园西北有上野动物园，饲养着九百多种珍禽异兽，在园内的不忍池内，终年栖息着大量野生的黑天鹅、大雁、鸳鸯、鸬鹚和野鸭。池畔还有一个水族馆，里面有五百多种水生动物。动物园边上建有牡丹园，种植了70多个品种3000多株牡丹。"
         textL.numberOfLines = 0
         let mutableAttrStr = NSMutableAttributedString(string: str)
@@ -69,7 +81,7 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         textL.attributedText = mutableAttrStr
         textL.snp.makeConstraints { (make) in
             make.top.equalTo(imageV.snp.bottom).offset(WidthScale(20))
-            make.left.equalTo(view).inset(WidthScale(15))
+            make.left.equalTo(view).inset(WidthScale(20))
             make.width.equalTo(SCREEN_WIDTH - WidthScale(30))
             make.bottom.equalToSuperview().inset(IPHONEX_BH + WidthScale(20))
         }

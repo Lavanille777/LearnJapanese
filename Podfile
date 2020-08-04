@@ -9,5 +9,5 @@ target 'LearnJapanese' do
   
   pod 'SnapKit'   #自动布局
   pod 'SQLite.swift' #sqlite数据库  目前使用中
-  
+  pod 'TZImagePickerController'
 end

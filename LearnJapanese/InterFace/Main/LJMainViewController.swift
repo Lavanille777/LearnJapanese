@@ -65,7 +65,8 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         
         view.backgroundColor = .white
         view.addSubview(bgImageView)
-        bgImageView.contentMode = .scaleAspectFill
+        bgImageView.image = UIImage(named: "sakura")
+        bgImageView.contentMode = .top
         bgImageView.isUserInteractionEnabled = true
         bgImageView.addSubview(maskView)
         bgImageView.snp.makeConstraints { (make) in
@@ -158,7 +159,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: LJMainTableViewCell.self), for: indexPath) as! LJMainTableViewCell
-            
+            cell.rightImgV.image = UIImage(named: "cat")
             switch indexPath.row {
             case 0:
                 if userInfo.havePlan{
@@ -222,7 +223,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2{
-            return WidthScale(170)
+            return WidthScale(180)
         }
         return WidthScale(140)
     }

@@ -17,7 +17,7 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     lazy var tableColV: UICollectionView = {
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = WidthScale(20)
-        flowLayout.itemSize = CGSize(width: WidthScale(160), height: WidthScale(140))
+        flowLayout.itemSize = CGSize(width: WidthScale(176), height: WidthScale(154))
         flowLayout.scrollDirection = .horizontal
         let tableColV: UICollectionView = UICollectionView.init(frame: .zero, collectionViewLayout: flowLayout)
         tableColV.register(LJMainCollectionViewCell.self, forCellWithReuseIdentifier: "LJMainCollectionViewCell")
@@ -95,7 +95,7 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
 //            for cell in colV.visibleCells as! [LJMainCollectionViewCell]{
 //                if let indexPath = colV.indexPath(for: cell), let layoutAttri = colV.layoutAttributesForItem(at: indexPath){
 //                    let cellFrame = colV.convert(layoutAttri.frame, to: nil)
-//                    
+//
 //                    let angle = angleToRadian(Double(-cellFrame.origin.x) / 8)
 //                    var transform = CATransform3DIdentity
 //                    transform.m34 = -1.0 / 800
