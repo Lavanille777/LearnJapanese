@@ -70,7 +70,7 @@ class LJCycleProgressView: UIView {
         tracklayer.lineWidth = ringWidth
         tracklayer.path = path
         tracklayer.shadowRadius = WidthScale(5)
-        tracklayer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 1.0).cgColor
+        tracklayer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.5).cgColor
         tracklayer.shadowOffset = CGSize(width: WidthScale(3), height: WidthScale(3))
         tracklayer.shadowOpacity = 1.0
         layer.addSublayer(tracklayer)

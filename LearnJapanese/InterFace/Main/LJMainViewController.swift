@@ -40,7 +40,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: IPHONEX_BH + WidthScale(50), right: 0)
+        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: IPHONEX_BH + WidthScale(60), right: 0)
         tableView.backgroundColor = .clear
         tableView.register(LJMainTableViewCell.self, forCellReuseIdentifier: String(describing: LJMainTableViewCell.self))
         tableView.register(LJMainTableColVCell.self, forCellReuseIdentifier: String(describing: LJMainTableColVCell.self))

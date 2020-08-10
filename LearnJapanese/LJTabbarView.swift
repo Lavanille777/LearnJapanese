@@ -29,9 +29,7 @@ class LJTabbarView: UIView {
     
     func setupUI() {
         bgView.effect = UIBlurEffect(style: .prominent)
-//        bgView.layer.borderWidth = WidthScale(0.5)
-//        bgView.layer.borderColor = HEXCOLOR(h: 0xFFB6C1, alpha: 0.5).cgColor
-        bgView.backgroundColor = HEXCOLOR(h: 0xFF69B4, alpha: 0.3)
+        self.backgroundColor = HEXCOLOR(h: 0xFF69B4, alpha: 0.2)
         self.addSubview(bgView)
         bgView.layer.cornerRadius = WidthScale(15)
         bgView.layer.masksToBounds = true
@@ -59,35 +57,35 @@ class LJTabbarView: UIView {
             tabbarItems[i].tag = i
             tabbarItems[i].setImage(UIImage(named: "tabbar_\(i + 1)"), for: .normal)
             tabbarItems[i].addTarget(self, action: #selector(tabbarItemAction), for: .touchUpInside)
-            
-//            tabbarItems[i].backgroundColor = .red
         }
     }
     
     @objc func tabbarItemAction(sender: UIButton){
-        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
-            let x = self.selBGView.frame.minX + (WidthScale(CGFloat(sender.tag * 86 + 28)) - self.selBGView.frame.minX) / 2
-            self.selBGView.snp.remakeConstraints { (make) in
-                make.height.equalTo(WidthScale(48))
-                make.width.equalTo(WidthScale(80))
-                make.left.equalToSuperview().inset(x)
-                make.centerY.equalToSuperview()
-            }
-            self.layoutIfNeeded()
-        }) { (finished) in
-            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+        let x = self.selBGView.frame.minX + (WidthScale(CGFloat(sender.tag * 86 + 28)) - self.selBGView.frame.minX) / 2
+        if x != self.selBGView.frame.minX{
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
                 self.selBGView.snp.remakeConstraints { (make) in
-                    make.width.height.equalTo(WidthScale(48))
-                    make.left.equalToSuperview().inset(WidthScale(CGFloat(sender.tag * 86 + 28)))
+                    make.height.equalTo(WidthScale(48))
+                    make.width.equalTo(WidthScale(80))
+                    make.left.equalToSuperview().inset(x)
                     make.centerY.equalToSuperview()
                 }
-                
                 self.layoutIfNeeded()
-            })
-        }
-        
-        if let selTabbarItemBlk = selTabbarItemBlk{
-            selTabbarItemBlk(sender)
+            }) { (finished) in
+                UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+                    self.selBGView.snp.remakeConstraints { (make) in
+                        make.width.height.equalTo(WidthScale(48))
+                        make.left.equalToSuperview().inset(WidthScale(CGFloat(sender.tag * 86 + 28)))
+                        make.centerY.equalToSuperview()
+                    }
+                    
+                    self.layoutIfNeeded()
+                })
+            }
+            
+            if let selTabbarItemBlk = selTabbarItemBlk{
+                selTabbarItemBlk(sender)
+            }
         }
     }
 

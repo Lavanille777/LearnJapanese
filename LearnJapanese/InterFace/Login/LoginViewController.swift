@@ -131,6 +131,7 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
     @objc func avatarTapAction(){
         let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
         imgPickerVC.allowCrop = true
+        imgPickerVC.cropRect = CGRect(x: 0, y: imgPickerVC.view.frame.midY - SCREEN_WIDTH/2, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
         imgPickerVC.needCircleCrop = true
         imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
             if let weakSelf = self{

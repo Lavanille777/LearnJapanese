@@ -55,7 +55,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         wordCard.layer.masksToBounds = false
         wordCard.layer.cornerRadius = WidthScale(10)
         wordCard.layer.shadowRadius = WidthScale(10)
-        wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 1).cgColor
+        wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.5).cgColor
         wordCard.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         wordCard.layer.shadowOpacity = 1.0
 //        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
