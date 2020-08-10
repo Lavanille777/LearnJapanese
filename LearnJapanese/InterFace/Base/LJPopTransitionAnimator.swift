@@ -40,7 +40,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
         let fromView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!.view
         let toView = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!.view
         toView?.alpha = 0
-        if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? MainTabBarController{
+        if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? LJMainTabBarViewController{
             let maskView: UIVisualEffectView = UIVisualEffectView()
             maskView.effect = UIBlurEffect.init(style: .regular)
             transitionContext.containerView.addSubview(toView!)

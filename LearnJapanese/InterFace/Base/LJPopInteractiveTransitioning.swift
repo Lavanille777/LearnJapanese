@@ -54,7 +54,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
         }
         transitionContext.containerView.addSubview(fromView!)
         
-        if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? MainTabBarController{
+        if let vc = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as? LJMainTabBarViewController{
             if let cell = touchView as? LJMainTableViewCell , let rect = touchViewRect{
                 targetRect = rect
                 originRect = fromView!.frame
@@ -194,7 +194,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                 self.maskView.removeFromSuperview()
                 self.transitingView.removeFromSuperview()
                 self.transitionContext!.completeTransition(true)
-                if let toVC = self.transitionContext.viewController(forKey: .to) as? MainTabBarController, let cell = self.touchView{
+                if let toVC = self.transitionContext.viewController(forKey: .to) as? LJMainTabBarViewController, let cell = self.touchView{
                     toVC.view.layoutIfNeeded()
                     UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
                         cell.transform = CGAffineTransform.init(a: 0.98, b: 0, c: 0, d: 0.98, tx: 0, ty: WidthScale(5))

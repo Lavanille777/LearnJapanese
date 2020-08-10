@@ -46,7 +46,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let toView = toVC.view
         let fromView = fromVC.view
     
-        if let vc = fromVC as? MainTabBarController{
+        if let vc = fromVC as? LJMainTabBarViewController{
             let maskView: UIVisualEffectView = UIVisualEffectView()
             maskView.effect = nil
             
@@ -96,6 +96,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                         cell.layoutIfNeeded()
                         cell.transform = CGAffineTransform(translationX: 0, y: 0)
                         fromView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        fromView?.layer.cornerRadius = 0
                         maskView.removeFromSuperview()
                         //结束动画，否则会干扰下次动画
                         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
@@ -140,6 +141,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                         cell.layoutIfNeeded()
                         cell.transform = CGAffineTransform(translationX: 0, y: 0)
                         fromView?.transform = CGAffineTransform(scaleX: 1, y: 1)
+                        fromView?.layer.cornerRadius = 0
                         maskView.removeFromSuperview()
                         //结束动画，否则会干扰下次动画
                         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import TZImagePickerController
 
-class LoginViewController: LJBaseViewController {
+class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate {
     
     enum PageState{
         case login
@@ -49,9 +50,9 @@ class LoginViewController: LJBaseViewController {
         self.view.backgroundColor = .white
         
         self.view.addSubview(loginTitleL)
-        loginTitleL.text = "登录"
-        loginTitleL.font = UIFont.systemFont(ofSize: WidthScale(18))
-        loginTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        loginTitleL.text = "こ ん に ち は"
+        loginTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(30))
+        loginTitleL.textColor = HEXCOLOR(h: 0xFFC0CB, alpha: 1.0)
         loginTitleL.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(WidthScale(42) + StatusBarHeight)
             make.centerX.equalToSuperview()
@@ -62,18 +63,21 @@ class LoginViewController: LJBaseViewController {
         cardContentV.layer.masksToBounds = false
         cardContentV.layer.cornerRadius = WidthScale(10)
         cardContentV.layer.shadowRadius = WidthScale(10)
-        cardContentV.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.8).cgColor
+        cardContentV.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.5).cgColor
         cardContentV.layer.shadowOpacity = 1.0
-        cardContentV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-        cardContentV.layer.borderWidth = WidthScale(1)
+//        cardContentV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
+//        cardContentV.layer.borderWidth = WidthScale(1)
         cardContentV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(404)))
-            make.top.equalTo(loginTitleL.snp.bottom).offset(WidthScale(64))
+            make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
+            make.top.equalTo(loginTitleL.snp.bottom).offset(WidthScale(100))
             make.centerX.equalToSuperview()
         }
         
         cardContentV.addSubview(avatarImgV)
-        avatarImgV.backgroundColor = .gray
+//        avatarImgV.backgroundColor = .gray
+        avatarImgV.image = UIImage(named: "avatar")
+        avatarImgV.isUserInteractionEnabled = true
+        avatarImgV.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarTapAction)))
         avatarImgV.layer.cornerRadius = WidthScale(45)
         avatarImgV.snp.makeConstraints { (make) in
             make.width.height.equalTo(WidthScale(90))
@@ -82,7 +86,6 @@ class LoginViewController: LJBaseViewController {
         }
         
         cardContentV.addSubview(nickNameV)
-        nickNameV.isHidden = true
         nickNameV.layer.borderWidth = WidthScale(1)
         nickNameV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
         nickNameV.layer.cornerRadius = WidthScale(20)
@@ -93,85 +96,28 @@ class LoginViewController: LJBaseViewController {
         }
         
         nickNameV.addSubview(nickNameTF)
-        nickNameTF.placeholder = "昵称"
-        nickNameTF.font = UIFont.systemFont(ofSize: WidthScale(14))
+        nickNameTF.placeholder = "起个好听的昵称吧"
+        nickNameTF.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(16))
         nickNameTF.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        nickNameTF.textAlignment = .center
         nickNameTF.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview().inset(WidthScale(30))
             make.centerY.equalToSuperview()
         }
         
-        cardContentV.addSubview(accountV)
-        accountV.layer.borderWidth = WidthScale(1)
-        accountV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-        accountV.layer.cornerRadius = WidthScale(20)
-        accountV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-            make.top.equalTo(avatarImgV.snp.bottom).offset(WidthScale(30))
-            make.centerX.equalToSuperview()
-        }
-        
-        accountV.addSubview(accountTF)
-        accountTF.placeholder = "账号"
-        accountTF.font = UIFont.systemFont(ofSize: WidthScale(14))
-        accountTF.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-        accountTF.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(WidthScale(30))
-            make.centerY.equalToSuperview()
-        }
-        
-        cardContentV.addSubview(passwordV)
-        passwordV.layer.borderWidth = WidthScale(1)
-        passwordV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-        passwordV.layer.cornerRadius = WidthScale(20)
-        passwordV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-            make.top.equalTo(accountV.snp.bottom).offset(WidthScale(10))
-            make.centerX.equalToSuperview()
-        }
-        
-        passwordV.addSubview(passwordTF)
-        passwordTF.placeholder = "密码"
-        passwordTF.keyboardType = .asciiCapable
-        passwordTF.isSecureTextEntry = true
-        passwordTF.font = UIFont.systemFont(ofSize: WidthScale(14))
-        passwordTF.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-        passwordTF.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(WidthScale(30))
-            make.centerY.equalToSuperview()
-        }
-        
-        forgetPWBtn.setTitle("忘记密码?", for: .normal)
-        forgetPWBtn.titleLabel?.font = UIFont.systemFont(ofSize: WidthScale(12))
-        forgetPWBtn.setTitleColor(HEXCOLOR(h: mainGray, alpha: 1.0), for: .normal)
-        cardContentV.addSubview(forgetPWBtn)
-        forgetPWBtn.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().inset(WidthScale(74))
-            make.top.equalTo(passwordV.snp.bottom).offset(WidthScale(10))
-        }
-        
         cardContentV.addSubview(loginBtn)
-        loginBtn.setTitle("登录", for: .normal)
-        loginBtn.setTitleColor(.white, for: .normal)
-        loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: WidthScale(18))
-        loginBtn.backgroundColor = HEXCOLOR(h: mainColor, alpha: 1.0)
+        loginBtn.setTitle("确定", for: .normal)
+        loginBtn.setTitleColor(HEXCOLOR(h: 0xD2691E, alpha: 1.0), for: .normal)
+        loginBtn.titleLabel?.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(18))
+        loginBtn.backgroundColor = HEXCOLOR(h: 0xFFC0CB, alpha: 1.0)
+        loginBtn.addOncePressAnimation()
         loginBtn.layer.masksToBounds = true
         loginBtn.layer.cornerRadius = WidthScale(20)
         loginBtn.addTarget(self, action: #selector(LoginAction), for: .touchUpInside)
         loginBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalTo(forgetPWBtn.snp.bottom).offset(WidthScale(20))
+            make.top.equalTo(nickNameV.snp.bottom).offset(WidthScale(20))
             make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-        }
-        
-        switchLoginRegistBtn.setTitle("新用户? 点击这里注册", for: .normal)
-        switchLoginRegistBtn.titleLabel?.font = UIFont.systemFont(ofSize: WidthScale(12))
-        switchLoginRegistBtn.setTitleColor(HEXCOLOR(h: mainGray, alpha: 1.0), for: .normal)
-        switchLoginRegistBtn.addTarget(self, action: #selector(switchLoginRegistAction), for: .touchUpInside)
-        self.view.addSubview(switchLoginRegistBtn)
-        switchLoginRegistBtn.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(WidthScale(27) + IPHONEX_BH)
         }
         
     }
@@ -182,82 +128,43 @@ class LoginViewController: LJBaseViewController {
         self.view.endEditing(true)
     }
     
-    /// 切换登录注册模式
-    @objc func switchLoginRegistAction(){
-        switch pageState {
-        case .login:
-            loginTitleL.text = "注册"
-            pageState = .regist
-            UIView.animate(withDuration: 0.3, animations: {
-                self.cardContentV.snp.remakeConstraints { (make) in
-                    make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(428)))
-                    make.top.equalTo(self.loginTitleL.snp.bottom).offset(WidthScale(64))
-                    make.centerX.equalToSuperview()
-                }
-                self.nickNameV.isHidden = false
-                self.accountV.snp.remakeConstraints { (make) in
-                    make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-                    make.top.equalTo(self.nickNameV.snp.bottom).offset(WidthScale(10))
-                    make.centerX.equalToSuperview()
-                }
-                self.forgetPWBtn.isHidden = true
-                self.loginBtn.setTitle("注册", for: .normal)
-                self.loginBtn.snp.remakeConstraints { (make) in
-                    make.centerX.equalToSuperview()
-                    make.top.equalTo(self.passwordV.snp.bottom).offset(WidthScale(30))
-                    make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-                }
-                self.switchLoginRegistBtn.setTitle("已经有账号了？点击登录", for: .normal)
-                self.view.layoutIfNeeded()
-            }, completion: nil)
-        case .regist:
-            loginTitleL.text = "登录"
-            pageState = .login
-            UIView.animate(withDuration: 0.3, animations: {
-                self.cardContentV.snp.remakeConstraints { (make) in
-                    make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(404)))
-                    make.top.equalTo(self.loginTitleL.snp.bottom).offset(WidthScale(64))
-                    make.centerX.equalToSuperview()
-                }
-                self.nickNameV.isHidden = true
-                self.accountV.snp.remakeConstraints { (make) in
-                    make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-                    make.top.equalTo(self.avatarImgV.snp.bottom).offset(WidthScale(30))
-                    make.centerX.equalToSuperview()
-                }
-                self.forgetPWBtn.isHidden = false
-                self.loginBtn.setTitle("登录", for: .normal)
-                self.loginBtn.snp.remakeConstraints { (make) in
-                    make.centerX.equalToSuperview()
-                    make.top.equalTo(self.forgetPWBtn.snp.bottom).offset(WidthScale(20))
-                    make.size.equalTo(CGSize(width: WidthScale(208), height: WidthScale(46)))
-                }
-                self.switchLoginRegistBtn.setTitle("新用户? 点击这里注册", for: .normal)
-                self.view.layoutIfNeeded()
-            }, completion: nil)
+    @objc func avatarTapAction(){
+        let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
+        imgPickerVC.allowCrop = true
+        imgPickerVC.needCircleCrop = true
+        imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
+            if let weakSelf = self{
+                weakSelf.avatarImgV.image = imgs?[0]
+            }
         }
+        self.present(imgPickerVC, animated: true, completion: nil)
     }
     
     @objc func LoginAction(){
-//        if let tabbarCtrl = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController{
-//            tabbarCtrl.selectedIndex = 0
-//            if let firstNav = tabbarCtrl.selectedViewController as? UINavigationController{
-//                firstNav.popToRootViewController(animated: false)
-//            }
-//        }else{
-        let tabbarVC = MainTabBarController()
-        let navContrller = UINavigationController.init(rootViewController: tabbarVC)
-        navContrller.modalPresentationStyle = .fullScreen
-        navContrller.modalTransitionStyle = .flipHorizontal
-        self.present(navContrller, animated: true, completion: nil)
-//        }
+        if nickNameTF.text == ""{
+            let pulse = CASpringAnimation(keyPath: "position.x")
+            pulse.damping = 10;
+            pulse.stiffness = 100;
+            pulse.mass = 1;
+            pulse.initialVelocity = 0;
+            pulse.fromValue = nickNameV.layer.position.x - 20
+            pulse.toValue = nickNameV.layer.position.x
+            pulse.duration = pulse.settlingDuration
+            nickNameV.layer.add(pulse, forKey: nil)
+        }else{
+            let tabbarVC = LJMainTabBarViewController()
+            let navContrller = UINavigationController.init(rootViewController: tabbarVC)
+            navContrller.modalPresentationStyle = .fullScreen
+            navContrller.modalTransitionStyle = .flipHorizontal
+            self.present(navContrller, animated: true, completion: nil)
+        }
     }
     //MARK: - 键盘监听
     override func keyboardWillHide(notification: NSNotification) {
         super.keyboardWillHide(notification: notification)
         UIView.animate(withDuration: 0.3, animations: {
             self.cardContentV.snp.remakeConstraints { (make) in
-                make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(428)))
+                make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
                 make.top.equalTo(self.loginTitleL.snp.bottom).offset(WidthScale(64))
                 make.centerX.equalToSuperview()
             }
@@ -270,7 +177,7 @@ class LoginViewController: LJBaseViewController {
         super.keyboardWillShow(notification: notification)
         UIView.animate(withDuration: 0.3, animations: {
             self.cardContentV.snp.remakeConstraints { (make) in
-                make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(428)))
+                make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
                 make.bottom.equalToSuperview().inset(self.keyBoardHeight)
                 make.centerX.equalToSuperview()
             }

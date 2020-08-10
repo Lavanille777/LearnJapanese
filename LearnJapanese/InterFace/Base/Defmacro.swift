@@ -25,8 +25,7 @@ var isiPhoneX: Bool {
     guard #available(iOS 11.0, *) else {
         return false
     }
-    let isX = UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
-    return isX
+    return UIApplication.shared.windows[0].safeAreaInsets.bottom > 0
 }
 
 /// 状态栏高度 44.0 20.0

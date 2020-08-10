@@ -90,7 +90,6 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        Dprint(scrollView.contentOffset)
         if let colV = scrollView as? UICollectionView{
 //            for cell in colV.visibleCells as! [LJMainCollectionViewCell]{
 //                if let indexPath = colV.indexPath(for: cell), let layoutAttri = colV.layoutAttributesForItem(at: indexPath){

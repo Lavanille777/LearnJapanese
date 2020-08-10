@@ -29,6 +29,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     var replaceInteractivePopTransition: LJPopInteractiveTransitioning = LJPopInteractiveTransitioning()
     
+    var isViewApear: Bool = false
     ///主视图表格
     lazy var mainTableView: UITableView = {
         let tableView = UITableView.init(frame: .zero, style: .grouped)
@@ -39,7 +40,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: IPHONEX_BH + WidthScale(20), right: 0)
+        tableView.contentInset = UIEdgeInsets(top: WidthScale(26 + (isiPhoneX ? 24 : 0)), left: 0, bottom: IPHONEX_BH + WidthScale(50), right: 0)
         tableView.backgroundColor = .clear
         tableView.register(LJMainTableViewCell.self, forCellReuseIdentifier: String(describing: LJMainTableViewCell.self))
         tableView.register(LJMainTableColVCell.self, forCellReuseIdentifier: String(describing: LJMainTableColVCell.self))
@@ -53,6 +54,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        isViewApear = true
         mainTableView.reloadData()
     }
     
@@ -108,7 +110,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         isScrooling = true
-        if scrollView is UITableView{
+        if scrollView is UITableView && isViewApear{
             if scrollView.contentOffset.y < -WidthScale(isiPhoneX ? 24 : 0){
                 self.floatView.isHidden = true
                 self.maskView.layer.mask = nil
