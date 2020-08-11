@@ -13,6 +13,8 @@ class UserModel: NSObject {
     @objc dynamic var id: Int = 0
     ///用户名
     @objc dynamic var userName: String = ""
+    ///用户头像
+    @objc dynamic var avatarURL: String = ""
     ///有没有计划
     @objc dynamic var havePlan: Bool = false
     ///目标等级

@@ -8,6 +8,8 @@
 import UIKit
 
 @_exported import SnapKit
+///沙盒DOC地址
+let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? ""
 
 ///用户信息
 var userInfo: UserModel = UserModel()
@@ -137,5 +139,6 @@ func Dprint<T>(_ message: T, filePath: String = #file, rowCount: Int = #line) {
         print("class:" + fileName + "  line:" + "\(rowCount)" + "  \(message)" + "\n")
     #endif
 }
+
 
 

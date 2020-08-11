@@ -37,6 +37,8 @@ class SQLManager: NSObject {
     static let id = Expression<Int>("id")
     ///用户名
     static let userName = Expression<String>("userName")
+    ///用户头像
+    static let avatarURL = Expression<String>("avatarURL")
     ///有没有计划
     static let havePlan = Expression<Bool>("havePlan")
     ///目标等级
@@ -218,6 +220,7 @@ class SQLManager: NSObject {
                     let model: UserModel = UserModel()
                     model.id = item[id]
                     model.userName = item[userName]
+                    model.avatarURL = item[avatarURL]
                     model.havePlan = item[havePlan]
                     model.targetLevel = item[targetLevel]
                     model.targetDate = item[targetDate]
@@ -237,7 +240,7 @@ class SQLManager: NSObject {
     static func updateUser(_ model: UserModel) -> Bool {
         do {
             let db = SQLManager.shared().db
-            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount, loginDate <- model.loginDate, todayWordsCount <- model.todayWordsCount, ensureTargetDate <- model.ensureTargetDate)
+            let update = SQLManager.shared().userTable.filter(id == model.id).update(userName <- model.userName, havePlan <- model.havePlan, targetLevel <- model.targetLevel, targetDate <- model.targetDate, rememberWordsCount <- model.rememberWordsCount, loginDate <- model.loginDate, todayWordsCount <- model.todayWordsCount, ensureTargetDate <- model.ensureTargetDate, avatarURL <- model.avatarURL)
             if let rowId = try db?.run(update){
                 return rowId > 0
             }
@@ -257,6 +260,7 @@ class SQLManager: NSObject {
                     let model: UserModel = UserModel()
                     model.id = item[id]
                     model.userName = item[userName]
+                    model.avatarURL = item[avatarURL]
                     model.havePlan = item[havePlan]
                     model.targetLevel = item[targetLevel]
                     model.targetDate = item[targetDate]

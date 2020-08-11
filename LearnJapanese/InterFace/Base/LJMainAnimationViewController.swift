@@ -42,8 +42,8 @@ class LJMainAnimationViewController: LJBaseViewController, UINavigationControlle
         }
         
         targetTitleL.tag = 100
-        targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(24))
-        targetTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
+        targetTitleL.textColor = HEXCOLOR(h: 0xA0522D, alpha: 1.0)
         view.addSubview(targetTitleL)
         targetTitleL.snp.remakeConstraints { (make) in
             make.left.equalToSuperview().inset(WidthScale(20))

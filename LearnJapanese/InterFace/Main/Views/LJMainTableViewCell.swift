@@ -73,8 +73,8 @@ class LJMainTableViewCell: UITableViewCell {
         }
         
         self.addSubview(titleL)
-        titleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
-        titleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        titleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
+        titleL.textColor = HEXCOLOR(h: 0xA0522D, alpha: 1.0)
         titleL.snp.makeConstraints { (make) in
             make.left.equalTo(bgImgV).inset(WidthScale(20))
             make.top.equalTo(bgImgV).inset(WidthScale(40))

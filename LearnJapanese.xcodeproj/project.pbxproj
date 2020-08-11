@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0104ED5E24E287BF00162FDE /* LJAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5D24E287BF00162FDE /* LJAlertView.swift */; };
+		0104ED6024E2A65400162FDE /* LJToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5F24E2A65400162FDE /* LJToastView.swift */; };
+		0104ED6224E2E64B00162FDE /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6124E2E64B00162FDE /* DispatchQueue.swift */; };
 		013114CD24CA926600B5C969 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013114CC24CA926600B5C969 /* UserModel.swift */; };
 		013114CF24CAC72D00B5C969 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 013114CE24CAC72D00B5C969 /* db.sqlite */; };
 		013114D224CAF11600B5C969 /* Hanzipen.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 013114D024CAED9600B5C969 /* Hanzipen.ttc */; };
@@ -53,6 +56,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0104ED5D24E287BF00162FDE /* LJAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertView.swift; sourceTree = "<group>"; };
+		0104ED5F24E2A65400162FDE /* LJToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJToastView.swift; sourceTree = "<group>"; };
+		0104ED6124E2E64B00162FDE /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		013114CC24CA926600B5C969 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		013114CE24CAC72D00B5C969 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		013114D024CAED9600B5C969 /* Hanzipen.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hanzipen.ttc; sourceTree = "<group>"; };
@@ -140,6 +146,9 @@
 				01895D6324CEAD5F001551C7 /* LJCycleProgressView.swift */,
 				01895D6524CFBE75001551C7 /* LJSpeechManager.swift */,
 				01895D6F24D01A43001551C7 /* UIViewControllerEx.swift */,
+				0104ED5D24E287BF00162FDE /* LJAlertView.swift */,
+				0104ED5F24E2A65400162FDE /* LJToastView.swift */,
+				0104ED6124E2E64B00162FDE /* DispatchQueue.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -183,10 +192,10 @@
 				0182A8AA24C8488800D691A3 /* Resource */,
 				0174D9DD246BE30700390CEF /* InterFace */,
 				0135EC8824752E6C00AF0F32 /* MainTabBarController.swift */,
+				0174D9D5246BCA6300390CEF /* Info.plist */,
 				0174D9C7246BCA6000390CEF /* AppDelegate.swift */,
 				0174D9C9246BCA6000390CEF /* SceneDelegate.swift */,
 				0174D9D2246BCA6300390CEF /* LaunchScreen.storyboard */,
-				0174D9D5246BCA6300390CEF /* Info.plist */,
 				0182A8B224C93FEA00D691A3 /* SQLManager.swift */,
 				0180B80824D7E5BB00128A5D /* LJTabbarView.swift */,
 				0180B80624D7E59300128A5D /* LJMainTabBarViewController.swift */,
@@ -399,6 +408,7 @@
 			files = (
 				01895D7024D01A43001551C7 /* UIViewControllerEx.swift in Sources */,
 				0174D9CC246BCA6000390CEF /* ViewController.swift in Sources */,
+				0104ED5E24E287BF00162FDE /* LJAlertView.swift in Sources */,
 				0182A8B124C936DE00D691A3 /* WordModel.swift in Sources */,
 				0182A8A924C7E6A700D691A3 /* LJNavigationBar.swift in Sources */,
 				01895D6624CFBE75001551C7 /* LJSpeechManager.swift in Sources */,
@@ -407,6 +417,7 @@
 				01895D6024CE6C71001551C7 /* LJMainAnimationViewController.swift in Sources */,
 				0182A8A324C6BFBF00D691A3 /* UIImageEx.swift in Sources */,
 				0135EC8D24764AD700AF0F32 /* LJMainTableViewCell.swift in Sources */,
+				0104ED6224E2E64B00162FDE /* DispatchQueue.swift in Sources */,
 				0174D9DC246BCC3A00390CEF /* Defmacro.swift in Sources */,
 				0135EC8924752E6C00AF0F32 /* MainTabBarController.swift in Sources */,
 				01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */,
@@ -416,6 +427,7 @@
 				0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */,
 				0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */,
 				0180B80924D7E5BB00128A5D /* LJTabbarView.swift in Sources */,
+				0104ED6024E2A65400162FDE /* LJToastView.swift in Sources */,
 				0174D9E0246BE9ED00390CEF /* LoginViewController.swift in Sources */,
 				0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */,
 				0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */,

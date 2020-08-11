@@ -110,10 +110,10 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                 make.left.equalToSuperview().inset(WidthScale(20))
             }
             fromVC.view.layoutIfNeeded()
-            if percentComplete > 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiRegular, size: WidthScale(24)){
-                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
-            }else if percentComplete < 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiRegular, size: WidthScale(20)){
-                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(24))
+            if percentComplete > 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiBold, size: WidthScale(24)){
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
+            }else if percentComplete < 0.4 && fromVC.targetTitleL.font == UIFont.init(name: FontYuanTiBold, size: WidthScale(20)){
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
             }
         }
     }
@@ -145,7 +145,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                         make.left.equalToSuperview().inset(WidthScale(20))
                         make.top.equalToSuperview().inset(NavPlusStatusH)
                     }
-                    fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(24))
+                    fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
                 }
             }, completion: {completed in
                 self.interactionInProgress = false
@@ -173,7 +173,7 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     make.centerY.equalToSuperview().offset(-WidthScale(8))
                     make.left.equalToSuperview().inset(WidthScale(20))
                 }
-                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
+                fromVC.targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
             }
             UIView.animate(withDuration: 0.2, animations: {
                 self.transitingView!.frame = self.targetRect

@@ -70,7 +70,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                         make.centerY.equalToSuperview().offset(-WidthScale(8))
                         make.left.equalToSuperview().inset(WidthScale(20))
                     }
-                    fromViewC.targetTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
+                    fromViewC.targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
                     fromViewC.view.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
                     //结束动画，否则会干扰下次动画

@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIView {
-
+    
     /// 添加渐变层
     ///
     /// - Parameters:
@@ -70,20 +70,18 @@ extension UIView {
     }
     
     @objc func oncePressAction(_ sender: UILongPressGestureRecognizer){
-//        if !isScrooling{
-            if sender.state == .began {
-                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
-                    self.transform = CGAffineTransform.init(scaleX: 0.9, y: 0.9)
-                }, completion: nil)
-
-            }
-            if sender.state == .ended || sender.state == .cancelled{
-                UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
-                    self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                }, completion: nil)
-
-            }
-//        }
+        if sender.state == .began {
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
+                self.transform = CGAffineTransform.init(scaleX: 0.9, y: 0.9)
+            }, completion: nil)
+            
+        }
+        if sender.state == .ended || sender.state == .cancelled{
+            UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseIn, animations: {
+                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }, completion: nil)
+            
+        }
     }
     
     @objc func pressAction(_ sender: UILongPressGestureRecognizer){
@@ -119,5 +117,60 @@ extension UIView {
         }
         return nil
     }
-
+    
+    class func makeToast(_ str: String){
+        
+        for view in LJToastView.shared().subviews{
+            view.removeFromSuperview()
+        }
+        
+        let mesL: UILabel = UILabel()
+        mesL.text = str
+        mesL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(16))
+        mesL.textColor = HEXCOLOR(h: 0xD2691E, alpha: 1.0)
+        mesL.numberOfLines = 0
+        LJToastView.shared().addSubview(mesL)
+        
+        mesL.snp.makeConstraints { (make) in
+            make.left.top.right.bottom.equalToSuperview().inset(WidthScale(10))
+        }
+        
+        if LJToastView.shared().superview == nil{
+            UIApplication.shared.windows[0].addSubview(LJToastView.shared())
+            LJToastView.shared().snp.remakeConstraints { (make) in
+                make.bottom.equalToSuperview().inset(WidthScale(80) + IPHONEX_BH)
+                make.centerX.equalToSuperview()
+                make.left.greaterThanOrEqualToSuperview().inset(WidthScale(20))
+                make.right.lessThanOrEqualToSuperview().inset(WidthScale(20))
+            }
+            LJToastView.shared().layoutIfNeeded()
+            LJToastView.shared().alpha = 0
+            LJToastView.shared().transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        }
+        
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+            LJToastView.shared().alpha = 1
+            LJToastView.shared().transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        }) { (finished) in
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+                LJToastView.shared().transform = CGAffineTransform(scaleX: 1, y: 1)
+            }) { (finished) in
+                let task = DispatchQueue.main.delay(2) {
+                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                        LJToastView.shared().alpha = 0
+                        LJToastView.shared().transform = CGAffineTransform(translationX: SCREEN_WIDTH, y: 0)
+                    }) { (finished) in
+                        LJToastView.shared().removeFromSuperview()
+                        LJToastView.shared().task = nil
+                    }
+                }
+                if let curTask = LJToastView.shared().task{
+                    DispatchQueue.main.cancel(curTask)
+                }
+                LJToastView.shared().task = task
+            }
+        }
+        
+    }
+    
 }

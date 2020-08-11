@@ -41,7 +41,7 @@ class LJMainTableHeaderView: UITableViewHeaderFooterView {
         self.addSubview(title2L)
         title2L.text = "千里の道も一歩から"
         title2L.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-        title2L.font = UIFont.boldSystemFont(ofSize: WidthScale(14))
+        title2L.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(14))
         title2L.snp.makeConstraints { (make) in
             make.left.equalToSuperview().inset(WidthScale(20))
             make.top.equalTo(title1L.snp.bottom).offset(WidthScale(10))

@@ -200,15 +200,23 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             vc.replaceInteractivePopTransition = replaceInteractivePopTransition
             self.navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = LearnNewWordViewController()
-            vc.popAnimation = dismissionTransition
-            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
-            self.navigationController?.pushViewController(vc, animated: true)
+            if userInfo.havePlan{
+                let vc = LearnNewWordViewController()
+                vc.popAnimation = dismissionTransition
+                vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                UIView.makeToast("需要先制定计划哦")
+            }
         case 3:
-            let vc = ReviewWordsViewController()
-            vc.popAnimation = dismissionTransition
-            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
-            self.navigationController?.pushViewController(vc, animated: true)
+            if userInfo.rememberWordsCount < 10{
+                UIView.makeToast("先记几个词再来吧，至少十个哦")
+            }else{
+                let vc = ReviewWordsViewController()
+                vc.popAnimation = dismissionTransition
+                vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 4:
             let vc = PlayDiceViewController()

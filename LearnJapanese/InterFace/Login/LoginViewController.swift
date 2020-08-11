@@ -25,21 +25,12 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
     ///昵称输入框
     var nickNameV: UIView = UIView()
     var nickNameTF: UITextField = UITextField()
-    ///账号输入框
-    var accountV: UIView = UIView()
-    var accountTF: UITextField = UITextField()
-    ///密码输入框
-    var passwordV: UIView = UIView()
-    var passwordTF: UITextField = UITextField()
-    ///忘记密码按钮
-    var forgetPWBtn: UIButton = UIButton()
     ///登录按钮
     var loginBtn: UIButton = UIButton()
-    ///注册按钮
-    var switchLoginRegistBtn: UIButton = UIButton()
     
     //MARK:- 私有数据
     var pageState: PageState = .login
+    var avatarImg: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,8 +65,13 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         }
         
         cardContentV.addSubview(avatarImgV)
-//        avatarImgV.backgroundColor = .gray
-        avatarImgV.image = UIImage(named: "avatar")
+        do {
+            try avatarImgV.image = UIImage(data: Data(contentsOf: URL.init(fileURLWithPath: "\(docPath)\(userInfo.avatarURL)")))
+        } catch let error {
+            Dprint(error)
+            avatarImgV.image = UIImage(named: "avatar")
+        }
+        
         avatarImgV.isUserInteractionEnabled = true
         avatarImgV.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarTapAction)))
         avatarImgV.layer.cornerRadius = WidthScale(45)
@@ -132,10 +128,10 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
         imgPickerVC.allowCrop = true
         imgPickerVC.cropRect = CGRect(x: 0, y: imgPickerVC.view.frame.midY - SCREEN_WIDTH/2, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
-        imgPickerVC.needCircleCrop = true
         imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
             if let weakSelf = self{
                 weakSelf.avatarImgV.image = imgs?[0]
+                weakSelf.avatarImg = imgs?[0]
             }
         }
         self.present(imgPickerVC, animated: true, completion: nil)
@@ -153,6 +149,21 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
             pulse.duration = pulse.settlingDuration
             nickNameV.layer.add(pulse, forKey: nil)
         }else{
+            userInfo.userName = nickNameTF.text!
+            if let avatarImg = avatarImg, let data = avatarImg.jpegData(compressionQuality: 1.0), let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last{
+                let url = URL.init(fileURLWithPath: "\(path)/avatar_\(userInfo.id).jpeg")
+                do {
+                    try data.write(to: url)
+                    userInfo.avatarURL = "/avatar_\(userInfo.id).jpeg"
+                    if SQLManager.updateUser(userInfo) {
+                        Dprint("用户数据更新成功")
+                    }else{
+                        Dprint("用户数据更新失败")
+                    }
+                } catch let error {
+                    Dprint("头像存储失败\(error)")
+                }
+            }
             let tabbarVC = LJMainTabBarViewController()
             let navContrller = UINavigationController.init(rootViewController: tabbarVC)
             navContrller.modalPresentationStyle = .fullScreen
