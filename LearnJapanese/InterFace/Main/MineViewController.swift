@@ -17,6 +17,8 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
     var avatarImgV: UIImageView = UIImageView()
     ///昵称
     var nickNameL: UILabel = UILabel()
+    ///修改昵称按钮
+    var changeNameBtn: UIButton = UIButton()
     ///坚持天数
     var daysCountL: UILabel = UILabel()
     ///卡片
@@ -93,13 +95,44 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
             make.centerY.equalTo(avatarImgV)
         }
         
+        cardV.addSubview(changeNameBtn)
+        changeNameBtn.setBackgroundImage(UIImage(named: "pen"), for: .normal)
+        changeNameBtn.addTarget(self, action: #selector(changeNameAction), for: .touchUpInside)
+        changeNameBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(nickNameL.snp.right).offset(WidthScale(20))
+            make.centerY.equalTo(nickNameL)
+            make.width.height.equalTo(WidthScale(20))
+        }
         
+        
+    }
+    
+    @objc func changeNameAction(){
+        let alert = LJAlertViewController(withInputPlaceHolder: "起个好听的昵称吧", title: "确定要修改昵称吗", confirmTitle: "确认", cancelTitle: "再想想", confirmed: { (alert) in
+            if let name = alert.inputTF.text, name.count > 0{
+                if name.count > 10{
+                    UIView.makeToast("昵称不能超过十个字哦")
+                }else{
+                    userInfo.userName = name
+                    self.nickNameL.text = name
+                    if SQLManager.updateUser(userInfo) {
+                        Dprint("用户数据更新成功")
+                    }else{
+                        Dprint("用户数据更新失败")
+                    }
+                }
+            }else{
+                UIView.makeToast("昵称不能为空哦")
+            }
+        }, canceled: nil)
+        alert.show()
     }
     
     
     @objc func avatarTapAction(){
         let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
         imgPickerVC.allowCrop = true
+        imgPickerVC.allowPickingVideo = false
         imgPickerVC.cropRect = CGRect(x: 0, y: imgPickerVC.view.frame.midY - SCREEN_WIDTH/2, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
         imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
             if let weakSelf = self{
@@ -121,7 +154,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
             }
         }
         
-        let alert = LJAlertView(withTitle: "确定要修改头像吗", confirmTitle: nil, cancelTitle: nil, confirmed: {
+        let alert = LJAlertViewController(withTitle: "确定要修改头像吗", confirmTitle: nil, cancelTitle: nil, confirmed: {(alert) in
             self.present(imgPickerVC, animated: true, completion: nil)
         }, canceled: nil)
         

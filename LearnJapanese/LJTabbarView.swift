@@ -61,6 +61,7 @@ class LJTabbarView: UIView {
     }
     
     @objc func tabbarItemAction(sender: UIButton){
+        
         let x = self.selBGView.frame.minX + (WidthScale(CGFloat(sender.tag * 86 + 28)) - self.selBGView.frame.minX) / 2
         if x != self.selBGView.frame.minX{
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {

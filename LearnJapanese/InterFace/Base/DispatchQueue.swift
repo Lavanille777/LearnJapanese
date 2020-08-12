@@ -9,7 +9,9 @@
 import UIKit
 
 extension DispatchQueue {
+    
     typealias Task = (_ cancel: Bool) -> Void
+    
     func delay(_ time: TimeInterval, task: @escaping ()->()) -> Task? {
         
         func dispatch_later(_ block: @escaping ()->()) {

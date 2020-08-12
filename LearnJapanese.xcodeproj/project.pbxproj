@@ -10,6 +10,7 @@
 		0104ED5E24E287BF00162FDE /* LJAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5D24E287BF00162FDE /* LJAlertView.swift */; };
 		0104ED6024E2A65400162FDE /* LJToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5F24E2A65400162FDE /* LJToastView.swift */; };
 		0104ED6224E2E64B00162FDE /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6124E2E64B00162FDE /* DispatchQueue.swift */; };
+		0104ED6424E438A100162FDE /* LJAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6324E438A100162FDE /* LJAlertViewController.swift */; };
 		013114CD24CA926600B5C969 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013114CC24CA926600B5C969 /* UserModel.swift */; };
 		013114CF24CAC72D00B5C969 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 013114CE24CAC72D00B5C969 /* db.sqlite */; };
 		013114D224CAF11600B5C969 /* Hanzipen.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 013114D024CAED9600B5C969 /* Hanzipen.ttc */; };
@@ -59,6 +60,7 @@
 		0104ED5D24E287BF00162FDE /* LJAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertView.swift; sourceTree = "<group>"; };
 		0104ED5F24E2A65400162FDE /* LJToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJToastView.swift; sourceTree = "<group>"; };
 		0104ED6124E2E64B00162FDE /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
+		0104ED6324E438A100162FDE /* LJAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertViewController.swift; sourceTree = "<group>"; };
 		013114CC24CA926600B5C969 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		013114CE24CAC72D00B5C969 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		013114D024CAED9600B5C969 /* Hanzipen.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hanzipen.ttc; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 				0104ED5D24E287BF00162FDE /* LJAlertView.swift */,
 				0104ED5F24E2A65400162FDE /* LJToastView.swift */,
 				0104ED6124E2E64B00162FDE /* DispatchQueue.swift */,
+				0104ED6324E438A100162FDE /* LJAlertViewController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				017EC2E524BC3E29003364D5 /* LJMainCollectionViewCell.swift in Sources */,
 				0135EC8B24761F4000AF0F32 /* LJMainViewController.swift in Sources */,
 				0180B80524D416AE00128A5D /* MineViewController.swift in Sources */,
+				0104ED6424E438A100162FDE /* LJAlertViewController.swift in Sources */,
 				0182A8A124C6921B00D691A3 /* LJPushTransitionAnimator.swift in Sources */,
 				017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */,
 				0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */,

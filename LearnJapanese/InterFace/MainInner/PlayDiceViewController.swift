@@ -20,8 +20,8 @@ class PlayDiceViewController: LJMainAnimationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.targetTitleL.text = "玩骰子"
-            
-         addDice()
+        
+        addDice()
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(viewTransform))
         diceView.addGestureRecognizer(panGesture)

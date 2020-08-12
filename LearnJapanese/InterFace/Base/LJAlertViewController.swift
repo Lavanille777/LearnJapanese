@@ -1,14 +1,15 @@
 //
-//  LJAlertView.swift
+//  LJAlertViewController.swift
 //  LearnJapanese
 //
-//  Created by 唐星宇 on 2020/8/11.
+//  Created by 唐星宇 on 2020/8/12.
 //  Copyright © 2020 唐星宇. All rights reserved.
 //
 
 import UIKit
 
-class LJAlertView: UIView {
+class LJAlertViewController: LJBaseViewController {
+    
     ///背景遮罩
     var bgView: UIView = UIView()
     ///弹框
@@ -30,16 +31,18 @@ class LJAlertView: UIView {
     ///提示信息
     var titleL: UILabel = UILabel()
     
-    var confirmBlk: ((LJAlertView)->())?
+    var confirmBlk: ((LJAlertViewController)->())?
     var cancelBlk: (()->())?
-    
-    private override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        
     }
     
-    init(withTitle title: String, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertView)->())?, canceled: (()->())?){
-        super.init(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
-        
+    init(withTitle title: String, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertViewController)->())?, canceled: (()->())?){
+        super.init(nibName: nil, bundle: nil)
+        self.view.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         titleL.text = title
         confirmBlk = confirmed
         cancelBlk = canceled
@@ -50,8 +53,9 @@ class LJAlertView: UIView {
         setupUI()
     }
     
-    init(withInputPlaceHolder placeHolder: String, title: String, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertView)->())?, canceled: (()->())?){
-        super.init(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT))
+    init(withInputPlaceHolder placeHolder: String, title: String, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertViewController)->())?, canceled: (()->())?){
+        super.init(nibName: nil, bundle: nil)
+        self.view.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         inputTF.placeholder = placeHolder
         titleL.text = title
         confirmBlk = confirmed
@@ -95,7 +99,7 @@ class LJAlertView: UIView {
     }
     
     func setupUI() {
-        self.addSubview(bgView)
+        view.addSubview(bgView)
         bgView.backgroundColor = HEXCOLOR(h: 0x000000, alpha: 0.2)
         bgView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -169,9 +173,10 @@ class LJAlertView: UIView {
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
             self.bgView.alpha = 0
             self.alertCard.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            self.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }) { (finised) in
-            self.removeFromSuperview()
+            self.removeFromParent()
+            self.view.removeFromSuperview()
             if let blk = self.confirmBlk{
                 blk(self)
             }
@@ -183,9 +188,10 @@ class LJAlertView: UIView {
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
             self.bgView.alpha = 0
             self.alertCard.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            self.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }) { (finised) in
-            self.removeFromSuperview()
+            self.removeFromParent()
+            self.view.removeFromSuperview()
             if let blk = self.cancelBlk{
                 blk()
             }
@@ -195,17 +201,45 @@ class LJAlertView: UIView {
     func show(){
         bgView.alpha = 0
         alertCard.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIViewController.getCurrentViewCtrl().view.addSubview(self)
-        self.layoutIfNeeded()
+        UIViewController.getCurrentViewCtrl().view.addSubview(view)
+        UIViewController.getCurrentViewCtrl().addChild(self)
+        view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
             self.bgView.alpha = 0.5
             self.alertCard.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            self.layoutIfNeeded()
+            self.view.layoutIfNeeded()
         }) { (finised) in
             UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
                 self.bgView.alpha = 1
                 self.alertCard.transform = CGAffineTransform(scaleX: 1, y: 1)
-                self.layoutIfNeeded()
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+    
+    //MARK: - 键盘监听
+    override func keyboardWillHide(notification: NSNotification) {
+        super.keyboardWillHide(notification: notification)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alertCard.snp.remakeConstraints { (make) in
+                make.center.equalToSuperview()
+                make.size.equalTo(self.alertCard.bounds.size)
+            }
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+
+    }
+    
+    override func keyboardWillShow(notification: NSNotification) {
+        super.keyboardWillShow(notification: notification)
+        if SCREEN_HEIGHT - alertCard.frame.maxY < keyBoardHeight{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertCard.snp.remakeConstraints { (make) in
+                    make.size.equalTo(self.alertCard.bounds.size)
+                    make.centerX.equalToSuperview()
+                    make.bottom.equalToSuperview().inset(self.keyBoardHeight)
+                }
+                self.view.layoutIfNeeded()
             }, completion: nil)
         }
     }

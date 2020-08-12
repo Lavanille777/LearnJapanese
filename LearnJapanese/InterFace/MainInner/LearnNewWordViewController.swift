@@ -38,7 +38,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     ///今日已记忆数
     var todayCountL: UILabel = UILabel()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -58,8 +58,8 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.5).cgColor
         wordCard.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         wordCard.layer.shadowOpacity = 1.0
-//        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-//        wordCard.layer.borderWidth = WidthScale(1)
+        //        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
+        //        wordCard.layer.borderWidth = WidthScale(1)
         wordCard.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
             make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)   //这里用StatusBarHeight只是因为简单。。
@@ -175,6 +175,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
             progressCount += 1
             progressView.setProgress(progress: CGFloat(Double(progressCount) * 0.1), time: 0.2, animate: true)
             userInfo.todayWordsCount += 1
+            userInfo.rememberWordsCount += 1
             randomWord.isRemembered = true
             if SQLManager.updateUser(userInfo) && SQLManager.updateWord(randomWord){
                 Dprint("更新数据库成功")
@@ -249,5 +250,5 @@ class LearnNewWordViewController: LJMainAnimationViewController {
             }
         }
     }
-
+    
 }

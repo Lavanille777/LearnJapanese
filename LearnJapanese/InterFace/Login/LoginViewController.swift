@@ -37,6 +37,22 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         setupUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        cardContentV.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        cardContentV.alpha = 0
+        UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseIn, animations: {
+            self.cardContentV.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.cardContentV.alpha = 0.5
+        }) { (finished) in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.cardContentV.transform = CGAffineTransform(scaleX: 1, y: 1)
+                self.cardContentV.alpha = 1
+            }) { (finished) in
+                
+            }
+        }
+    }
+    
     func setupUI(){
         self.view.backgroundColor = .white
         
@@ -127,6 +143,7 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
     @objc func avatarTapAction(){
         let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
         imgPickerVC.allowCrop = true
+        imgPickerVC.allowPickingVideo = false
         imgPickerVC.cropRect = CGRect(x: 0, y: imgPickerVC.view.frame.midY - SCREEN_WIDTH/2, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
         imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
             if let weakSelf = self{
@@ -148,6 +165,8 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
             pulse.toValue = nickNameV.layer.position.x
             pulse.duration = pulse.settlingDuration
             nickNameV.layer.add(pulse, forKey: nil)
+        }else if nickNameTF.text!.count > 10{
+            UIView.makeToast("昵称不能超过十个字哦")
         }else{
             userInfo.userName = nickNameTF.text!
             if let avatarImg = avatarImg, let data = avatarImg.jpegData(compressionQuality: 1.0), let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last{
@@ -187,13 +206,15 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
     
     override func keyboardWillShow(notification: NSNotification) {
         super.keyboardWillShow(notification: notification)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.cardContentV.snp.remakeConstraints { (make) in
-                make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
-                make.bottom.equalToSuperview().inset(self.keyBoardHeight)
-                make.centerX.equalToSuperview()
-            }
-            self.view.layoutIfNeeded()
-        }, completion: nil)
+        if SCREEN_HEIGHT - cardContentV.frame.maxY < keyBoardHeight{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.cardContentV.snp.remakeConstraints { (make) in
+                    make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
+                    make.bottom.equalToSuperview().inset(self.keyBoardHeight)
+                    make.centerX.equalToSuperview()
+                }
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
     }
 }

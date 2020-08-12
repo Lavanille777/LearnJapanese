@@ -126,7 +126,7 @@ extension UIView {
         
         let mesL: UILabel = UILabel()
         mesL.text = str
-        mesL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(16))
+        mesL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(16))
         mesL.textColor = HEXCOLOR(h: 0xD2691E, alpha: 1.0)
         mesL.numberOfLines = 0
         LJToastView.shared().addSubview(mesL)
@@ -148,26 +148,36 @@ extension UIView {
             LJToastView.shared().transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }
         
-        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
+        if let curTask = LJToastView.shared().task{
+            DispatchQueue.main.cancel(curTask)
+        }
+        
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
             LJToastView.shared().alpha = 1
             LJToastView.shared().transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }) { (finished) in
-            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut, animations: {
-                LJToastView.shared().transform = CGAffineTransform(scaleX: 1, y: 1)
-            }) { (finished) in
-                let task = DispatchQueue.main.delay(2) {
-                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                        LJToastView.shared().alpha = 0
-                        LJToastView.shared().transform = CGAffineTransform(translationX: SCREEN_WIDTH, y: 0)
-                    }) { (finished) in
-                        LJToastView.shared().removeFromSuperview()
-                        LJToastView.shared().task = nil
+            if finished{
+                UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
+                    LJToastView.shared().transform = CGAffineTransform(scaleX: 1, y: 1)
+                }) { (finished) in
+                    if finished{
+                        if let curTask = LJToastView.shared().task{
+                            DispatchQueue.main.cancel(curTask)
+                        }
+                        let task = DispatchQueue.main.delay(2) {
+                            LJToastView.shared().task = nil
+                            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                                LJToastView.shared().alpha = 0
+                                LJToastView.shared().transform = CGAffineTransform(translationX: SCREEN_WIDTH, y: 0)
+                            }) { (finished) in
+                                LJToastView.shared().removeFromSuperview()
+                            }
+                        }
+                        LJToastView.shared().task = task
+                    }else{
+                        Dprint("动画未结束")
                     }
                 }
-                if let curTask = LJToastView.shared().task{
-                    DispatchQueue.main.cancel(curTask)
-                }
-                LJToastView.shared().task = task
             }
         }
         
