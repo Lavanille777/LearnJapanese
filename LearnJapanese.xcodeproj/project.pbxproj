@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0104ED5E24E287BF00162FDE /* LJAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5D24E287BF00162FDE /* LJAlertView.swift */; };
 		0104ED6024E2A65400162FDE /* LJToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED5F24E2A65400162FDE /* LJToastView.swift */; };
 		0104ED6224E2E64B00162FDE /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6124E2E64B00162FDE /* DispatchQueue.swift */; };
 		0104ED6424E438A100162FDE /* LJAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6324E438A100162FDE /* LJAlertViewController.swift */; };
+		0104ED6624E51B3C00162FDE /* MineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6524E51B3C00162FDE /* MineCollectionViewCell.swift */; };
 		013114CD24CA926600B5C969 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013114CC24CA926600B5C969 /* UserModel.swift */; };
 		013114CF24CAC72D00B5C969 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 013114CE24CAC72D00B5C969 /* db.sqlite */; };
 		013114D224CAF11600B5C969 /* Hanzipen.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 013114D024CAED9600B5C969 /* Hanzipen.ttc */; };
@@ -57,10 +57,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0104ED5D24E287BF00162FDE /* LJAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertView.swift; sourceTree = "<group>"; };
 		0104ED5F24E2A65400162FDE /* LJToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJToastView.swift; sourceTree = "<group>"; };
 		0104ED6124E2E64B00162FDE /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		0104ED6324E438A100162FDE /* LJAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertViewController.swift; sourceTree = "<group>"; };
+		0104ED6524E51B3C00162FDE /* MineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCollectionViewCell.swift; sourceTree = "<group>"; };
 		013114CC24CA926600B5C969 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		013114CE24CAC72D00B5C969 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		013114D024CAED9600B5C969 /* Hanzipen.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hanzipen.ttc; sourceTree = "<group>"; };
@@ -148,7 +148,6 @@
 				01895D6324CEAD5F001551C7 /* LJCycleProgressView.swift */,
 				01895D6524CFBE75001551C7 /* LJSpeechManager.swift */,
 				01895D6F24D01A43001551C7 /* UIViewControllerEx.swift */,
-				0104ED5D24E287BF00162FDE /* LJAlertView.swift */,
 				0104ED5F24E2A65400162FDE /* LJToastView.swift */,
 				0104ED6124E2E64B00162FDE /* DispatchQueue.swift */,
 				0104ED6324E438A100162FDE /* LJAlertViewController.swift */,
@@ -164,6 +163,7 @@
 				017EC2D924B5BE3B003364D5 /* LJMainTableFloatView.swift */,
 				017EC2E424BC3E29003364D5 /* LJMainCollectionViewCell.swift */,
 				0182A89E24C5743000D691A3 /* LJMainTableColVCell.swift */,
+				0104ED6524E51B3C00162FDE /* MineCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -411,7 +411,6 @@
 			files = (
 				01895D7024D01A43001551C7 /* UIViewControllerEx.swift in Sources */,
 				0174D9CC246BCA6000390CEF /* ViewController.swift in Sources */,
-				0104ED5E24E287BF00162FDE /* LJAlertView.swift in Sources */,
 				0182A8B124C936DE00D691A3 /* WordModel.swift in Sources */,
 				0182A8A924C7E6A700D691A3 /* LJNavigationBar.swift in Sources */,
 				01895D6624CFBE75001551C7 /* LJSpeechManager.swift in Sources */,
@@ -449,6 +448,7 @@
 				017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */,
 				0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */,
 				017EC2DA24B5BE3B003364D5 /* LJMainTableFloatView.swift in Sources */,
+				0104ED6624E51B3C00162FDE /* MineCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,7 +598,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -620,7 +620,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

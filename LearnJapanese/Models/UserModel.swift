@@ -29,4 +29,16 @@ class UserModel: NSObject {
     @objc dynamic var loginDate: Date = Date()
     ///今日单词记忆量
     @objc dynamic var todayWordsCount: Int = 0
+    ///单词总量
+    var wordsCount: Int{
+        get{
+            return (8 - targetLevel) * 1000
+        }
+    }
+    ///平均每日单词记忆量
+    var averageWordsCount: Int{
+        get{
+            return (wordsCount / Int((targetDate.timeIntervalSince1970 - ensureTargetDate.timeIntervalSince1970) / 86400))
+        }
+    }
 }

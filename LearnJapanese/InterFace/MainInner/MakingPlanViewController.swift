@@ -34,6 +34,20 @@ class MakingPlanViewController: LJMainAnimationViewController {
     ///选中的按钮
     var selectedBtn: UIButton?{
         didSet{
+            if oldValue == nil{
+                self.examnationTimeTitleL.isHidden = false
+                self.examnationTimeV.isHidden = false
+                self.examnationTimeL.isHidden = false
+                self.examnationTimeTitleL.alpha = 0
+                self.examnationTimeV.alpha = 0
+                self.examnationTimeL.alpha = 0
+                UIView.animate(withDuration: 1) {
+                    self.examnationTimeTitleL.alpha = 1
+                    self.examnationTimeV.alpha = 1
+                    self.examnationTimeL.alpha = 1
+                    self.view.layoutIfNeeded()
+                }
+            }
             planChanged()
         }
     }
@@ -67,6 +81,8 @@ class MakingPlanViewController: LJMainAnimationViewController {
         
         initLevelBtns()
         
+        examnationTimeTitleL.isHidden = true
+        examnationTimeTitleL.alpha = 0
         examnationTimeTitleL.text = "选择考试时间"
         examnationTimeTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
         examnationTimeTitleL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(20))
@@ -77,6 +93,8 @@ class MakingPlanViewController: LJMainAnimationViewController {
         }
         
         view.addSubview(examnationTimeV)
+        examnationTimeV.isHidden = true
+        examnationTimeV.alpha = 0
         examnationTimeV.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showDatePicker)))
         examnationTimeV.layer.borderColor = HEXCOLOR(h: 0x949494, alpha: 1.0).cgColor
         examnationTimeV.layer.borderWidth = WidthScale(1)
@@ -99,12 +117,14 @@ class MakingPlanViewController: LJMainAnimationViewController {
         generatingPlansTitleL.text = "先确定一个目标和期限吧"
         generatingPlansTitleL.numberOfLines = 0
         generatingPlansTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-        generatingPlansTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
+        generatingPlansTitleL.font = UIFont(name: FontYuanTiBold, size: WidthScale(20))
         generatingPlansTitleL.snp.remakeConstraints { (make) in
-            make.top.equalTo(examnationTimeV.snp.bottom).offset(WidthScale(60))
-            make.left.equalTo(examnationTimeV)
+            make.top.equalToSuperview().offset(WidthScale(300))
+            make.left.equalTo(targetTitleL)
         }
         
+        examnationTimeL.alpha = 0
+        examnationTimeL.isHidden = true
         let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日";
         examnationTimeL.text = formatter.string(from: Date())
@@ -172,12 +192,12 @@ class MakingPlanViewController: LJMainAnimationViewController {
         view.addSubview(generatingPlansTitleL)
         let days = userInfo.targetDate.timeIntervalSinceNow / (3600 * 24)
         generatingPlansTitleL.numberOfLines = 0
-        generatingPlansTitleL.text = "你选择的是N\(userInfo.targetLevel)\n\n需要掌握\((7 - userInfo.targetLevel) * 1000)个词汇\n\n距离考试还剩下\(Int(days))天"
+        generatingPlansTitleL.text = "你选择的是N\(userInfo.targetLevel)\n\n需要掌握\(userInfo.wordsCount)个词汇\n\n距离考试还剩下\(Int(days))天"
         generatingPlansTitleL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
         generatingPlansTitleL.font = UIFont.boldSystemFont(ofSize: WidthScale(20))
         generatingPlansTitleL.alpha = 0
         generatingPlansTitleL.snp.remakeConstraints { (make) in
-            make.top.equalTo(targetTitleL.snp.bottom).offset(WidthScale(100))
+            make.top.equalToSuperview().offset(WidthScale(300))
             make.left.equalTo(targetTitleL)
         }
         view.layoutIfNeeded()
@@ -185,7 +205,7 @@ class MakingPlanViewController: LJMainAnimationViewController {
         UIView.animate(withDuration: 1) {
             self.generatingPlansTitleL.alpha = 1
             self.generatingPlansTitleL.snp.remakeConstraints { (make) in
-                make.top.equalTo(self.targetTitleL.snp.bottom).offset(WidthScale(60))
+                make.top.equalToSuperview().offset(WidthScale(300))
                 make.left.equalTo(self.targetTitleL)
             }
             self.view.layoutIfNeeded()
@@ -214,6 +234,7 @@ class MakingPlanViewController: LJMainAnimationViewController {
         let formatter: DateFormatter = DateFormatter()
         formatter.dateFormat = "yyyy年MM月dd日";
         let today: String = formatter.string(from: Date())
+        examnationTimeL.text = formatter.string(from: datePicker.date)
         
         if examnationTimeL.text == today{
             confirmPlanBtn.alpha = 0
@@ -223,7 +244,7 @@ class MakingPlanViewController: LJMainAnimationViewController {
             confirmPlanBtn.alpha = 0
             confirmPlanBtn.isHidden = false
             let days = datePicker.date.timeIntervalSinceNow / (3600 * 24)
-            generatingPlansTitleL.text = "你选择的是\(btn.titleLabel?.text ?? "")\n\n需要掌握\(btn.tag)个词汇\n\n距离考试还剩下\(Int(days))天"
+            generatingPlansTitleL.text = "你选择的是\(btn.titleLabel?.text ?? "")\n\n需要掌握\(btn.tag)个词汇\n\n距离考试还剩下\(Int(days))天\n\n平均每天记\(btn.tag/Int(days))个单词"
             UIView.animate(withDuration: 0.5) {
                 self.confirmPlanBtn.alpha = 1
             }
@@ -235,16 +256,16 @@ class MakingPlanViewController: LJMainAnimationViewController {
         
         generatingPlansTitleL.alpha = 0
         generatingPlansTitleL.snp.remakeConstraints { (make) in
-            make.top.equalTo(examnationTimeV.snp.bottom).offset(WidthScale(100))
-            make.left.equalTo(examnationTimeV)
+            make.top.equalToSuperview().offset(WidthScale(300))
+            make.left.equalTo(targetTitleL)
         }
         view.layoutIfNeeded()
         
         UIView.animate(withDuration: 1) {
             self.generatingPlansTitleL.alpha = 1
             self.generatingPlansTitleL.snp.remakeConstraints { (make) in
-                make.top.equalTo(self.examnationTimeV.snp.bottom).offset(WidthScale(60))
-                make.left.equalTo(self.examnationTimeV)
+                make.top.equalToSuperview().offset(WidthScale(300))
+                make.left.equalTo(self.targetTitleL)
             }
             self.view.layoutIfNeeded()
         }
@@ -252,11 +273,13 @@ class MakingPlanViewController: LJMainAnimationViewController {
     }
     
     @objc func confirmPlanBtnAciton(){
-        let alert = UIAlertController.init(title: userInfo.havePlan ? "确定要修改计划吗" : "提示" , message: userInfo.havePlan ?  "目前的计划会被清空哦" : "计划确定了吗", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (alert) in
+        let alert = LJAlertViewController(withTitle: userInfo.havePlan ? "确定要修改计划吗" : "计划确定了吗", alert: userInfo.havePlan ? "所有记录将被清空" : nil, confirmTitle: "确定", cancelTitle: "再想想", confirmed: { (alert) in
             if userInfo.havePlan{
                 userInfo.targetLevel = 0
                 userInfo.targetDate = Date()
+                userInfo.todayWordsCount = 0
+                userInfo.rememberWordsCount = 0
+                self.selectedBtn = nil
                 userInfo.havePlan = false
             }else{
                 userInfo.targetLevel = 8 - ((self.selectedBtn?.tag ?? 2000) / 1000)
@@ -278,13 +301,9 @@ class MakingPlanViewController: LJMainAnimationViewController {
             }else{
                 Dprint("更新失败")
             }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "再想想", style: .cancel, handler: { (_) in
-            
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
+        }, canceled: nil)
+
+        alert.show()
         
     }
     
@@ -307,8 +326,9 @@ class MakingPlanViewController: LJMainAnimationViewController {
     }
     
     @objc func showDatePicker(){
-        datePicker.minimumDate = Date()
-        datePicker.maximumDate = Date(timeInterval: 5 * 31536000, since: Date())    //最长五年
+        
+        datePicker.minimumDate = Date(timeInterval: TimeInterval(selectedBtn!.tag / 40 * 86400), since: Date()) //最多一天40个词
+        datePicker.maximumDate = Date(timeInterval: TimeInterval(selectedBtn!.tag * 86400), since: Date())    //最少一天1个词
         datePickerBgEffectV.contentView.addSubview(datePicker)
         datePicker.snp.remakeConstraints { (make) in
             make.bottom.left.right.equalToSuperview()

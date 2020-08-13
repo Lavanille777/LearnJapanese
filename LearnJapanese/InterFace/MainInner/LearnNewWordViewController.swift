@@ -115,7 +115,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         
         view.addSubview(progressL)
         progressL.font = UIFont(name: FontYuanTiBold, size: WidthScale(24))
-        progressL.text = "\(progressCount)/10"
+        progressL.text = "\(progressCount)/\(userInfo.averageWordsCount)"
         progressL.textColor = HEXCOLOR(h: 0x6495ED, alpha: 1.0)
         progressL.snp.makeConstraints { (make) in
             make.center.equalTo(progressView)
@@ -173,7 +173,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     @objc func switchWord(_ sender: UIButton){
         if sender.tag == 201{
             progressCount += 1
-            progressView.setProgress(progress: CGFloat(Double(progressCount) * 0.1), time: 0.2, animate: true)
+            progressView.setProgress(progress: CGFloat(progressCount) / CGFloat(userInfo.averageWordsCount), time: 0.2, animate: true)
             userInfo.todayWordsCount += 1
             userInfo.rememberWordsCount += 1
             randomWord.isRemembered = true
@@ -184,12 +184,12 @@ class LearnNewWordViewController: LJMainAnimationViewController {
             }
         }
         
-        if progressCount > 9{
-            let alert = UIAlertController(title: "要休息一下吗", message: "今天记了\(userInfo.todayWordsCount)个生词", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "再来10个", style: .default, handler: { (action) in
+        if progressCount >= userInfo.averageWordsCount{
+            let alert = UIAlertController(title: "要休息一下吗", message: "今天已经记了\(userInfo.todayWordsCount)个生词", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "再来\(userInfo.averageWordsCount)个", style: .default, handler: { (action) in
                 self.progressCount = 0
-                self.progressView.setProgress(progress: CGFloat(Double(self.progressCount) * 0.1), time: 0.2, animate: true)
-                self.progressL.text = "\(self.progressCount)/10"
+                self.progressView.setProgress(progress: 0, time: 0.5, animate: true)
+                self.progressL.text = "\(self.progressCount)/\(userInfo.averageWordsCount)"
             }))
             
             alert.addAction(UIAlertAction(title: "就这样吧", style: .cancel, handler: { (action) in
@@ -199,7 +199,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         }
         
         self.todayCountL.text = "今天记了\(userInfo.todayWordsCount)个生词"
-        self.progressL.text = "\(self.progressCount)/10"
+        self.progressL.text = "\(self.progressCount)/\(userInfo.averageWordsCount)"
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
             self.wordCard.transform = CGAffineTransform.init(rotationAngle: angleToRadian(-20) )

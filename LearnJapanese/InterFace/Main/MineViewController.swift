@@ -9,7 +9,8 @@
 import UIKit
 import TZImagePickerController
 
-class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate {
+class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     ///圆角背景
     var roundCornerBgV: UIView = UIView()
     ///头像
@@ -19,14 +20,41 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
     var nickNameL: UILabel = UILabel()
     ///修改昵称按钮
     var changeNameBtn: UIButton = UIButton()
-    ///坚持天数
-    var daysCountL: UILabel = UILabel()
     ///卡片
     var cardV: UIView = UIView()
+    ///卡片占位
+    var placeholderL: UILabel = UILabel()
     ///单词环形进度条
-    var wordsProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(50), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0x00BFFF, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0x6495ED, alpha: 1.0))
+    var wordsProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(45), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0x00BFFF, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0x6495ED, alpha: 1.0))
+    var wordsNumL: UILabel = UILabel()
+    var wordsTitleL: UILabel = UILabel()
+    
+    ///今日记忆进度条
+    var todaysProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(45), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0xFFC125, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0xFFC125, alpha: 1.0))
+    var todaysNumL: UILabel = UILabel()
+    var todaysTitleL: UILabel = UILabel()
+    
     ///考试环形进度条
-    var targetProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(50), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0xfa8c16, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0xfa8c16, alpha: 1.0))
+    var targetProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(45), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0xcc0000, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0xcc0000, alpha: 1.0))
+    var targetDaysL: UILabel = UILabel()
+    var targetTitleL: UILabel = UILabel()
+    
+    ///设置面板
+    lazy var mineCollectionView: UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.itemSize = CGSize(width: WidthScale(60), height: WidthScale(85))
+        flowLayout.minimumInteritemSpacing = WidthScale(20)
+        flowLayout.minimumLineSpacing = WidthScale(20)
+        flowLayout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+        collectionView.register(MineCollectionViewCell.self, forCellWithReuseIdentifier: "MineCollectionViewCell")
+        
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,9 +81,9 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
         cardV.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         cardV.layer.shadowOpacity = 1.0
         cardV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(233)))
+            make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(260)))
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(WidthScale(115))
+            make.top.equalToSuperview().inset(WidthScale(90))
         }
         
         cardV.addSubview(avatarV)
@@ -86,6 +114,15 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
             make.edges.equalToSuperview()
         }
         
+        cardV.addSubview(placeholderL)
+        placeholderL.text = "快去制定计划吧~"
+        placeholderL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
+        placeholderL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
+        placeholderL.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().inset(WidthScale(60))
+            make.centerX.equalToSuperview()
+        }
+        
         cardV.addSubview(nickNameL)
         nickNameL.text = userInfo.userName
         nickNameL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(26))
@@ -104,6 +141,100 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
             make.width.height.equalTo(WidthScale(20))
         }
         
+        cardV.addSubview(wordsProgressView)
+        wordsProgressView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(WidthScale(90))
+            make.left.equalToSuperview().inset(WidthScale(15))
+            make.bottom.equalToSuperview().inset(WidthScale(40))
+        }
+        
+        cardV.addSubview(wordsNumL)
+        wordsNumL.textColor = HEXCOLOR(h: 0x66ccff, alpha: 1.0)
+        wordsNumL.font = UIFont(name: FontYuanTiBold, size: WidthScale(18))
+        wordsNumL.snp.makeConstraints { (make) in
+            make.center.equalTo(wordsProgressView)
+        }
+        
+        cardV.addSubview(wordsTitleL)
+        wordsTitleL.textColor = HEXCOLOR(h: 0x66ccff, alpha: 1.0)
+        wordsTitleL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(12))
+        wordsTitleL.snp.makeConstraints { (make) in
+            make.centerX.equalTo(wordsProgressView)
+            make.top.equalTo(wordsProgressView.snp.bottom).offset(WidthScale(5))
+        }
+        
+        cardV.addSubview(todaysProgressView)
+        todaysProgressView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(WidthScale(90))
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(WidthScale(40))
+        }
+        
+        cardV.addSubview(todaysNumL)
+        todaysNumL.textColor = HEXCOLOR(h: 0xFFC125, alpha: 1.0)
+        todaysNumL.font = UIFont(name: FontYuanTiBold, size: WidthScale(18))
+        todaysNumL.snp.makeConstraints { (make) in
+            make.center.equalTo(todaysProgressView)
+        }
+        
+        cardV.addSubview(todaysTitleL)
+        todaysTitleL.textColor = HEXCOLOR(h: 0xFFC125, alpha: 1.0)
+        todaysTitleL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(12))
+        todaysTitleL.snp.makeConstraints { (make) in
+            make.centerX.equalTo(todaysProgressView)
+            make.top.equalTo(todaysProgressView.snp.bottom).offset(WidthScale(5))
+        }
+        
+        cardV.addSubview(targetProgressView)
+        targetProgressView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(WidthScale(90))
+            make.right.equalToSuperview().inset(WidthScale(15))
+            make.bottom.equalToSuperview().inset(WidthScale(40))
+        }
+        
+        cardV.addSubview(targetDaysL)
+        targetDaysL.textColor = HEXCOLOR(h: 0x66ccff, alpha: 1.0)
+        targetDaysL.font = UIFont(name: FontYuanTiBold, size: WidthScale(18))
+        targetDaysL.snp.makeConstraints { (make) in
+            make.center.equalTo(targetProgressView)
+        }
+        
+        cardV.addSubview(targetTitleL)
+        targetTitleL.textColor = HEXCOLOR(h: 0xcc0000, alpha: 1.0)
+        targetTitleL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(12))
+        targetTitleL.snp.makeConstraints { (make) in
+            make.centerX.equalTo(targetProgressView)
+            make.top.equalTo(targetProgressView.snp.bottom).offset(WidthScale(5))
+        }
+        
+        view.addSubview(mineCollectionView)
+        mineCollectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(cardV.snp.bottom).offset(WidthScale(30))
+            make.left.right.equalToSuperview().inset(WidthScale(20))
+            make.height.equalTo(WidthScale(300))
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = mineCollectionView.dequeueReusableCell(withReuseIdentifier: "MineCollectionViewCell", for: indexPath) as! MineCollectionViewCell
+        switch indexPath.item {
+        case 0:
+            cell.titleL.text = "收藏夹"
+            cell.imgV.image = UIImage(named: "notebook")
+        case 1:
+            cell.titleL.text = "错词本"
+            cell.imgV.image = UIImage(named: "wrongbook")
+        case 2:
+            cell.titleL.text = "清除记录"
+            cell.imgV.image = UIImage(named: "clear")
+        default:
+            break
+        }
+        return cell
         
     }
     
@@ -154,7 +285,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
             }
         }
         
-        let alert = LJAlertViewController(withTitle: "确定要修改头像吗", confirmTitle: nil, cancelTitle: nil, confirmed: {(alert) in
+        let alert = LJAlertViewController(withTitle: "确定要修改头像吗", alert: nil, confirmTitle: nil, cancelTitle: nil, confirmed: {(alert) in
             self.present(imgPickerVC, animated: true, completion: nil)
         }, canceled: nil)
         
@@ -163,8 +294,50 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if userInfo.havePlan{
+            placeholderL.isHidden = true
+            wordsProgressView.isHidden = false
+            todaysProgressView.isHidden = false
+            targetProgressView.isHidden = false
+            wordsNumL.isHidden = false
+            wordsTitleL.isHidden = false
+            todaysNumL.isHidden = false
+            todaysTitleL.isHidden = false
+            targetDaysL.isHidden = false
+            targetTitleL.isHidden = false
+            
+            wordsProgressView.setProgress(progress: 0, time: 0, animate: false)
+            todaysProgressView.setProgress(progress: 0, time: 0, animate: false)
+            targetProgressView.setProgress(progress: 0, time: 0, animate: false)
+            
+            wordsNumL.text = "\(userInfo.rememberWordsCount)"
+            wordsTitleL.text = "还剩\(userInfo.wordsCount - userInfo.rememberWordsCount)个词"
+            todaysNumL.text = "\(userInfo.todayWordsCount)"
+            todaysTitleL.text = "推荐每天记\(userInfo.averageWordsCount)个词"
+            targetDaysL.text = "\(Int((Date().timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400))"
+            targetTitleL.text = "还剩\(Int((userInfo.targetDate.timeIntervalSince1970 - Date().timeIntervalSince1970) / 86400))天"
+        }else{
+            placeholderL.isHidden = false
+            wordsProgressView.isHidden = true
+            todaysProgressView.isHidden = true
+            targetProgressView.isHidden = true
+            wordsNumL.isHidden = true
+            wordsTitleL.isHidden = true
+            todaysNumL.isHidden = true
+            todaysTitleL.isHidden = true
+            targetDaysL.isHidden = true
+            targetTitleL.isHidden = true
+        }
         
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if userInfo.havePlan{
+            wordsProgressView.setProgress(progress: CGFloat(userInfo.rememberWordsCount) / CGFloat(userInfo.wordsCount), time: 0.5, animate: true)
+            todaysProgressView.setProgress(progress: min(CGFloat(userInfo.todayWordsCount) / CGFloat(userInfo.averageWordsCount), 1) , time: 0.5, animate: true)
+            let days = max(CGFloat((Date().timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400), 1)
+            targetProgressView.setProgress(progress: days / CGFloat((userInfo.targetDate.timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400), time: 0.5, animate: true)
+        }
     }
     
 }

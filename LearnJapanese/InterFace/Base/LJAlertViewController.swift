@@ -28,8 +28,10 @@ class LJAlertViewController: LJBaseViewController {
     var cancelBtn: UIButton = UIButton()
     ///取消文字
     var cancelStr: String = "取消"
-    ///提示信息
+    ///标题
     var titleL: UILabel = UILabel()
+    ///提示信息
+    var alertL: UILabel = UILabel()
     
     var confirmBlk: ((LJAlertViewController)->())?
     var cancelBlk: (()->())?
@@ -40,13 +42,15 @@ class LJAlertViewController: LJBaseViewController {
         
     }
     
-    init(withTitle title: String, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertViewController)->())?, canceled: (()->())?){
+    init(withTitle title: String, alert: String?, confirmTitle: String?, cancelTitle: String?, confirmed: ((LJAlertViewController)->())?, canceled: (()->())?){
         super.init(nibName: nil, bundle: nil)
         self.view.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         titleL.text = title
         confirmBlk = confirmed
         cancelBlk = canceled
-        
+        if let alert = alert{
+            alertL.text = alert
+        }
         confirmStr = confirmTitle ?? "确认"
         cancelStr = cancelTitle ?? "取消"
         
@@ -128,6 +132,17 @@ class LJAlertViewController: LJBaseViewController {
             make.centerX.equalToSuperview()
         }
         
+        alertCard.addSubview(alertL)
+        alertL.textColor = HEXCOLOR(h: 0xD2691E, alpha: 1.0)
+        alertL.font = UIFont.init(name: FontYuanTiRegular, size: WidthScale(14))
+        alertL.textAlignment = .center
+        alertL.numberOfLines = 2
+        alertL.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview().inset(WidthScale(10))
+            make.top.equalTo(titleL.snp.bottom).offset(WidthScale(10))
+            make.centerX.equalToSuperview()
+        }
+        
         alertCard.addSubview(confirmBtn)
         confirmBtn.titleLabel?.textAlignment = .center
         confirmBtn.setTitle(confirmStr, for: .normal)
@@ -136,7 +151,7 @@ class LJAlertViewController: LJBaseViewController {
         confirmBtn.addTarget(self, action: #selector(confirmAction), for: .touchUpInside)
         confirmBtn.snp.makeConstraints { (make) in
             make.bottom.left.equalToSuperview()
-            make.size.equalTo(CGSize(width: WidthScale(150), height: WidthScale(60)))
+            make.size.equalTo(CGSize(width: WidthScale(150), height: WidthScale(50)))
         }
         
         alertCard.addSubview(cancelBtn)
@@ -147,7 +162,7 @@ class LJAlertViewController: LJBaseViewController {
         cancelBtn.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         cancelBtn.snp.makeConstraints { (make) in
             make.bottom.right.equalToSuperview()
-            make.size.equalTo(CGSize(width: WidthScale(150), height: WidthScale(60)))
+            make.size.equalTo(CGSize(width: WidthScale(150), height: WidthScale(50)))
         }
         
         alertCard.addSubview(horDivLine)
@@ -155,7 +170,7 @@ class LJAlertViewController: LJBaseViewController {
         horDivLine.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.height.equalTo(WidthScale(2))
-            make.bottom.equalToSuperview().inset(WidthScale(60))
+            make.bottom.equalToSuperview().inset(WidthScale(50))
         }
         
         alertCard.addSubview(verDivLine)
@@ -204,12 +219,12 @@ class LJAlertViewController: LJBaseViewController {
         UIViewController.getCurrentViewCtrl().view.addSubview(view)
         UIViewController.getCurrentViewCtrl().addChild(self)
         view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+        UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
             self.bgView.alpha = 0.5
             self.alertCard.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             self.view.layoutIfNeeded()
         }) { (finised) in
-            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
                 self.bgView.alpha = 1
                 self.alertCard.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.view.layoutIfNeeded()
