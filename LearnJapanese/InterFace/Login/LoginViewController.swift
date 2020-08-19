@@ -72,8 +72,6 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         cardContentV.layer.shadowRadius = WidthScale(10)
         cardContentV.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.5).cgColor
         cardContentV.layer.shadowOpacity = 1.0
-//        cardContentV.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-//        cardContentV.layer.borderWidth = WidthScale(1)
         cardContentV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(279), height: WidthScale(300)))
             make.top.equalTo(loginTitleL.snp.bottom).offset(WidthScale(100))
@@ -91,6 +89,7 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         avatarImgV.isUserInteractionEnabled = true
         avatarImgV.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarTapAction)))
         avatarImgV.layer.cornerRadius = WidthScale(45)
+        avatarImgV.layer.masksToBounds = true
         avatarImgV.snp.makeConstraints { (make) in
             make.width.height.equalTo(WidthScale(90))
             make.top.equalToSuperview().inset(WidthScale(40))

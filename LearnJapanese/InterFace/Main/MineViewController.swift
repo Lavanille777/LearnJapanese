@@ -9,7 +9,7 @@
 import UIKit
 import TZImagePickerController
 
-class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
     ///圆角背景
     var roundCornerBgV: UIView = UIView()
@@ -125,20 +125,21 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         
         cardV.addSubview(nickNameL)
         nickNameL.text = userInfo.userName
-        nickNameL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(26))
+        nickNameL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
         nickNameL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
         nickNameL.snp.makeConstraints { (make) in
             make.left.equalTo(avatarImgV.snp.right).offset(WidthScale(20))
+            make.right.lessThanOrEqualToSuperview().inset(WidthScale(30))
             make.centerY.equalTo(avatarImgV)
         }
         
         cardV.addSubview(changeNameBtn)
-        changeNameBtn.setBackgroundImage(UIImage(named: "pen"), for: .normal)
+        changeNameBtn.setImage(UIImage(named: "pen"), for: .normal)
         changeNameBtn.addTarget(self, action: #selector(changeNameAction), for: .touchUpInside)
         changeNameBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(nickNameL.snp.right).offset(WidthScale(20))
+            make.left.equalTo(nickNameL.snp.right).offset(WidthScale(10))
             make.centerY.equalTo(nickNameL)
-            make.width.height.equalTo(WidthScale(20))
+            make.width.height.equalTo(WidthScale(40))
         }
         
         cardV.addSubview(wordsProgressView)
@@ -209,8 +210,8 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         
         view.addSubview(mineCollectionView)
         mineCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(cardV.snp.bottom).offset(WidthScale(30))
-            make.left.right.equalToSuperview().inset(WidthScale(20))
+            make.top.equalTo(cardV.snp.bottom).offset(WidthScale(40))
+            make.left.right.equalToSuperview().inset(WidthScale(25))
             make.height.equalTo(WidthScale(300))
         }
     }
@@ -236,6 +237,15 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         }
         return cell
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.item {
+        case 0:
+            self.navigationController?.pushViewController(WordsBookViewController(), animated: true)
+        default:
+            break
+        }
     }
     
     @objc func changeNameAction(){
@@ -294,6 +304,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.delegate = self
         if userInfo.havePlan{
             placeholderL.isHidden = true
             wordsProgressView.isHidden = false
@@ -333,10 +344,10 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     
     override func viewDidAppear(_ animated: Bool) {
         if userInfo.havePlan{
-            wordsProgressView.setProgress(progress: CGFloat(userInfo.rememberWordsCount) / CGFloat(userInfo.wordsCount), time: 0.5, animate: true)
-            todaysProgressView.setProgress(progress: min(CGFloat(userInfo.todayWordsCount) / CGFloat(userInfo.averageWordsCount), 1) , time: 0.5, animate: true)
+            wordsProgressView.setProgress(progress: CGFloat(userInfo.rememberWordsCount) / CGFloat(userInfo.wordsCount), time: 1, animate: true)
+            todaysProgressView.setProgress(progress: min(CGFloat(userInfo.todayWordsCount) / CGFloat(userInfo.averageWordsCount), 1) , time: 1, animate: true)
             let days = max(CGFloat((Date().timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400), 1)
-            targetProgressView.setProgress(progress: days / CGFloat((userInfo.targetDate.timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400), time: 0.5, animate: true)
+            targetProgressView.setProgress(progress: days / CGFloat((userInfo.targetDate.timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400), time: 1, animate: true)
         }
     }
     

@@ -26,6 +26,8 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     var chineseLabel: UILabel = UILabel()
     ///发音按钮
     var voiceBtn: UIButton = UIButton()
+    ///收藏按钮
+    var markBtn: UIButton = UIButton()
     ///跳过按钮
     var passBtn: UIButton = UIButton()
     
@@ -102,7 +104,17 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         voiceBtn.setImage(UIImage(named: "saying"), for: .normal)
         voiceBtn.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(10))
-            make.centerX.equalToSuperview()
+            make.right.equalToSuperview().inset(WidthScale(50))
+            make.width.height.equalTo(WidthScale(40))
+        }
+        
+        wordCard.addSubview(markBtn)
+        markBtn.addTarget(self, action: #selector(markBtnAction), for: .touchUpInside)
+        markBtn.setImage(UIImage(named: "collect_unsel"), for: .normal)
+        markBtn.setImage(UIImage(named: "collect_sel"), for: .selected)
+        markBtn.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().inset(WidthScale(13))
+            make.left.equalToSuperview().inset(WidthScale(50))
             make.width.height.equalTo(WidthScale(40))
         }
         
@@ -168,6 +180,16 @@ class LearnNewWordViewController: LJMainAnimationViewController {
     
     @objc func voiceBtnAction(){
         LJSpeechManager.speakWords(randomWord.japanese)
+    }
+    
+    @objc func markBtnAction(){
+        randomWord.bookMark = !markBtn.isSelected
+        if SQLManager.updateWord(randomWord){
+            Dprint("收藏/取消收藏 成功")
+            markBtn.isSelected = !markBtn.isSelected
+        }else{
+            Dprint("收藏/取消收藏 失败")
+        }
     }
     
     @objc func switchWord(_ sender: UIButton){
@@ -246,6 +268,7 @@ class LearnNewWordViewController: LJMainAnimationViewController {
                     self.jpLabel.text = self.randomWord.japanese
                     self.pronunciationLabel.text = self.randomWord.pronunciation
                     self.chineseLabel.text = self.randomWord.chinese
+                    self.markBtn.isSelected = self.randomWord.bookMark
                 }
             }
         }

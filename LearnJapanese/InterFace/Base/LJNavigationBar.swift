@@ -22,7 +22,7 @@ class LJNavigationBar: UIView {
     lazy var navTitleL:UILabel = {
         let nTitle = UILabel.init()
         nTitle.textAlignment = .center
-        nTitle.font = UIFont.systemFont(ofSize: 15)
+        nTitle.font = UIFont(name: FontYuanTiBold, size: WidthScale(16))
         nTitle.textColor = HEXCOLOR(h: 0x3b3b3b, alpha: 1)
         return nTitle
     }()

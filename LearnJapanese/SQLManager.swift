@@ -24,11 +24,7 @@ class SQLManager: NSObject {
     
     ///单词表
     let jcTable: Table = Table("jccard")
-    ///单词表参数
-    static let data = Expression<String>("data")
-    static let data2 = Expression<String>("data2")
-    static let data3 = Expression<String>("data3")
-    static let isRemembered = Expression<Bool>("isRemembered")
+    
     
     ///用户表
     let userTable: Table = Table("users")
@@ -104,12 +100,7 @@ class SQLManager: NSObject {
             let db = SQLManager.shared().db
             if let items = try db?.prepare(SQLManager.shared().jcTable){
                 for item in items {
-                    let model: WordModel = WordModel()
-                    model.id = item[id]
-                    model.japanese = item[data]
-                    model.pronunciation = item[data2]
-                    model.chinese = item[data3]
-                    model.isRemembered = item[isRemembered]
+                    let model: WordModel = WordModel.getData(fromRow: item)
                     wordArray.append(model)
                 }
             }
@@ -123,14 +114,9 @@ class SQLManager: NSObject {
         var wordArray: [WordModel] = []
         do {
             let db = SQLManager.shared().db
-            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(!isRemembered)){
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(!WordModel.isRemembered)){
                 for item in items {
-                    let model: WordModel = WordModel()
-                    model.id = item[id]
-                    model.japanese = item[data]
-                    model.pronunciation = item[data2]
-                    model.chinese = item[data3]
-                    model.isRemembered = item[isRemembered]
+                    let model: WordModel = WordModel.getData(fromRow: item)
                     wordArray.append(model)
                 }
             }
@@ -144,14 +130,43 @@ class SQLManager: NSObject {
         var wordArray: [WordModel] = []
         do {
             let db = SQLManager.shared().db
-            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(isRemembered)){
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(WordModel.isRemembered)){
                 for item in items {
-                    let model: WordModel = WordModel()
-                    model.id = item[id]
-                    model.japanese = item[data]
-                    model.pronunciation = item[data2]
-                    model.chinese = item[data3]
-                    model.isRemembered = item[isRemembered]
+                    let model: WordModel = WordModel.getData(fromRow: item)
+                    wordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return wordArray
+    }
+    
+    ///查询收藏夹词汇
+    static func queryBookMarkWord() -> [WordModel]? {
+        var wordArray: [WordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(WordModel.bookmark)){
+                for item in items {
+                    let model: WordModel = WordModel.getData(fromRow: item)
+                    wordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return wordArray
+    }
+    
+    ///查询错词本词汇
+    static func queryWrongMarkWord() -> [WordModel]? {
+        var wordArray: [WordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(WordModel.wrongmark)){
+                for item in items {
+                    let model: WordModel = WordModel.getData(fromRow: item)
                     wordArray.append(model)
                 }
             }
@@ -165,7 +180,7 @@ class SQLManager: NSObject {
     static func insertWord(_ model: WordModel) -> Int64 {
         do {
             let db = SQLManager.shared().db
-            let insert = SQLManager.shared().jcTable.insert(data <- model.japanese, data2 <- model.pronunciation, data3 <- model.chinese)
+            let insert = SQLManager.shared().jcTable.insert(WordModel.data <- model.japanese, WordModel.data2 <- model.pronunciation, WordModel.data3 <- model.chinese)
             let rowId = try db?.run(insert) ?? -1
             return Int64(rowId)
         } catch _ {
@@ -180,13 +195,10 @@ class SQLManager: NSObject {
         let patternStr: String = "%\(str)%"
         do {
             let db = SQLManager.shared().db
-            let query = SQLManager.shared().jcTable.filter(data.like(patternStr) || data2.like(patternStr) || data3.like(patternStr))
+            let query = SQLManager.shared().jcTable.filter(WordModel.data.like(patternStr) || WordModel.data2.like(patternStr) || WordModel.data3.like(patternStr))
             if let items = try db?.prepare(query){
                 for item in items {
-                    let model: WordModel = WordModel()
-                    model.japanese = item[data]
-                    model.pronunciation = item[data2]
-                    model.chinese = item[data3]
+                    let model: WordModel = WordModel.getData(fromRow: item)
                     wordArray.append(model)
                 }
             }
@@ -200,7 +212,7 @@ class SQLManager: NSObject {
     static func updateWord(_ model: WordModel) -> Bool {
         do {
             let db = SQLManager.shared().db
-            let update = SQLManager.shared().jcTable.filter(id == model.id).update(data <- model.japanese, data2 <- model.pronunciation, data3 <- model.chinese, isRemembered <- model.isRemembered)
+            let update = SQLManager.shared().jcTable.filter(id == model.id).update(WordModel.data <- model.japanese, WordModel.data2 <- model.pronunciation, WordModel.data3 <- model.chinese, WordModel.isRemembered <- model.isRemembered,  WordModel.bookmark <- model.bookMark, WordModel.wrongmark <- model.wrongMark)
             if let rowId = try db?.run(update){
                 return rowId > 0
             }

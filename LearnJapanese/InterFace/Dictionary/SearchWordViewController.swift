@@ -9,6 +9,7 @@
 import UIKit
 
 class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+    var bgImageView: UIImageView = UIImageView()
     ///搜索框
     var searchV: UIView = UIView()
     var searchBGV: UIView = UIView()
@@ -49,6 +50,14 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     }
     
     func setupUI(){
+        
+//        view.addSubview(bgImageView)
+//        bgImageView.image = UIImage(named: "sakura")
+//        bgImageView.contentMode = .top
+//        bgImageView.isUserInteractionEnabled = true
+//        bgImageView.snp.makeConstraints { (make) in
+//            make.edges.equalToSuperview()
+//        }
         
         view.addSubview(searchV)
         searchV.backgroundColor = .clear
@@ -122,7 +131,7 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return WidthScale(60)
+        return WidthScale(100)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -133,7 +142,7 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SearchWordTbCell.self), for: indexPath) as! SearchWordTbCell
         
         cell.model = wordModelArr[indexPath.row]
-        
+
         return cell
     }
     

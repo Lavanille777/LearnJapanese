@@ -43,7 +43,7 @@ class LJBaseViewController: UIViewController{
             if let leftStr = leftStr {
                 navgationBarV.backBtn.setTitle(leftStr, for: .normal)
                 navgationBarV.backBtn.setTitleColor(HEXCOLOR(h: 0x303030, alpha: 1), for: .normal)
-                navgationBarV.backBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+                navgationBarV.backBtn.titleLabel?.font = UIFont(name: FontYuanTiBold, size: WidthScale(16))
             }
         }
         if let leftAction = leftAction {
@@ -82,8 +82,7 @@ class LJBaseViewController: UIViewController{
         navgationBarV.navTitleL.text = navTitle
         navgationBarV.addSubview(navgationBarV.navTitleL)
         navgationBarV.navTitleL.snp.makeConstraints { (make) in
-            make.left.equalTo(navgationBarV.backBtn.snp.right).offset(((rightIsImage ? 0:(90-NavBarHeight))+10))
-            make.right.equalTo(navgationBarV.rightBtn.snp.left).offset(-10)
+            make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
             make.height.equalTo(NavBarHeight)
         }

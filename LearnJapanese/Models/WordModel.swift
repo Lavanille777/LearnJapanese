@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SQLite
 
 class WordModel: NSObject {
     ///单词id
@@ -19,4 +20,31 @@ class WordModel: NSObject {
     @objc dynamic var chinese: String = ""
     ///是否记住
     @objc dynamic var isRemembered: Bool = false
+    ///书签
+    @objc dynamic var bookMark: Bool = false
+    ///错误标签
+    @objc dynamic var wrongMark: Bool = false
+    
+    ///单词表参数
+    static let id = Expression<Int>("id")
+    static let data = Expression<String>("data")
+    static let data2 = Expression<String>("data2")
+    static let data3 = Expression<String>("data3")
+    static let isRemembered = Expression<Bool>("isRemembered")
+    static let bookmark = Expression<Bool>("bookmark")
+    static let wrongmark = Expression<Bool>("wrongmark")
+    
+    class func getData(fromRow row: Row) -> WordModel{
+        let model = WordModel()
+        
+        model.id = row[id]
+        model.japanese = row[data]
+        model.pronunciation = row[data2]
+        model.chinese = row[data3]
+        model.isRemembered = row[isRemembered]
+        model.bookMark = row[bookmark]
+        model.wrongMark = row[wrongmark]
+        
+        return model
+    }
 }
