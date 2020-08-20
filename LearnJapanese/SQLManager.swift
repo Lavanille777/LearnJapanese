@@ -25,7 +25,6 @@ class SQLManager: NSObject {
     ///单词表
     let jcTable: Table = Table("jccard")
     
-    
     ///用户表
     let userTable: Table = Table("users")
     ///用户表参数
@@ -49,6 +48,8 @@ class SQLManager: NSObject {
     static let loginDate = Expression<Date>("loginDate")
     ///单词记忆量
     static let todayWordsCount = Expression<Int>("todayWordsCount")
+    ///假名表
+    let pronunciation: Table = Table("pronunciation")
     
     /// 单例
     ///
@@ -287,6 +288,40 @@ class SQLManager: NSObject {
             Dprint("数据库更新失败")
         }
         return userArray.first
+    }
+    
+    //MARK: 假名表相关操作
+    static func queryPronunciation(byCategory category: Int) -> [PronunciationModel]? {
+        var pronunciationArray: [PronunciationModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().pronunciation.filter(PronunciationModel.category == category && PronunciationModel.type != 0)){
+                for item in items {
+                    let model: PronunciationModel = PronunciationModel.getData(fromRow: item)
+                    pronunciationArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return pronunciationArray
+    }
+    
+    static func queryPronunciationColumn(byCategory category: Int) -> [PronunciationModel]? {
+        var pronunciationArray: [PronunciationModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().pronunciation.filter(PronunciationModel.category == category && PronunciationModel.type == 0)){
+                for item in items {
+                    let model: PronunciationModel = PronunciationModel.getData(fromRow: item)
+                    model.isEmpty = true
+                    pronunciationArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return pronunciationArray
     }
     
     

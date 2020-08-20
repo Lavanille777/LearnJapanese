@@ -16,6 +16,8 @@ class LJMainTabBarViewController: LJBaseViewController {
     
     ///首页子控制器
     let mainVC: LJMainViewController = LJMainViewController()
+    ///五十音图控制器
+    let pronunciationVC: PronunciationViewController = PronunciationViewController()
     ///查词典子控制器
     let dictionaryVC: SearchWordViewController = SearchWordViewController()
     ///我的子控制器
@@ -33,7 +35,7 @@ class LJMainTabBarViewController: LJBaseViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(WidthScale(66))
             make.bottom.equalToSuperview().inset(IPHONEX_BH + WidthScale(20))
-            make.left.right.equalToSuperview().inset(WidthScale(50))
+            make.left.right.equalToSuperview().inset(WidthScale(20))
         }
         
         tabbarView.layer.cornerRadius = WidthScale(15)
@@ -53,9 +55,11 @@ class LJMainTabBarViewController: LJBaseViewController {
         
         mainVC.view.tag = 0
         self.addChild(mainVC)
-        dictionaryVC.view.tag = 1
+        pronunciationVC.view.tag = 1
+        self.addChild(pronunciationVC)
+        dictionaryVC.view.tag = 2
         self.addChild(dictionaryVC)
-        mineCtrl.view.tag = 2
+        mineCtrl.view.tag = 3
         self.addChild(mineCtrl)
         
         view.insertSubview(mainVC.view, belowSubview: tabbarView)

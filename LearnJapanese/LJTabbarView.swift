@@ -12,7 +12,7 @@ class LJTabbarView: UIView {
     
     var bgView: UIVisualEffectView = UIVisualEffectView()
     
-    var tabbarItems: [UIButton] = [UIButton(), UIButton(), UIButton()]
+    var tabbarItems: [UIButton] = [UIButton(), UIButton(), UIButton(), UIButton()]
     
     var selBGView: UIView = UIView()
     
@@ -47,11 +47,11 @@ class LJTabbarView: UIView {
             make.centerY.equalToSuperview()
         }
         
-        for i in 0 ..< 3 {
+        for i in 0 ..< 4 {
             bgView.contentView.addSubview(tabbarItems[i])
             tabbarItems[i].snp.makeConstraints { (make) in
                 make.width.height.equalTo(WidthScale(44))
-                make.left.equalToSuperview().inset(WidthScale(CGFloat(i * 86 + 30)))
+                make.left.equalToSuperview().inset(WidthScale(CGFloat(i * 78 + 30)))
                 make.centerY.equalToSuperview()
             }
             tabbarItems[i].tag = i
@@ -62,7 +62,7 @@ class LJTabbarView: UIView {
     
     @objc func tabbarItemAction(sender: UIButton){
         
-        let x = self.selBGView.frame.minX + (WidthScale(CGFloat(sender.tag * 86 + 28)) - self.selBGView.frame.minX) / 2
+        let x = self.selBGView.frame.minX + (WidthScale(CGFloat(sender.tag * 78 + 28)) - self.selBGView.frame.minX) / 2
         if x != self.selBGView.frame.minX{
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
                 self.selBGView.snp.remakeConstraints { (make) in
@@ -76,7 +76,7 @@ class LJTabbarView: UIView {
                 UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
                     self.selBGView.snp.remakeConstraints { (make) in
                         make.width.height.equalTo(WidthScale(48))
-                        make.left.equalToSuperview().inset(WidthScale(CGFloat(sender.tag * 86 + 28)))
+                        make.left.equalToSuperview().inset(WidthScale(CGFloat(sender.tag * 78 + 28)))
                         make.centerY.equalToSuperview()
                     }
                     

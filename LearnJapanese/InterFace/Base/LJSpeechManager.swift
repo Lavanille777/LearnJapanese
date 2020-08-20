@@ -26,7 +26,7 @@ class LJSpeechManager: NSObject {
     
     class func speakWords(_ text: String) {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.rate = 0.5  // 设置语速，范围0-1，注意0最慢，1最快；
+        utterance.rate = 0.3  // 设置语速，范围0-1，注意0最慢，1最快；
         let speechVoice = AVSpeechSynthesisVoice(language:"ja-JP")
         utterance.voice = speechVoice //设置语速
         utterance.volume = 1;//设置音量

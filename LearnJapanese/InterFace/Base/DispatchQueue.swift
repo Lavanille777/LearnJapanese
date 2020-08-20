@@ -12,6 +12,11 @@ extension DispatchQueue {
     
     typealias Task = (_ cancel: Bool) -> Void
     
+    /// 设置可取消的延时任务
+    /// - Parameters:
+    ///   - time: 延时
+    ///   - task: 任务
+    /// - Returns: 延时任务
     func delay(_ time: TimeInterval, task: @escaping ()->()) -> Task? {
         
         func dispatch_later(_ block: @escaping ()->()) {

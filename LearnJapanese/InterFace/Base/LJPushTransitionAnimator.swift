@@ -46,7 +46,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
         let toView = toVC.view
         let fromView = fromVC.view
     
-        if let vc = fromVC as? LJMainTabBarViewController{
+        if fromVC is LJMainTabBarViewController{
             let maskView: UIVisualEffectView = UIVisualEffectView()
             maskView.effect = nil
             

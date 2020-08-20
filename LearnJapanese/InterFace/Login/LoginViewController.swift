@@ -173,14 +173,14 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
                 do {
                     try data.write(to: url)
                     userInfo.avatarURL = "/avatar_\(userInfo.id).jpeg"
-                    if SQLManager.updateUser(userInfo) {
-                        Dprint("用户数据更新成功")
-                    }else{
-                        Dprint("用户数据更新失败")
-                    }
                 } catch let error {
                     Dprint("头像存储失败\(error)")
                 }
+            }
+            if SQLManager.updateUser(userInfo) {
+                Dprint("用户数据更新成功")
+            }else{
+                Dprint("用户数据更新失败")
             }
             let tabbarVC = LJMainTabBarViewController()
             let navContrller = UINavigationController.init(rootViewController: tabbarVC)
