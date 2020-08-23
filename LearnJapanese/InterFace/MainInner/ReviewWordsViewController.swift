@@ -122,12 +122,16 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     @objc func selectWordAction(_ sender: UIButton){
         if sender.tag == correctIndex{
             sender.setTitleColor(.green , for: .normal)
+            randomWord.wrongMark = false
         }else if sender.tag != 200{
+            randomWord.wrongMark = true
             sender.setTitleColor(.red , for: .normal)
             selectionBtnArr[correctIndex].setTitleColor(.green, for: .normal)
         }else{
+            randomWord.wrongMark = true
             selectionBtnArr[correctIndex].setTitleColor(.green, for: .normal)
         }
+        SQLManager.updateWord(randomWord)
         skipBtn.isEnabled = false
         for btn in selectionBtnArr {
             btn.isEnabled = false

@@ -40,15 +40,18 @@ class SearchWordTbCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: true)
+        
+    }
+
     func setupUI(){
         self.selectionStyle = .none
         self.backgroundColor = .clear
         self.contentView.addSubview(contentBGV)
+        let press = self.addPressAnimation()
+        press.minimumPressDuration = 0.08
         contentBGV.layer.cornerRadius = WidthScale(10)
         contentBGV.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.5).cgColor
         contentBGV.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
@@ -94,6 +97,10 @@ class SearchWordTbCell: UITableViewCell {
             make.centerY.equalToSuperview()
         }
         
+    }
+    
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 
 }

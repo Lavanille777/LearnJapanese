@@ -182,11 +182,10 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
             }else{
                 Dprint("用户数据更新失败")
             }
-            let tabbarVC = LJMainTabBarViewController()
-            let navContrller = UINavigationController.init(rootViewController: tabbarVC)
-            navContrller.modalPresentationStyle = .fullScreen
-            navContrller.modalTransitionStyle = .flipHorizontal
-            self.present(navContrller, animated: true, completion: nil)
+            let planVC = MakingPlanViewController(isFromLogin: true)
+            planVC.modalPresentationStyle = .fullScreen
+            planVC.modalTransitionStyle = .coverVertical
+            self.present(planVC, animated: true, completion: nil)
         }
     }
     //MARK: - 键盘监听

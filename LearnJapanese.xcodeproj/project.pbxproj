@@ -58,6 +58,8 @@
 		018DBD3624ECF7D20011D017 /* PronunciationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018DBD3524ECF7D20011D017 /* PronunciationCollectionViewCell.swift */; };
 		018DBD3824ED1B4C0011D017 /* PronunciationSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018DBD3724ED1B4C0011D017 /* PronunciationSegmentView.swift */; };
 		018DBD3A24ED24100011D017 /* PronunciationPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018DBD3924ED24100011D017 /* PronunciationPreviewView.swift */; };
+		01958D7E24F258F5000D4593 /* WordsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01958D7D24F258F5000D4593 /* WordsPreview.swift */; };
+		01958D8024F27D8F000D4593 /* SpellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01958D7F24F27D8F000D4593 /* SpellViewController.swift */; };
 		01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */; };
 		01D67E0B247655EE00319B3E /* LJMainTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */; };
 		19C144AF2976B4F72E34FDEA /* Pods_LearnJapanese.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8397573D4FB5120421BA66F9 /* Pods_LearnJapanese.framework */; };
@@ -117,6 +119,8 @@
 		018DBD3524ECF7D20011D017 /* PronunciationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationCollectionViewCell.swift; sourceTree = "<group>"; };
 		018DBD3724ED1B4C0011D017 /* PronunciationSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationSegmentView.swift; sourceTree = "<group>"; };
 		018DBD3924ED24100011D017 /* PronunciationPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationPreviewView.swift; sourceTree = "<group>"; };
+		01958D7D24F258F5000D4593 /* WordsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsPreview.swift; sourceTree = "<group>"; };
+		01958D7F24F27D8F000D4593 /* SpellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellViewController.swift; sourceTree = "<group>"; };
 		01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakingPlanViewController.swift; sourceTree = "<group>"; };
 		01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableHeaderView.swift; sourceTree = "<group>"; };
 		0F107955AFD77AC2F031B008 /* Pods-LearnJapanese.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnJapanese.debug.xcconfig"; path = "Target Support Files/Pods-LearnJapanese/Pods-LearnJapanese.debug.xcconfig"; sourceTree = "<group>"; };
@@ -279,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				0182A8BA24C9667E00D691A3 /* SearchWordTbCell.swift */,
+				01958D7D24F258F5000D4593 /* WordsPreview.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				01895D6B24D00532001551C7 /* ReviewWordsViewController.swift */,
 				01895D6D24D018EF001551C7 /* LJImageTextViewController.swift */,
 				0180B80224D3F9E400128A5D /* PlayDiceViewController.swift */,
+				01958D7F24F27D8F000D4593 /* SpellViewController.swift */,
 			);
 			path = MainInner;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 				0174D9E0246BE9ED00390CEF /* LoginViewController.swift in Sources */,
 				0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */,
 				0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */,
+				01958D8024F27D8F000D4593 /* SpellViewController.swift in Sources */,
 				01895D6424CEAD5F001551C7 /* LJCycleProgressView.swift in Sources */,
 				0180B80724D7E59300128A5D /* LJMainTabBarViewController.swift in Sources */,
 				0135EC8124750F5000AF0F32 /* LJBaseViewController.swift in Sources */,
@@ -476,6 +483,7 @@
 				017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */,
 				0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */,
 				017EC2DA24B5BE3B003364D5 /* LJMainTableFloatView.swift in Sources */,
+				01958D7E24F258F5000D4593 /* WordsPreview.swift in Sources */,
 				0104ED6624E51B3C00162FDE /* MineCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

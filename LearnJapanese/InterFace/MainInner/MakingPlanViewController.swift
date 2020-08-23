@@ -8,7 +8,14 @@
 
 import UIKit
 
-class MakingPlanViewController: LJMainAnimationViewController {
+class MakingPlanViewController: LJBaseViewController {
+    
+    var isFromLogin: Bool = false
+    
+    var titleImgV: UIImageView = UIImageView()
+    
+    ///目标
+    var targetTitleL: UILabel = UILabel()
     
     ///日期选择器
     private var datePickerBgV: UIView = UIView()
@@ -52,8 +59,39 @@ class MakingPlanViewController: LJMainAnimationViewController {
         }
     }
     
+    init(isFromLogin: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        self.isFromLogin = isFromLogin
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        targetTitleL.tag = 100
+        targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
+        targetTitleL.textColor = HEXCOLOR(h: 0xA0522D, alpha: 1.0)
+        view.addSubview(targetTitleL)
+        targetTitleL.snp.remakeConstraints { (make) in
+            make.left.equalToSuperview().inset(WidthScale(20))
+            make.top.equalToSuperview().inset(NavPlusStatusH)
+        }
+        
+        titleImgV.image = UIImage(named: "cat")
+        titleImgV.tag = 100
+        view.addSubview(titleImgV)
+        titleImgV.snp.remakeConstraints { (make) in
+            make.right.equalToSuperview().inset(WidthScale(20))
+            make.centerY.equalTo(targetTitleL)
+            make.size.equalTo(CGSize(width: WidthScale(88), height: WidthScale(84)))
+        }
+        if !isFromLogin{
+            createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)
+            navgationBarV.backgroundColor = .clear
+        }
+        
         view.backgroundColor = HEXCOLOR(h: 0xffcccc, alpha: 1.0)
     }
     
@@ -290,17 +328,29 @@ class MakingPlanViewController: LJMainAnimationViewController {
             userInfo.rememberWordsCount = 0
             
             if SQLManager.updateUser(userInfo){
-                for view in self.view.subviews {
-                    if view.tag != 100 && view.tag != 101{
-                        view.removeFromSuperview()
+                if self.isFromLogin{
+                    let navContrller = UINavigationController.init(rootViewController: LJMainTabBarViewController())
+
+                    let transtition: CATransition = CATransition()
+                    transtition.duration = 0.5;
+                    transtition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                    UIApplication.shared.keyWindow?.rootViewController = navContrller
+                    UIApplication.shared.keyWindow?.layer.add(transtition, forKey: "animation")
+                    
+                }else{
+                    for view in self.view.subviews {
+                        if view.tag != 100 && view.tag != 101{
+                            view.removeFromSuperview()
+                        }
                     }
+                    userInfo.havePlan ? self.setupMyPlanUI() : self.setupMakingPlanUI()
+                    self.createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)
                 }
-                userInfo.havePlan ? self.setupMyPlanUI() : self.setupMakingPlanUI()
-                self.createNavbar(navTitle: "", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: nil)
                 Dprint("更新成功")
             }else{
                 Dprint("更新失败")
             }
+            
         }, canceled: nil)
 
         alert.show()

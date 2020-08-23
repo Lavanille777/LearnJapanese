@@ -8,7 +8,16 @@
 
 import UIKit
 
+enum WordBookSyle {
+    case markBook
+    case wrongBook
+}
+
 class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    var style: WordBookSyle = .markBook
+    
+    var wordPreview: WordsPreview = WordsPreview()
     ///收藏单词
     var wordArr: [WordModel] = []{
         didSet{
@@ -24,11 +33,20 @@ class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITa
         tableV.separatorStyle = .none
         return tableV
     }()
-
+    
+    init(WithStyle style: WordBookSyle) {
+        super.init(nibName: nil, bundle: nil)
+        self.style = style
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        self.createNavbar(navTitle: "收藏夹", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: #selector(editModeAction))
+        self.createNavbar(navTitle: style == .markBook ? "收藏夹" : "错词本", leftIsImage: false, leftStr: "返回", rightIsImage: false, rightStr: nil, leftAction: nil, ringhtAction: #selector(editModeAction))
         getBookMarkWords()
     }
     
@@ -41,10 +59,6 @@ class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITa
         return true
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        wordArr.insert(wordArr.remove(at: sourceIndexPath.row), at: destinationIndexPath.row)
-    }
-    
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
@@ -53,11 +67,20 @@ class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITa
         return WidthScale(100)
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        wordPreview.model = wordArr[indexPath.row]
+        wordPreview.pop()
+    }
+    
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: nil) {
             (action, view, completionHandler) in
-            self.wordArr[indexPath.row].bookMark = false
+            if self.style == .markBook{
+                self.wordArr[indexPath.row].bookMark = false
+            }else{
+                self.wordArr[indexPath.row].wrongMark = false
+            }
             if SQLManager.updateWord(self.wordArr[indexPath.row]){
                 Dprint("取消收藏成功")
             }else{
@@ -104,7 +127,7 @@ class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITa
     
     
     func getBookMarkWords(){
-        wordArr = SQLManager.queryBookMarkWord() ?? []
+        wordArr = style == .markBook ? SQLManager.queryBookMarkWord() ?? [] : SQLManager.queryWrongMarkWord() ?? []
         wordTableView.reloadData()
     }
 

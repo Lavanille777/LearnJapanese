@@ -49,6 +49,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
     }
     
@@ -150,7 +151,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -164,20 +165,14 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             cell.rightImgV.image = UIImage(named: "cat")
             switch indexPath.row {
             case 0:
-                if userInfo.havePlan{
-                    cell.titleL.text = "我的计划"
-                }else{
-                    cell.titleL.text = "制定计划"
-                }
-                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xffcccc, alpha: 1.0)
-            case 1:
                 cell.titleL.text = "学点儿新词"
                 cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
-            case 3:
+            case 1:
                 cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
                 cell.titleL.text = "温故知新"
-            case 4:
-                cell.titleL.text = "玩骰子"
+            case 3:
+                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+                cell.titleL.text = "拼写练习"
             default:
                 break
             }
@@ -195,11 +190,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
         NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         switch indexPath.row {
         case 0:
-            let vc = MakingPlanViewController()
-            vc.popAnimation = dismissionTransition
-            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
-            self.navigationController?.pushViewController(vc, animated: true)
-        case 1:
             if userInfo.havePlan{
                 let vc = LearnNewWordViewController()
                 vc.popAnimation = dismissionTransition
@@ -208,7 +198,7 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             }else{
                 UIView.makeToast("需要先制定计划哦")
             }
-        case 3:
+        case 1:
             if userInfo.rememberWordsCount < 10{
                 UIView.makeToast("先记几个词再来吧，至少十个哦")
             }else{
@@ -218,12 +208,17 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 4:
-            let vc = PlayDiceViewController()
-            vc.popAnimation = dismissionTransition
-            vc.replaceInteractivePopTransition = replaceInteractivePopTransition
-            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            if userInfo.rememberWordsCount < 10{
+                UIView.makeToast("先记几个词再来吧，至少十个哦")
+            }else{
+                let vc = SpellViewController()
+                vc.popAnimation = dismissionTransition
+                vc.replaceInteractivePopTransition = replaceInteractivePopTransition
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
+            
         default:
             break
         }

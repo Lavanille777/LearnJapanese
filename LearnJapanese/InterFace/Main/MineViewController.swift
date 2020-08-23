@@ -23,7 +23,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     ///卡片
     var cardV: UIView = UIView()
     ///卡片占位
-    var placeholderL: UILabel = UILabel()
+    var placeholderBtn: UIButton = UIButton()
     ///单词环形进度条
     var wordsProgressView: LJCycleProgressView = LJCycleProgressView.init(withWidth: WidthScale(10), radious: WidthScale(45), trackColor: HEXCOLOR(h: 0xe6e6e6, alpha: 1.0), progressStartColor: HEXCOLOR(h: 0x00BFFF, alpha: 0.2), progressEndColor: HEXCOLOR(h: 0x6495ED, alpha: 1.0))
     var wordsNumL: UILabel = UILabel()
@@ -114,12 +114,21 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
             make.edges.equalToSuperview()
         }
         
-        cardV.addSubview(placeholderL)
-        placeholderL.text = "快去制定计划吧~"
-        placeholderL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
-        placeholderL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
-        placeholderL.snp.makeConstraints { (make) in
+        cardV.addSubview(placeholderBtn)
+        placeholderBtn.setTitle("快去制定计划吧", for: .normal)
+        placeholderBtn.titleLabel?.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
+        placeholderBtn.setTitleColor(HEXCOLOR(h: 0x303030, alpha: 1.0), for: .normal)
+        placeholderBtn.addPressAnimation()
+        placeholderBtn.layer.cornerRadius = WidthScale(10)
+        placeholderBtn.addTarget(self, action: #selector(placeholderAction), for: .touchUpInside)
+        placeholderBtn.backgroundColor = HEXCOLOR(h: 0x87CEFA, alpha: 1)
+        placeholderBtn.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.5).cgColor
+        placeholderBtn.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
+        placeholderBtn.layer.shadowRadius = WidthScale(5)
+        placeholderBtn.layer.shadowOpacity = 1.0
+        placeholderBtn.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(60))
+            make.size.equalTo(CGSize(width: WidthScale(220), height: WidthScale(40)))
             make.centerX.equalToSuperview()
         }
         
@@ -217,7 +226,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return userInfo.havePlan ? 3 : 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -242,10 +251,40 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.item {
         case 0:
-            self.navigationController?.pushViewController(WordsBookViewController(), animated: true)
+            self.navigationController?.pushViewController(WordsBookViewController(WithStyle: .markBook), animated: true)
+        case 1:
+            self.navigationController?.pushViewController(WordsBookViewController(WithStyle: .wrongBook), animated: true)
+        case 2:
+            clenBtnAciton()
         default:
             break
         }
+    }
+    
+    @objc func placeholderAction(){
+        let vc = MakingPlanViewController(isFromLogin: false)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func clenBtnAciton(){
+        let alert = LJAlertViewController(withTitle: "确定要清除计划吗", alert: "所有记录将被清空", confirmTitle: "确定", cancelTitle: "再想想", confirmed: { (alert) in
+            userInfo.targetLevel = 0
+            userInfo.targetDate = Date()
+            userInfo.todayWordsCount = 0
+            userInfo.rememberWordsCount = 0
+            userInfo.havePlan = false
+            if SQLManager.updateUser(userInfo){
+                SQLManager.refreshWordTable()
+                self.mineCollectionView.reloadData()
+                self.refreshState()
+                Dprint("更新成功")
+            }else{
+                Dprint("更新失败")
+            }
+        }, canceled: nil)
+
+        alert.show()
+        
     }
     
     @objc func changeNameAction(){
@@ -305,8 +344,13 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.delegate = self
+        mineCollectionView.reloadData()
+        refreshState()
+    }
+    
+    func refreshState(){
         if userInfo.havePlan{
-            placeholderL.isHidden = true
+            placeholderBtn.isHidden = true
             wordsProgressView.isHidden = false
             todaysProgressView.isHidden = false
             targetProgressView.isHidden = false
@@ -328,7 +372,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
             targetDaysL.text = "\(Int((Date().timeIntervalSince1970 - userInfo.ensureTargetDate.timeIntervalSince1970) / 86400))"
             targetTitleL.text = "还剩\(Int((userInfo.targetDate.timeIntervalSince1970 - Date().timeIntervalSince1970) / 86400))天"
         }else{
-            placeholderL.isHidden = false
+            placeholderBtn.isHidden = false
             wordsProgressView.isHidden = true
             todaysProgressView.isHidden = true
             targetProgressView.isHidden = true
@@ -339,7 +383,6 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
             targetDaysL.isHidden = true
             targetTitleL.isHidden = true
         }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

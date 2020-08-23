@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class LearnNewWordViewController: LJMainAnimationViewController {
     
@@ -187,6 +188,17 @@ class LearnNewWordViewController: LJMainAnimationViewController {
         if SQLManager.updateWord(randomWord){
             Dprint("收藏/取消收藏 成功")
             markBtn.isSelected = !markBtn.isSelected
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            UIView.animate(withDuration: 0.25, animations: {
+                self.markBtn.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            }) { (finished) in
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.markBtn.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }) { (finished) in
+                    
+                }
+            }
         }else{
             Dprint("收藏/取消收藏 失败")
         }

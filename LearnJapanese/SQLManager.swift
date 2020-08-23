@@ -90,6 +90,24 @@ class SQLManager: NSObject {
         }
     } // 私有化init方法
     
+    static func refreshWordTable(){
+        guard let docPath: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last, let bundleSqlPath = Bundle.main.path(forResource: "db", ofType: ".sqlite") else {
+            return
+        }
+        
+        print("The DB Path:", docPath)
+        let dir = docPath + "/db.sqlite"
+        do {
+            try FileManager.default.removeItem(atPath: dir)
+        }catch let err{
+            print(err)
+        }
+        
+        _sharedInstance = SQLManager()
+        
+        SQLManager.updateUser(userInfo)
+    }
+    
     // MARK: 表操作
     
     // MARK: 单词表相关操作
@@ -132,6 +150,23 @@ class SQLManager: NSObject {
         do {
             let db = SQLManager.shared().db
             if let items = try db?.prepare(SQLManager.shared().jcTable.filter(WordModel.isRemembered)){
+                for item in items {
+                    let model: WordModel = WordModel.getData(fromRow: item)
+                    wordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return wordArray
+    }
+    
+    ///查询已记的汉字词汇
+    static func queryAllRememberedKanjiWord() -> [WordModel]? {
+        var wordArray: [WordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().jcTable.filter(WordModel.isRemembered || WordModel.data != WordModel.data2)){
                 for item in items {
                     let model: WordModel = WordModel.getData(fromRow: item)
                     wordArray.append(model)
@@ -196,7 +231,7 @@ class SQLManager: NSObject {
         let patternStr: String = "%\(str)%"
         do {
             let db = SQLManager.shared().db
-            let query = SQLManager.shared().jcTable.filter(WordModel.data.like(patternStr) || WordModel.data2.like(patternStr) || WordModel.data3.like(patternStr))
+            let query = SQLManager.shared().jcTable.filter(WordModel.data.like(patternStr) || WordModel.data2.like(patternStr) || WordModel.data3.like(patternStr) || WordModel.rome.like(patternStr)).limit(50).order(WordModel.rome.length)
             if let items = try db?.prepare(query){
                 for item in items {
                     let model: WordModel = WordModel.getData(fromRow: item)
@@ -213,7 +248,7 @@ class SQLManager: NSObject {
     static func updateWord(_ model: WordModel) -> Bool {
         do {
             let db = SQLManager.shared().db
-            let update = SQLManager.shared().jcTable.filter(id == model.id).update(WordModel.data <- model.japanese, WordModel.data2 <- model.pronunciation, WordModel.data3 <- model.chinese, WordModel.isRemembered <- model.isRemembered,  WordModel.bookmark <- model.bookMark, WordModel.wrongmark <- model.wrongMark)
+            let update = SQLManager.shared().jcTable.filter(id == model.id).update(WordModel.data <- model.japanese, WordModel.data2 <- model.pronunciation, WordModel.data3 <- model.chinese, WordModel.isRemembered <- model.isRemembered,  WordModel.bookmark <- model.bookMark, WordModel.wrongmark <- model.wrongMark, WordModel.rome <- model.rome)
             if let rowId = try db?.run(update){
                 return rowId > 0
             }
@@ -257,8 +292,8 @@ class SQLManager: NSObject {
             if let rowId = try db?.run(update){
                 return rowId > 0
             }
-        } catch _ {
-            Dprint("数据库更新失败")
+        } catch let err {
+            Dprint("\(err)数据库更新失败")
         }
         return false
     }
@@ -291,6 +326,22 @@ class SQLManager: NSObject {
     }
     
     //MARK: 假名表相关操作
+    static func queryRome(byKana kana: String) -> String? {
+        var pronunciationArray: [PronunciationModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().pronunciation.filter(PronunciationModel.hiragana == kana || PronunciationModel.katakana == kana)){
+                for item in items {
+                    let model: PronunciationModel = PronunciationModel.getData(fromRow: item)
+                    pronunciationArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return pronunciationArray.first?.rome
+    }
+    
     static func queryPronunciation(byCategory category: Int) -> [PronunciationModel]? {
         var pronunciationArray: [PronunciationModel] = []
         do {
