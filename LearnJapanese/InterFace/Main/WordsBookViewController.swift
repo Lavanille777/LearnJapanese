@@ -31,6 +31,7 @@ class WordsBookViewController: LJBaseViewController, UITableViewDataSource, UITa
         tableV.delegate = self
         tableV.dataSource = self
         tableV.separatorStyle = .none
+        tableV.backgroundColor = .white
         return tableV
     }()
     

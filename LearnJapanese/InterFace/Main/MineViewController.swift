@@ -74,7 +74,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         }
         
         view.addSubview(cardV)
-        cardV.backgroundColor = HEXCOLOR(h: 0xffffff, alpha: 1.0)
+        cardV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
         cardV.layer.cornerRadius = WidthScale(20)
         cardV.layer.shadowRadius = WidthScale(10)
         cardV.layer.shadowColor = HEXCOLOR(h: 0x101010, alpha: 0.3).cgColor

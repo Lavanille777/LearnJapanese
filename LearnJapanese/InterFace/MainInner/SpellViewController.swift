@@ -54,29 +54,27 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
     }
     
     func setupUI() {
-        view.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
-        
+//        view.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+        view.addGradientLayer(colors: [HEXCOLOR(h: 0xFFC0CB, alpha: 0.25).cgColor, HEXCOLOR(h: 0xFFC0CB, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
         targetTitleL.text = "拼写练习"
         
         view.addSubview(wordCard)
-        wordCard.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
+        wordCard.backgroundColor = HEXCOLOR(h: 0xFFC1C1, alpha: 0.7)
         wordCard.layer.masksToBounds = false
         wordCard.layer.cornerRadius = WidthScale(10)
         wordCard.layer.shadowRadius = WidthScale(10)
-        wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.5).cgColor
+        wordCard.layer.shadowColor = HEXCOLOR(h: 0xaaaaaa, alpha: 0.8).cgColor
         wordCard.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         wordCard.layer.shadowOpacity = 1.0
-        //        wordCard.layer.borderColor = HEXCOLOR(h: mainGray, alpha: 1.0).cgColor
-        //        wordCard.layer.borderWidth = WidthScale(1)
         wordCard.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
-            make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)   //这里用StatusBarHeight只是因为简单。。
+            make.top.equalToSuperview().offset(WidthScale(160) + StatusBarHeight)   //这里用StatusBarHeight只是因为简单。。
             make.centerX.equalToSuperview()
         }
         
         wordCard.addSubview(jpLabel)
-        jpLabel.font = UIFont.systemFont(ofSize: WidthScale(26))
-        jpLabel.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        jpLabel.font = UIFont(name: FontYuanTiBold, size: WidthScale(24))
+        jpLabel.textColor = HEXCOLOR(h: 0xB03060, alpha: 1.0)
         jpLabel.textAlignment = .center
         jpLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(WidthScale(30))
@@ -84,23 +82,13 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
             make.centerX.equalToSuperview()
         }
         
-//        wordCard.addSubview(pronunciationLabel)
-//        pronunciationLabel.font = UIFont.systemFont(ofSize: WidthScale(20))
-//        pronunciationLabel.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-//        pronunciationLabel.textAlignment = .center
-//        pronunciationLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(jpLabel.snp.bottom).offset(WidthScale(20))
-//            make.left.right.lessThanOrEqualToSuperview().inset(WidthScale(10))
-//            make.centerX.equalTo(jpLabel)
-//        }
-        
         wordCard.addSubview(chineseLabel)
-        chineseLabel.font = UIFont(name: FontYuanTiRegular, size: WidthScale(16))
+        chineseLabel.font = UIFont(name: FontYuanTiRegular, size: WidthScale(18))
         chineseLabel.numberOfLines = 0
-        chineseLabel.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
+        chineseLabel.textColor = HEXCOLOR(h: 0xB03060, alpha: 1.0)
         chineseLabel.textAlignment = .center
         chineseLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(jpLabel.snp.bottom).offset(WidthScale(50))
+            make.top.equalTo(jpLabel.snp.bottom).offset(WidthScale(30))
             make.left.right.lessThanOrEqualToSuperview().inset(WidthScale(10))
             make.centerX.equalTo(jpLabel)
         }
@@ -109,7 +97,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
         inputV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(200), height: WidthScale(30)))
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(WidthScale(20))
+            make.bottom.equalToSuperview().inset(WidthScale(30))
         }
         
         inputV.addSubview(inputTF)
@@ -119,15 +107,18 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
         inputTF.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(16))
         inputTF.textAlignment = .center
         inputTF.snp.makeConstraints { (make) in
-            make.bottom.left.right.equalToSuperview().inset(WidthScale(5))
+            make.left.right.equalToSuperview().inset(WidthScale(5))
+            make.bottom.equalToSuperview().inset(WidthScale(5))
         }
         
         inputV.addSubview(inputUnderLine)
-        inputUnderLine.backgroundColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
+//        inputUnderLine.backgroundColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
         inputUnderLine.snp.makeConstraints { (make) in
             make.height.equalTo(WidthScale(1))
             make.left.right.bottom.equalToSuperview()
         }
+        inputV.layoutIfNeeded()
+        inputUnderLine.addGradientLayer(colors: [HEXCOLOR(h: 0xB03060, alpha: 0).cgColor, HEXCOLOR(h: 0xB03060, alpha: 1).cgColor, HEXCOLOR(h: 0xB03060, alpha: 1).cgColor, HEXCOLOR(h: 0xB03060, alpha: 0).cgColor], locations: [0, 0.2, 0.8, 1.0], isHor: true)
         
         view.addSubview(passBtn)
         passBtn.setTitle("跳过", for: .normal)
@@ -174,6 +165,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
             randomWord.wrongMark = true
             inputTF.text = randomWord.pronunciation
             inputTF.textColor = .red
+            UIView.makeToast("记在错词本上了哦~")
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if SQLManager.updateWord(self.randomWord){
@@ -186,7 +178,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
                 
                 self.wordCard.snp.remakeConstraints { (make) in
                     make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
-                    make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)
+                    make.top.equalToSuperview().offset(WidthScale(160) + StatusBarHeight)
                     make.right.equalTo(self.view.snp.left)
                 }
                 self.view.layoutIfNeeded()
@@ -195,7 +187,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
             }) { (finish) in
                 self.wordCard.snp.remakeConstraints { (make) in
                     make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
-                    make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)
+                    make.top.equalToSuperview().offset(WidthScale(160) + StatusBarHeight)
                     make.left.equalTo(self.view.snp.right)
                 }
                 self.inputTF.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
@@ -207,7 +199,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
                     self.wordCard.transform = CGAffineTransform.init(rotationAngle: 0)
                     self.wordCard.snp.remakeConstraints { (make) in
                         make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
-                        make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)
+                        make.top.equalToSuperview().offset(WidthScale(160) + StatusBarHeight)
                         make.centerX.equalToSuperview()
                     }
                     self.view.layoutIfNeeded()
@@ -257,7 +249,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.25) {
             self.wordCard.snp.remakeConstraints { (make) in
                 make.size.equalTo(CGSize(width: WidthScale(250), height: WidthScale(260)))
-                make.top.equalToSuperview().offset(WidthScale(120) + StatusBarHeight)
+                make.top.equalToSuperview().offset(WidthScale(150) + StatusBarHeight)
                 make.centerX.equalToSuperview()
             }
         }

@@ -50,10 +50,11 @@ class WordsPreview: UIView {
         
         self.addSubview(cardBGV)
         cardBGV.alpha = 0
-        cardBGV.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 0.7).cgColor
-        cardBGV.layer.shadowRadius = WidthScale(5)
+        cardBGV.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 0.5).cgColor
+        cardBGV.layer.shadowRadius = WidthScale(10)
         cardBGV.layer.shadowOpacity = 1.0
-        cardBGV.layer.cornerRadius = WidthScale(10)
+        cardBGV.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
+        cardBGV.layer.cornerRadius = WidthScale(20)
         cardBGV.snp.makeConstraints { (make) in
             make.width.equalTo(WidthScale(240))
             make.height.equalTo(WidthScale(300))
@@ -74,7 +75,7 @@ class WordsPreview: UIView {
         
         cardV.addSubview(mainL)
         mainL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
-        mainL.font = UIFont(name: FontYuanTiBold, size: WidthScale(28))
+        mainL.font = UIFont(name: FontYuanTiBold, size: WidthScale(24))
         mainL.numberOfLines = 2
         mainL.textAlignment = .center
         mainL.snp.makeConstraints { (make) in
@@ -86,7 +87,7 @@ class WordsPreview: UIView {
         cardV.addSubview(subL)
         subL.textAlignment = .center
         subL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
-        subL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(24))
+        subL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(18))
         subL.numberOfLines = 2
         subL.snp.makeConstraints { (make) in
             make.top.equalTo(mainL.snp.bottom).offset(WidthScale(20))
@@ -97,7 +98,7 @@ class WordsPreview: UIView {
         cardV.addSubview(chineseL)
         chineseL.textAlignment = .center
         chineseL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
-        chineseL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(20))
+        chineseL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(16))
         chineseL.numberOfLines = 0
         chineseL.snp.makeConstraints { (make) in
             make.top.equalTo(subL.snp.bottom).offset(WidthScale(20))
@@ -127,13 +128,14 @@ class WordsPreview: UIView {
         maskV.alpha = 0
         cardBGV.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseIn, animations: {
-            self.maskV.alpha = 0.4
+            self.maskV.alpha = 0.1
             self.cardBGV.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
             self.cardBGV.alpha = 0.5
         }) { (finished) in
             UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseOut, animations: {
                 self.cardBGV.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.cardBGV.alpha = 1
+                self.maskV.alpha = 0.2
             }) { (finished) in
                 
             }

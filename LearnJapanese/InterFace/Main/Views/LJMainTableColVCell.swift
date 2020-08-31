@@ -29,6 +29,8 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
         return tableColV
     }()
     
+    private var dataArr: [ArticleModel] = []
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -42,6 +44,7 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupUI()
+        getArticles()
     }
     
     required init?(coder: NSCoder) {
@@ -57,11 +60,14 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return dataArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LJMainCollectionViewCell", for: indexPath) as! LJMainCollectionViewCell
+        
+        cell.bgImgV.image = UIImage(named: dataArr[indexPath.item].img1)
+        cell.titleL.text = dataArr[indexPath.item].title
         
         return cell
     }
@@ -74,6 +80,7 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
         NotificationCenter.default.post(name: NSNotification.Name(MAINVIEWPUSHTOUCH), object: nil, userInfo: ["view": cell, "rect": rect])
         
         let vc = LJImageTextViewController()
+        vc.model = dataArr[indexPath.item]
         vc.popAnimation = popAnimation
         vc.replaceInteractivePopTransition = replaceInteractivePopTransition!
         self.currentNavViewController()?.pushViewController(vc, animated: true)
@@ -104,11 +111,15 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
 //            }
         }
         
-        
     }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    func getArticles(){
+        dataArr = SQLManager.queryAllArticals() ?? []
+        tableColV.reloadData()
     }
     
 }

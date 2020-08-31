@@ -12,6 +12,9 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     
     ///要复习的词
     var reviewWordL: UILabel = UILabel()
+    ///发音
+    var hiraganaL: UILabel = UILabel()
+    
     ///发音按钮
     var voiceBtn: UIButton = UIButton()
     ///选项
@@ -25,6 +28,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     var wrongWordArr: [WordModel] = []{
         didSet{
             reviewWordL.text = randomWord.japanese
+            hiraganaL.text = randomWord.pronunciation
             correctIndex = Int(arc4random() % 3)
             selectionBtnArr[correctIndex].setTitle(randomWord.chinese, for: .normal)
             var count = 0
@@ -38,6 +42,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     }
     ///随机词
     var randomWord: WordModel = WordModel()
+    
     ///正确选项下标
     var correctIndex: Int = -1
     
@@ -48,12 +53,13 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     }
     
     func setupUI() {
-        view.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
+//        view.backgroundColor = HEXCOLOR(h: 0xDEB887, alpha: 1.0)
+        view.addGradientLayer(colors: [HEXCOLOR(h: 0xF5DEB3, alpha: 0.5).cgColor, HEXCOLOR(h: 0xF5DEB3, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
         targetTitleL.text = "温故知新"
         
         view.addSubview(reviewWordL)
         reviewWordL.textColor = HEXCOLOR(h: 0x101010, alpha: 1.0)
-        reviewWordL.font = UIFont.boldSystemFont(ofSize: WidthScale(26))
+        reviewWordL.font = UIFont(name: FontYuanTiBold, size: WidthScale(24))
         reviewWordL.textAlignment = .center
         reviewWordL.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
@@ -61,11 +67,21 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             make.width.equalTo(WidthScale(200))
         }
         
+        view.addSubview(hiraganaL)
+        hiraganaL.textColor = HEXCOLOR(h: 0x303030, alpha: 1.0)
+        hiraganaL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(18))
+        hiraganaL.textAlignment = .center
+        hiraganaL.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(reviewWordL.snp.bottom).offset(WidthScale(10))
+            make.width.equalTo(WidthScale(200))
+        }
+        
         view.addSubview(voiceBtn)
         voiceBtn.addTarget(self, action: #selector(voiceBtnAction), for: .touchUpInside)
         voiceBtn.setImage(UIImage(named: "saying"), for: .normal)
         voiceBtn.snp.makeConstraints { (make) in
-            make.centerY.equalTo(reviewWordL)
+            make.centerY.equalTo(reviewWordL.snp.bottom)
             make.left.equalTo(reviewWordL.snp.right)
             make.width.height.equalTo(WidthScale(40))
         }
@@ -77,10 +93,10 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             btn.setTitleColor(HEXCOLOR(h: 0x101010, alpha: 1.0), for: .normal)
             btn.titleLabel?.font = UIFont(name: FontYuanTiRegular, size: WidthScale(16))
             btn.addTarget(self, action: #selector(selectWordAction), for: .touchUpInside)
-            btn.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
+            btn.backgroundColor = HEXCOLOR(h: 0xFFF5EE, alpha: 1.0)
             btn.tag = index
             btn.addOncePressAnimation()
-            btn.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 0.3).cgColor
+            btn.layer.shadowColor = HEXCOLOR(h: 0x101010, alpha: 0.2).cgColor
             btn.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
             btn.layer.shadowRadius = WidthScale(5)
             btn.layer.shadowOpacity = 1.0
@@ -90,7 +106,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             selectionBtnArr.append(btn)
             view.addSubview(btn)
             btn.snp.makeConstraints { (make) in
-                make.top.equalTo(reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
+                make.top.equalTo(reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 50)))
                 make.left.right.equalToSuperview().inset(WidthScale(40))
                 make.height.equalTo(WidthScale(70))
             }
@@ -107,8 +123,8 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
         skipBtn.addOncePressAnimation()
         skipBtn.snp.remakeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(50) + IPHONEX_BH)
-            make.centerX.equalToSuperview()
-            make.size.equalTo(CGSize(width: WidthScale(200), height: WidthScale(44)))
+            make.left.right.equalToSuperview().inset(WidthScale(40))
+            make.height.equalTo(WidthScale(44))
         }
         view.layoutIfNeeded()
         skipBtn.addGradientLayer(colors: [HEXCOLOR(h: 0x66ccff, alpha: 0.5).cgColor, HEXCOLOR(h: 0x66ccff, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
@@ -127,9 +143,11 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
             randomWord.wrongMark = true
             sender.setTitleColor(.red , for: .normal)
             selectionBtnArr[correctIndex].setTitleColor(.green, for: .normal)
+            UIView.makeToast("记在错词本上了哦~")
         }else{
             randomWord.wrongMark = true
             selectionBtnArr[correctIndex].setTitleColor(.green, for: .normal)
+            UIView.makeToast("记在错词本上了哦~")
         }
         SQLManager.updateWord(randomWord)
         skipBtn.isEnabled = false
@@ -150,7 +168,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
         for (index, btn) in selectionBtnArr.enumerated() {
             UIView.animate(withDuration: 0.25, delay: Double(index) * 0.1, options: .curveEaseIn, animations: {
                 btn.snp.remakeConstraints { (make) in
-                    make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
+                    make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 50)))
                     make.right.equalTo(self.view.snp.left)
                     make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                     make.height.equalTo(WidthScale(70))
@@ -158,7 +176,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
                 self.view.layoutIfNeeded()
             }) { (finished) in
                 btn.snp.remakeConstraints { (make) in
-                    make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
+                    make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 50)))
                     make.left.equalTo(self.view.snp.right)
                     make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                     make.height.equalTo(WidthScale(70))
@@ -169,7 +187,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
                 self.view.layoutIfNeeded()
                 UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
                     btn.snp.remakeConstraints { (make) in
-                        make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 20)))
+                        make.top.equalTo(self.reviewWordL.snp.bottom).offset(WidthScale(CGFloat(90 * index + 50)))
                         make.centerX.equalToSuperview()
                         make.width.equalTo(SCREEN_WIDTH - WidthScale(80))
                         make.height.equalTo(WidthScale(70))

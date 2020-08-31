@@ -56,7 +56,7 @@ class LJMainCollectionViewCell: UICollectionViewCell, UIGestureRecognizerDelegat
         titleBGV.addSubview(titleL)
         titleL.text = "上野公园"
         titleL.textColor = .white
-        titleL.font = UIFont.init(name: FontHanziPenW3, size: WidthScale(18))
+        titleL.font = UIFont.init(name: FontHanziPenW5, size: WidthScale(18))
         titleL.snp.makeConstraints { (make) in
             make.bottom.right.equalToSuperview().inset(WidthScale(10))
         }

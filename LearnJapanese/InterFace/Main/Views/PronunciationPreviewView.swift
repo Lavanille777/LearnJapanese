@@ -43,7 +43,7 @@ class PronunciationPreviewView: UIView {
         
         self.addSubview(cardV)
         cardV.alpha = 0
-        cardV.backgroundColor = .white
+        cardV.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
         cardV.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.5).cgColor
         cardV.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         cardV.layer.shadowRadius = WidthScale(5)

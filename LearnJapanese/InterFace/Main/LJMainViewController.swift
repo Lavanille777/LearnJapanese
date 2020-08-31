@@ -166,12 +166,19 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
             switch indexPath.row {
             case 0:
                 cell.titleL.text = "学点儿新词"
-                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+                if cell.bgImgV.layer.sublayers == nil{
+                    cell.bgImgV.addGradientLayer(colors: [HEXCOLOR(h: 0xFDF5E6, alpha: 0.25).cgColor, HEXCOLOR(h: 0xFDF5E6, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
+                }
+                
             case 1:
-                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFF8DC, alpha: 1.0)
+                if cell.bgImgV.layer.sublayers == nil{
+                    cell.bgImgV.addGradientLayer(colors: [HEXCOLOR(h: 0xF5DEB3, alpha: 0.25).cgColor, HEXCOLOR(h: 0xF5DEB3, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
+                }
                 cell.titleL.text = "温故知新"
             case 3:
-                cell.bgImgV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+                if cell.bgImgV.layer.sublayers == nil{
+                    cell.bgImgV.addGradientLayer(colors: [HEXCOLOR(h: 0xFFC0CB, alpha: 0.25).cgColor, HEXCOLOR(h: 0xFFC0CB, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
+                }
                 cell.titleL.text = "拼写练习"
             default:
                 break

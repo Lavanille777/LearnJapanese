@@ -143,6 +143,7 @@ extension UIView {
                     make.left.greaterThanOrEqualToSuperview().inset(WidthScale(20))
                     make.right.lessThanOrEqualToSuperview().inset(WidthScale(20))
                 }
+                
                 LJToastView.shared().layoutIfNeeded()
                 LJToastView.shared().alpha = 0
                 LJToastView.shared().transform = CGAffineTransform(scaleX: 0.5, y: 0.5)

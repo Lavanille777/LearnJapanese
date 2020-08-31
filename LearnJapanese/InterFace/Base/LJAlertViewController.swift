@@ -94,12 +94,14 @@ class LJAlertViewController: LJBaseViewController {
         }
         
         alertCard.addSubview(inputLine)
-        inputLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.4)
+//        inputLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.4)
         inputLine.snp.makeConstraints { (make) in
             make.left.right.equalTo(inputTF)
             make.height.equalTo(WidthScale(1))
             make.top.equalTo(inputTF.snp.bottom).offset(WidthScale(3))
         }
+        alertCard.layoutIfNeeded()
+        inputLine.addGradientLayer(colors: [HEXCOLOR(h: 0xcc6633, alpha: 0.0).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.0).cgColor], locations: [0, 0.2, 0.8,1], isHor: true)
     }
     
     func setupUI() {
@@ -166,21 +168,24 @@ class LJAlertViewController: LJBaseViewController {
         }
         
         alertCard.addSubview(horDivLine)
-        horDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
+//        horDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
         horDivLine.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
-            make.height.equalTo(WidthScale(2))
+            make.height.equalTo(WidthScale(1))
             make.bottom.equalToSuperview().inset(WidthScale(50))
         }
         
         alertCard.addSubview(verDivLine)
-        verDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
+//        verDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
         verDivLine.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(0))
             make.top.equalTo(horDivLine.snp.bottom)
             make.centerX.equalToSuperview()
-            make.width.equalTo(WidthScale(2))
+            make.width.equalTo(WidthScale(1))
         }
+        alertCard.layoutIfNeeded()
+        horDivLine.addGradientLayer(colors: [HEXCOLOR(h: 0xcc6633, alpha: 0.0).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.0).cgColor], locations: [0, 0.2, 0.8,1], isHor: true)
+        verDivLine.addGradientLayer(colors: [HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.4).cgColor, HEXCOLOR(h: 0xcc6633, alpha: 0.0).cgColor], locations: [0, 0.7,1], isHor: false)
         
     }
     

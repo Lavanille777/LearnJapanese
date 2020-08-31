@@ -111,7 +111,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                     make.height.equalTo(toVC.view.frame.width * WidthScale(140/160))
                 }
                 toVC.view.layoutIfNeeded()
-                toVC.textL.alpha = 0
+//                toVC.scrollV.alpha = 0
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: { () -> Void in
                     maskView.effect = UIBlurEffect.init(style: .regular)
                     toVC.view.frame = CGRect(x: WidthScale(10), y: -WidthScale(15), width: SCREEN_WIDTH - WidthScale(20), height: SCREEN_HEIGHT - WidthScale(20))
@@ -130,7 +130,7 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                             make.left.right.equalTo(toVC.view)
                             make.height.equalTo(toVC.view.frame.width * WidthScale(140/160))
                         }
-                        toVC.textL.alpha = 1
+//                        toVC.scrollV.alpha = 1
                         toVC.view.layoutIfNeeded()
                     }, completion: { (finished) -> Void in
                         cell.bgImgV.snp.remakeConstraints { (make) in

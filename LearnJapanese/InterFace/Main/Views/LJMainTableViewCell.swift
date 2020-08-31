@@ -51,9 +51,8 @@ class LJMainTableViewCell: UITableViewCell {
         self.backgroundColor = .clear
         
         contentV.layer.cornerRadius = WidthScale(10)
-        
         contentV.backgroundColor = .white
-        contentV.layer.shadowColor = HEXCOLOR(h: 0x303030, alpha: 0.3).cgColor
+        contentV.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.4).cgColor
         contentV.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         contentV.layer.shadowRadius = WidthScale(5)
         contentV.layer.shadowOpacity = 1.0
@@ -64,13 +63,14 @@ class LJMainTableViewCell: UITableViewCell {
         
         self.addSubview(bgImgV)
         bgImgV.contentMode = .center
-        bgImgV.backgroundColor = .clear
+//        bgImgV.backgroundColor = .clear
         bgImgV.layer.cornerRadius = WidthScale(10)
         bgImgV.layer.masksToBounds = true
         bgImgV.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
             make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(120)))
         }
+        layoutIfNeeded()
         
         self.addSubview(titleL)
         titleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))

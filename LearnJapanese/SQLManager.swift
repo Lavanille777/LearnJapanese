@@ -27,6 +27,9 @@ class SQLManager: NSObject {
     
     ///用户表
     let userTable: Table = Table("users")
+    
+    ///文章表
+    let articleTable: Table = Table("article")
     ///用户表参数
     ///用户Id
     static let id = Expression<Int>("id")
@@ -375,6 +378,23 @@ class SQLManager: NSObject {
         return pronunciationArray
     }
     
+    //MARK: 文章表
+    
+    static func queryAllArticals() -> [ArticleModel]? {
+        var articleArray: [ArticleModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().articleTable){
+                for item in items {
+                    let model: ArticleModel = ArticleModel.getData(fromRow: item)
+                    articleArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return articleArray
+    }
     
     
 }

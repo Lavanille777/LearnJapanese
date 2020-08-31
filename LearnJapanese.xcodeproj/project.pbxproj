@@ -19,6 +19,7 @@
 		0135EC8924752E6C00AF0F32 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135EC8824752E6C00AF0F32 /* MainTabBarController.swift */; };
 		0135EC8B24761F4000AF0F32 /* LJMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135EC8A24761F4000AF0F32 /* LJMainViewController.swift */; };
 		0135EC8D24764AD700AF0F32 /* LJMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0135EC8C24764AD700AF0F32 /* LJMainTableViewCell.swift */; };
+		016BC04024FCD1B5005F0B6E /* ArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016BC03F24FCD1B5005F0B6E /* ArticleModel.swift */; };
 		0174D9C8246BCA6000390CEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0174D9C7246BCA6000390CEF /* AppDelegate.swift */; };
 		0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0174D9C9246BCA6000390CEF /* SceneDelegate.swift */; };
 		0174D9CC246BCA6000390CEF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0174D9CB246BCA6000390CEF /* ViewController.swift */; };
@@ -78,6 +79,7 @@
 		0135EC8824752E6C00AF0F32 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		0135EC8A24761F4000AF0F32 /* LJMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainViewController.swift; sourceTree = "<group>"; };
 		0135EC8C24764AD700AF0F32 /* LJMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableViewCell.swift; sourceTree = "<group>"; };
+		016BC03F24FCD1B5005F0B6E /* ArticleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleModel.swift; sourceTree = "<group>"; };
 		0174D9C4246BCA6000390CEF /* LearnJapanese.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnJapanese.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0174D9C7246BCA6000390CEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0174D9C9246BCA6000390CEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				0182A8B024C936DE00D691A3 /* WordModel.swift */,
 				013114CC24CA926600B5C969 /* UserModel.swift */,
 				018DBD3324ECF2C50011D017 /* PronunciationModel.swift */,
+				016BC03F24FCD1B5005F0B6E /* ArticleModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				018DBD3424ECF2C50011D017 /* PronunciationModel.swift in Sources */,
 				0180B80324D3F9E400128A5D /* PlayDiceViewController.swift in Sources */,
 				01895D6224CE7B14001551C7 /* LearnNewWordViewController.swift in Sources */,
+				016BC04024FCD1B5005F0B6E /* ArticleModel.swift in Sources */,
 				0182A8BB24C9667E00D691A3 /* SearchWordTbCell.swift in Sources */,
 				0182A8B824C964CD00D691A3 /* SearchWordViewController.swift in Sources */,
 				0180B80924D7E5BB00128A5D /* LJTabbarView.swift in Sources */,
