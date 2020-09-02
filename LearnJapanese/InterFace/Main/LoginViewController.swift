@@ -29,8 +29,9 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
     var loginBtn: UIButton = UIButton()
     
     //MARK:- 私有数据
-    var pageState: PageState = .login
-    var avatarImg: UIImage?
+    private var disposeBag = DisposeBag()
+    private var pageState: PageState = .login
+    private var avatarImg: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +125,12 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         loginBtn.addOncePressAnimation()
         loginBtn.layer.masksToBounds = true
         loginBtn.layer.cornerRadius = WidthScale(20)
-        loginBtn.addTarget(self, action: #selector(LoginAction), for: .touchUpInside)
+        loginBtn.rx.tap
+            .subscribe (onNext: {[weak self] in
+                self?.loginAction()
+            })
+            .disposed(by: disposeBag)
+        
         loginBtn.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.top.equalTo(nickNameV.snp.bottom).offset(WidthScale(20))
@@ -152,7 +158,7 @@ class LoginViewController: LJBaseViewController, TZImagePickerControllerDelegate
         self.present(imgPickerVC, animated: true, completion: nil)
     }
     
-    @objc func LoginAction(){
+    @objc func loginAction(){
         if nickNameTF.text == ""{
             let pulse = CASpringAnimation(keyPath: "position.x")
             pulse.damping = 10;

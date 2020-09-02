@@ -8,6 +8,9 @@
 import UIKit
 
 @_exported import SnapKit
+@_exported import RxCocoa
+@_exported import RxSwift
+
 ///沙盒DOC地址
 let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last ?? ""
 

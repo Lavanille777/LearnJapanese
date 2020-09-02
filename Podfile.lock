@@ -1,5 +1,10 @@
 PODS:
-  - Alamofire (5.2.2)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
   - SnapKit (5.0.1)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
@@ -7,25 +12,30 @@ PODS:
   - TZImagePickerController (3.3.2)
 
 DEPENDENCIES:
-  - Alamofire
+  - RxCocoa (~> 5.0)
+  - RxSwift (~> 5.0)
   - SnapKit
   - SQLite.swift
   - TZImagePickerController
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - Alamofire
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - SQLite.swift
     - TZImagePickerController
   trunk:
     - SnapKit
 
 SPEC CHECKSUMS:
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   TZImagePickerController: 36ca728ec681228918aa82e993aaab1962281b72
 
-PODFILE CHECKSUM: f3662d917f3440709b958864c4c82555ba8586be
+PODFILE CHECKSUM: 40d172e5d8e129463bc3107079f4c8e1582e1ce9
 
 COCOAPODS: 1.8.4

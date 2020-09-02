@@ -7,8 +7,10 @@ target 'LearnJapanese' do
 
   # Pods for LearnJapanese
   
+  pod 'RxSwift', '~> 5.0'
+  pod 'RxCocoa', '~> 5.0'
   pod 'SnapKit'   #自动布局
   pod 'SQLite.swift' #sqlite数据库  目前使用中
   pod 'TZImagePickerController' #图片选择器
-  pod 'Alamofire' #网络请求
+
 end
