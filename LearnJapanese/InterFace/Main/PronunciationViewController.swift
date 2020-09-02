@@ -80,7 +80,7 @@ class PronunciationViewController: UIViewController, UICollectionViewDelegate, U
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(WidthScale(isiPhoneX ? 60 : 40))
         }
-        pronunciationSegmentView.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.5).cgColor
+        pronunciationSegmentView.layer.shadowColor = HEXCOLOR(h: 0x949494, alpha: 0.3).cgColor
         pronunciationSegmentView.layer.shadowOffset = CGSize(width: WidthScale(5), height: WidthScale(5))
         pronunciationSegmentView.layer.shadowRadius = WidthScale(5)
         pronunciationSegmentView.layer.shadowOpacity = 1.0

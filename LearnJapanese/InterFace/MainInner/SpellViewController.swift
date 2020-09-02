@@ -55,6 +55,7 @@ class SpellViewController: LJMainAnimationViewController, UITextFieldDelegate {
     
     func setupUI() {
 //        view.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+        titleImgV.image = UIImage(named: "cat2")
         view.addGradientLayer(colors: [HEXCOLOR(h: 0xFFC0CB, alpha: 0.25).cgColor, HEXCOLOR(h: 0xFFC0CB, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
         targetTitleL.text = "拼写练习"
         

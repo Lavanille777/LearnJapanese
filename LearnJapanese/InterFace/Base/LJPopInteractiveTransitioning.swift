@@ -92,8 +92,14 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                 fromVC.imageV.snp.remakeConstraints { (make) in
                     make.top.equalToSuperview()
                     make.left.right.equalTo(fromVC.view)
-                    make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                    make.height.equalTo(fromVC.view.frame.width * 140/160)
                 }
+                fromVC.textBGV.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview().inset(fromVC.view.frame.width * 140/160)
+                    make.left.right.equalTo(fromVC.view)
+                    make.bottom.equalTo(fromVC.scrollV).offset(WidthScale(1000))
+                }
+                fromVC.view.layoutIfNeeded()
             }else{
                 for view in fromVC.view.subviews {
                     if view.tag != 101 && view.tag != 100{
@@ -131,8 +137,14 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                         fromVC.imageV.snp.remakeConstraints { (make) in
                             make.top.equalToSuperview()
                             make.left.right.equalTo(fromVC.view)
-                            make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                            make.height.equalTo(fromVC.view.frame.width * 140/160)
                         }
+                        fromVC.textBGV.snp.remakeConstraints { (make) in
+                            make.top.equalToSuperview().inset(fromVC.view.frame.width * 140/160)
+                            make.left.right.equalTo(fromVC.view)
+                            make.bottom.equalTo(fromVC.scrollV).offset(WidthScale(1000))
+                        }
+                        fromVC.view.layoutIfNeeded()
                         fromVC.navgationBarV.alpha = 1
                     }else{
                         for view in fromVC.view.subviews {
@@ -159,9 +171,15 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                     fromVC.imageV.snp.remakeConstraints { (make) in
                         make.top.equalToSuperview()
                         make.left.right.equalTo(fromVC.view)
-                        make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                        make.height.equalTo(fromVC.view.frame.width * 140/160)
                     }
                     fromVC.navgationBarV.alpha = 0
+                    fromVC.textBGV.snp.remakeConstraints { (make) in
+                        make.top.equalToSuperview().inset(fromVC.view.frame.width * 140/160)
+                        make.left.right.equalTo(fromVC.view)
+                        make.bottom.equalTo(fromVC.scrollV).offset(WidthScale(1000))
+                    }
+                    fromVC.view.layoutIfNeeded()
                 }else{
                     for view in fromVC.view.subviews {
                         if view.tag != 101 && view.tag != 100{
@@ -184,8 +202,14 @@ class LJPopInteractiveTransitioning: NSObject, UIViewControllerInteractiveTransi
                         fromVC.imageV.snp.remakeConstraints { (make) in
                             make.top.equalToSuperview()
                             make.left.right.equalTo(fromVC.view)
-                            make.height.equalTo(fromVC.view.frame.width * WidthScale(140/160))
+                            make.height.equalTo(fromVC.view.frame.width * 140/160)
                         }
+                        fromVC.textBGV.snp.remakeConstraints { (make) in
+                            make.top.equalToSuperview().inset(fromVC.view.frame.width * 140/160)
+                            make.left.right.equalTo(fromVC.view)
+                            make.bottom.equalTo(fromVC.scrollV).offset(WidthScale(1000))
+                        }
+                        fromVC.view.layoutIfNeeded()
                     }
                 }
                 self.transitingView.layoutIfNeeded()

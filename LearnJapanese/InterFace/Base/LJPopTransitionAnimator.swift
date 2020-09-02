@@ -105,7 +105,12 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                     fromViewC.imageV.snp.remakeConstraints { (make) in
                         make.top.equalToSuperview()
                         make.left.right.equalTo(fromViewC.view)
-                        make.height.equalTo(fromViewC.view.frame.width * WidthScale(140/160))
+                        make.height.equalTo(fromViewC.view.frame.width * 140/160)
+                    }
+                    fromViewC.textBGV.snp.remakeConstraints { (make) in
+                        make.top.equalToSuperview().inset(fromViewC.view.frame.width * 140/160)
+                        make.left.right.equalTo(fromViewC.view)
+                        make.bottom.equalTo(fromViewC.scrollV).offset(WidthScale(1000))
                     }
                     fromViewC.navgationBarV.alpha = 0
                     fromViewC.view.layoutIfNeeded()

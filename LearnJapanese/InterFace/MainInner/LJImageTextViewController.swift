@@ -62,16 +62,16 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         
         scrollV.addSubview(imageV)
 //        imageV.image = UIImage(named: "colCell1_1")
-        imageV.contentMode = .scaleAspectFit
+        imageV.contentMode = .scaleAspectFill
         imageV.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.right.equalTo(view)
-            make.height.equalTo(self.view.frame.width * WidthScale(140/160))
+            make.height.equalTo(self.view.frame.width * 140/160)
         }
         
-        view.addSubview(titleBGV)
+        imageV.addSubview(titleBGV)
         titleBGV.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview()
+            make.left.right.equalTo(view)
             make.bottom.equalTo(imageV)
             make.height.equalTo(WidthScale(50))
         }
@@ -90,16 +90,15 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         textBGV.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 1.0)
         textBGV.layer.cornerRadius = WidthScale(20)
         textBGV.snp.makeConstraints { (make) in
-            make.top.equalTo(imageV.snp.bottom)
+            make.top.equalToSuperview().inset(self.view.frame.width * 140/160)
             make.left.right.equalTo(view)
-//            make.width.equalTo(SCREEN_WIDTH)
             make.bottom.equalTo(scrollV).offset(WidthScale(1000))
         }
         
         text1L.numberOfLines = 0
 
         text1L.snp.makeConstraints { (make) in
-            make.top.equalTo(imageV.snp.bottom).offset(WidthScale(20))
+            make.top.equalTo(textBGV).inset(WidthScale(20))
             make.left.equalTo(view).inset(WidthScale(20))
             make.width.equalTo(SCREEN_WIDTH - WidthScale(30))
         }
@@ -146,15 +145,15 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
             imageV.snp.remakeConstraints { (make) in
                 make.top.equalToSuperview().inset(scrollView.contentOffset.y)
                 make.left.right.equalTo(view).inset(scrollView.contentOffset.y / 2)
-                make.height.equalTo(WidthScale(328 + abs(scrollView.contentOffset.y) ))
+                make.height.equalTo((SCREEN_WIDTH - scrollView.contentOffset.y) * 140 / 160)
             }
             scrollView.layoutIfNeeded()
         }else{
-            imageV.contentMode = .scaleAspectFit
+            imageV.contentMode = .scaleAspectFill
             imageV.snp.remakeConstraints { (make) in
                 make.top.equalToSuperview()
                 make.left.right.equalTo(view)
-                make.height.equalTo(self.view.frame.width * WidthScale(140/160))
+                make.height.equalTo(self.view.frame.width * 140 / 160)
             }
         }
     }

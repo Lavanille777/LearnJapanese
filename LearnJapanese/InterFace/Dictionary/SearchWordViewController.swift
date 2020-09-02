@@ -39,6 +39,8 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     
     var wordPreview: WordsPreview = WordsPreview()
     
+    var placeHoldImgV: UIImageView = UIImageView()
+    
     var noResultV: UIView = UIView()
     var noResultL: UILabel = UILabel()
     var ctojBtn: UIButton = UIButton()
@@ -138,6 +140,14 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
         }
         view.layoutIfNeeded()
         
+        
+        wordBGView.addSubview(placeHoldImgV)
+        placeHoldImgV.image = UIImage(named: "cat3")
+        placeHoldImgV.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.size.equalTo(CGSize(width: WidthScale(150), height: WidthScale(142)))
+        }
+        
         let maskLayer: CAGradientLayer = CAGradientLayer.init()
         maskLayer.locations = [0, 0.02]
         maskLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
@@ -200,7 +210,9 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     @objc func textChanged(){
         if let text = searchTF.text, text.count > 0, let arr = SQLManager.queryWordsByString(text){
                 wordModelArr = arr
+            placeHoldImgV.isHidden = true
         }else{
+            placeHoldImgV.isHidden = false
             wordModelArr = []
         }
     }

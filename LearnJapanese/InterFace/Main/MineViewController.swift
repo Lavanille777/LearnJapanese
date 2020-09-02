@@ -65,7 +65,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         view.backgroundColor = HEXCOLOR(h: 0xfbfafb, alpha: 1.0)
         
         view.addSubview(roundCornerBgV)
-        roundCornerBgV.backgroundColor = HEXCOLOR(h: 0x6495ED, alpha: 1.0)
+        roundCornerBgV.backgroundColor = HEXCOLOR(h: 0xFFC1C1, alpha: 1.0)
         roundCornerBgV.layer.cornerRadius = WidthScale(40)
         roundCornerBgV.snp.makeConstraints { (make) in
             make.top.equalToSuperview().inset(-WidthScale(40))
@@ -74,7 +74,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         }
         
         view.addSubview(cardV)
-        cardV.backgroundColor = HEXCOLOR(h: 0xFFFFF0, alpha: 1.0)
+        cardV.backgroundColor = HEXCOLOR(h: 0xFFF0F5, alpha: 1.0)
         cardV.layer.cornerRadius = WidthScale(20)
         cardV.layer.shadowRadius = WidthScale(10)
         cardV.layer.shadowColor = HEXCOLOR(h: 0x101010, alpha: 0.3).cgColor
@@ -83,7 +83,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         cardV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(260)))
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(WidthScale(90))
+            make.top.equalToSuperview().inset(WidthScale(110))
         }
         
         cardV.addSubview(avatarV)
@@ -188,7 +188,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         }
         
         cardV.addSubview(todaysTitleL)
-        todaysTitleL.textColor = HEXCOLOR(h: 0xFFC125, alpha: 1.0)
+        todaysTitleL.textColor = HEXCOLOR(h: 0xDAA520, alpha: 1.0)
         todaysTitleL.font = UIFont(name: FontYuanTiRegular, size: WidthScale(12))
         todaysTitleL.snp.makeConstraints { (make) in
             make.centerX.equalTo(todaysProgressView)
@@ -313,6 +313,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         let imgPickerVC: TZImagePickerController = TZImagePickerController(maxImagesCount: 1, columnNumber: 5, delegate: self, pushPhotoPickerVc: true)
         imgPickerVC.allowCrop = true
         imgPickerVC.allowPickingVideo = false
+        imgPickerVC.preferredLanguage = "zh-Hans"
         imgPickerVC.cropRect = CGRect(x: 0, y: imgPickerVC.view.frame.midY - SCREEN_WIDTH/2, width: SCREEN_WIDTH, height: SCREEN_WIDTH)
         imgPickerVC.didFinishPickingPhotosHandle = {[weak self](imgs, asset, isSelectOriginalPhoto) in
             if let weakSelf = self{

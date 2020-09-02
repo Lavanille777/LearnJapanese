@@ -29,7 +29,7 @@ class LJTabbarView: UIView {
     
     func setupUI() {
         bgView.effect = UIBlurEffect(style: .light)
-        self.backgroundColor = HEXCOLOR(h: 0xFF69B4, alpha: 0.2)
+        self.backgroundColor = HEXCOLOR(h: 0xFF69B4, alpha: 0.1)
         self.addSubview(bgView)
         bgView.layer.cornerRadius = WidthScale(15)
         bgView.layer.masksToBounds = true

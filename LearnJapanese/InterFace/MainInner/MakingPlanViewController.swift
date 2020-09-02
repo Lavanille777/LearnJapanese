@@ -79,7 +79,7 @@ class MakingPlanViewController: LJBaseViewController {
             make.top.equalToSuperview().inset(NavPlusStatusH)
         }
         
-        titleImgV.image = UIImage(named: "cat")
+        titleImgV.image = UIImage(named: "cat1")
         titleImgV.tag = 100
         view.addSubview(titleImgV)
         titleImgV.snp.remakeConstraints { (make) in

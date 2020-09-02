@@ -108,10 +108,14 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                 toVC.imageV.snp.remakeConstraints { (make) in
                     make.top.equalToSuperview()
                     make.left.right.equalTo(toVC.view)
-                    make.height.equalTo(toVC.view.frame.width * WidthScale(140/160))
+                    make.height.equalTo(toVC.view.frame.width * 140/160)
+                }
+                toVC.textBGV.snp.remakeConstraints { (make) in
+                    make.top.equalToSuperview().inset(toVC.view.frame.width * 140/160)
+                    make.left.right.equalTo(toVC.view)
+                    make.bottom.equalTo(toVC.scrollV).offset(WidthScale(1000))
                 }
                 toVC.view.layoutIfNeeded()
-//                toVC.scrollV.alpha = 0
                 UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: { () -> Void in
                     maskView.effect = UIBlurEffect.init(style: .regular)
                     toVC.view.frame = CGRect(x: WidthScale(10), y: -WidthScale(15), width: SCREEN_WIDTH - WidthScale(20), height: SCREEN_HEIGHT - WidthScale(20))
@@ -119,7 +123,12 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                     toVC.imageV.snp.remakeConstraints { (make) in
                         make.top.equalToSuperview()
                         make.left.right.equalTo(toVC.view)
-                        make.height.equalTo(toVC.view.frame.width * WidthScale(140/160))
+                        make.height.equalTo(toVC.view.frame.width * 140/160)
+                    }
+                    toVC.textBGV.snp.remakeConstraints { (make) in
+                        make.top.equalToSuperview().inset(toVC.view.frame.width * 140/160)
+                        make.left.right.equalTo(toVC.view)
+                        make.bottom.equalTo(toVC.scrollV).offset(WidthScale(1000))
                     }
                     toVC.view.layoutIfNeeded()
                 }, completion: { (finished) -> Void in
@@ -128,9 +137,13 @@ class LJPushTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning 
                         toVC.imageV.snp.remakeConstraints { (make) in
                             make.top.equalToSuperview()
                             make.left.right.equalTo(toVC.view)
-                            make.height.equalTo(toVC.view.frame.width * WidthScale(140/160))
+                            make.height.equalTo(toVC.view.frame.width * 140/160)
                         }
-//                        toVC.scrollV.alpha = 1
+                        toVC.textBGV.snp.remakeConstraints { (make) in
+                            make.top.equalToSuperview().inset(toVC.view.frame.width * 140/160)
+                            make.left.right.equalTo(toVC.view)
+                            make.bottom.equalTo(toVC.scrollV).offset(WidthScale(1000))
+                        }
                         toVC.view.layoutIfNeeded()
                     }, completion: { (finished) -> Void in
                         cell.bgImgV.snp.remakeConstraints { (make) in

@@ -54,6 +54,7 @@ class ReviewWordsViewController: LJMainAnimationViewController, UIGestureRecogni
     
     func setupUI() {
 //        view.backgroundColor = HEXCOLOR(h: 0xDEB887, alpha: 1.0)
+        titleImgV.image = UIImage(named: "cat3")
         view.addGradientLayer(colors: [HEXCOLOR(h: 0xF5DEB3, alpha: 0.5).cgColor, HEXCOLOR(h: 0xF5DEB3, alpha: 1.0).cgColor], locations: [0,1], isHor: true)
         targetTitleL.text = "温故知新"
         

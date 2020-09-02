@@ -29,7 +29,7 @@ class PronunciationSegmentView: UIView {
     
     func setupUI() {
         self.addSubview(bgView)
-        bgView.backgroundColor = HEXCOLOR(h: 0xFFFAF0, alpha: 0.7)
+        bgView.backgroundColor = HEXCOLOR(h: 0xFFF0F5, alpha: 1.0)
         bgView.layer.cornerRadius = WidthScale(10)
         bgView.layer.masksToBounds = true
         bgView.snp.makeConstraints { (make) in
