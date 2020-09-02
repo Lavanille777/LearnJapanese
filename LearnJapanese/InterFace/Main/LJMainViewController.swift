@@ -254,7 +254,6 @@ class LJMainViewController: LJBaseViewController, UITableViewDelegate, UITableVi
     
     
     //MARK: - 导航动画
-    
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if operation == .push {
             return presentationTransition

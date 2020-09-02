@@ -1,7 +1,7 @@
 //
 //  LJPopInteractiveTransitioning.swift
 //  LearnJapanese
-//
+//  首页pop交互动画
 //  Created by 唐星宇 on 2020/7/21.
 //  Copyright © 2020 唐星宇. All rights reserved.
 //

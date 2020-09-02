@@ -1,7 +1,7 @@
 //
 //  LJPopTransitionAnimator.swift
 //  LearnJapanese
-//
+//  首页pop动画
 //  Created by 唐星宇 on 2020/7/21.
 //  Copyright © 2020 唐星宇. All rights reserved.
 //
@@ -27,12 +27,10 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
         }
     }
     
-    //方法1
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
     }
     
-    // 方法2
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as? LJMainAnimationViewController else{
             return
@@ -128,7 +126,7 @@ class LJPopTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning{
                             UIView.animate(withDuration: 0.1, delay: 0, options: .curveEaseOut, animations: {
                                 cell.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                             }) { (finish) in
-                                //                                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+
                             }
                         }
                     }

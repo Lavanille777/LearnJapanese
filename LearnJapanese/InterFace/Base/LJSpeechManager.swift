@@ -1,7 +1,7 @@
 //
 //  LJSpeechManager.swift
 //  LearnJapanese
-//
+//  发音单例
 //  Created by 唐星宇 on 2020/7/28.
 //  Copyright © 2020 唐星宇. All rights reserved.
 //

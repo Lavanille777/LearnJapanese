@@ -61,7 +61,6 @@ class LJImageTextViewController: LJMainAnimationViewController, UIScrollViewDele
         }
         
         scrollV.addSubview(imageV)
-//        imageV.image = UIImage(named: "colCell1_1")
         imageV.contentMode = .scaleAspectFill
         imageV.snp.makeConstraints { (make) in
             make.top.equalToSuperview()

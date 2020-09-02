@@ -8,8 +8,8 @@
 
 import UIKit
 
+/// 有道搜索结果类型
 struct RequestWordModel: Codable {
-    
     struct TranslateResult: Codable{
         var src: String?
         
@@ -23,7 +23,6 @@ struct RequestWordModel: Codable {
     var elapsedTime: Int64?
     
     var translateResult: [[TranslateResult]]?
-    
 }
 
 class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIGestureRecognizerDelegate {
@@ -80,15 +79,7 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     }
     
     func setupUI(){
-        
-        //        view.addSubview(bgImageView)
-        //        bgImageView.image = UIImage(named: "sakura")
-        //        bgImageView.contentMode = .top
-        //        bgImageView.isUserInteractionEnabled = true
-        //        bgImageView.snp.makeConstraints { (make) in
-        //            make.edges.equalToSuperview()
-        //        }
-        
+
         view.addSubview(searchV)
         searchV.backgroundColor = .clear
         searchV.snp.makeConstraints { (make) in
@@ -289,8 +280,11 @@ class SearchWordViewController: LJBaseViewController, UITableViewDelegate, UITab
     
 }
 
+
 extension URL{
-    
+    /// URL中文编码处理
+    /// - Parameter string: 带中文的url
+    /// - Returns: 编码后的url
     static func initPercent(string:String) -> URL
     {
         let urlwithPercentEscapes = string.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)

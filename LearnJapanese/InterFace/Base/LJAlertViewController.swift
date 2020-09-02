@@ -168,7 +168,6 @@ class LJAlertViewController: LJBaseViewController {
         }
         
         alertCard.addSubview(horDivLine)
-//        horDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
         horDivLine.snp.makeConstraints { (make) in
             make.left.right.equalToSuperview()
             make.height.equalTo(WidthScale(1))
@@ -176,7 +175,6 @@ class LJAlertViewController: LJBaseViewController {
         }
         
         alertCard.addSubview(verDivLine)
-//        verDivLine.backgroundColor = HEXCOLOR(h: 0xcc6633, alpha: 0.2)
         verDivLine.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().inset(WidthScale(0))
             make.top.equalTo(horDivLine.snp.bottom)

@@ -35,7 +35,6 @@ class LJMainAnimationViewController: LJBaseViewController, UINavigationControlle
         bgImgV.tag = 101
         bgImgV.contentMode = .center
         bgImgV.isUserInteractionEnabled = true
-//        bgImgV.image = UIImage.init(named: "cell3")
         bgImgV.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         bgImgV.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
