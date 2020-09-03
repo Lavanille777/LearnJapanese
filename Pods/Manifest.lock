@@ -1,5 +1,4 @@
 PODS:
-  - Alamofire (5.2.2)
   - SnapKit (5.0.1)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
@@ -7,25 +6,22 @@ PODS:
   - TZImagePickerController (3.3.2)
 
 DEPENDENCIES:
-  - Alamofire
   - SnapKit
   - SQLite.swift
   - TZImagePickerController
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - Alamofire
     - SQLite.swift
     - TZImagePickerController
   trunk:
     - SnapKit
 
 SPEC CHECKSUMS:
-  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   TZImagePickerController: 36ca728ec681228918aa82e993aaab1962281b72
 
-PODFILE CHECKSUM: f3662d917f3440709b958864c4c82555ba8586be
+PODFILE CHECKSUM: b24bb494b55bfc379ac3ca74fb46396b8fdef2b4
 
 COCOAPODS: 1.8.4
