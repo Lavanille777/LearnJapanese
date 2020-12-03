@@ -46,7 +46,7 @@ class LJMainTableViewCell: UITableViewCell {
         self.addPressAnimation()
         
         self.selectionStyle = .none
-        self.addSubview(contentV)
+        contentView.addSubview(contentV)
         
         self.backgroundColor = .clear
         
@@ -61,7 +61,7 @@ class LJMainTableViewCell: UITableViewCell {
             make.size.equalTo(CGSize(width: WidthScale(335), height: WidthScale(120)))
         }
         
-        self.addSubview(bgImgV)
+        contentView.addSubview(bgImgV)
         bgImgV.contentMode = .center
 //        bgImgV.backgroundColor = .clear
         bgImgV.layer.cornerRadius = WidthScale(10)
@@ -72,7 +72,7 @@ class LJMainTableViewCell: UITableViewCell {
         }
         layoutIfNeeded()
         
-        self.addSubview(titleL)
+        contentView.addSubview(titleL)
         titleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(20))
         titleL.textColor = HEXCOLOR(h: 0xA0522D, alpha: 1.0)
         titleL.snp.makeConstraints { (make) in
@@ -80,7 +80,7 @@ class LJMainTableViewCell: UITableViewCell {
             make.top.equalTo(bgImgV).inset(WidthScale(40))
         }
         
-        self.addSubview(rightImgV)
+        contentView.addSubview(rightImgV)
         rightImgV.contentMode = .scaleAspectFit
         rightImgV.snp.makeConstraints { (make) in
             make.right.equalToSuperview().inset(WidthScale(40))

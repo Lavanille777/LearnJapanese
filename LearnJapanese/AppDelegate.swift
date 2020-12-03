@@ -31,6 +31,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        if let model = SQLManager.queryRecord(byDate: Date.correctToDay()){
+            recordInfo = model
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "yyyy.MM.dd"
+            if dateFormat.string(from: model.date) != dateFormat.string(from: Date.correctToDay()){
+                let recordModel = RecordModel()
+                recordModel.id = model.id + 1
+                SQLManager.insertRecord(RecordModel())
+            }
+        }else{
+            let model = RecordModel()
+            let arr = SQLManager.queryAllRecords()
+            if let lastModel = arr.last{
+                model.id = lastModel.id + 1
+            }
+            SQLManager.insertRecord(model)
+        }
+        
+        
+        
         for name in UIFont.familyNames {
             for fontName in UIFont.fontNames(forFamilyName: name)
             {

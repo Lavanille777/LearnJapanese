@@ -12,7 +12,7 @@ import SQLite
 class SQLManager: NSObject {
     
     private static var _sharedInstance: SQLManager?
-    let db: Connection?
+    var db: Connection?
     
     ///单词表
     let jcTable: Table = Table("jccard")
@@ -23,9 +23,10 @@ class SQLManager: NSObject {
     ///假名表
     let pronunciation: Table = Table("pronunciation")
     
+    //MARK: - 覆盖更新表
+    let recordTable: Table = Table("record")
+    
     /// 单例
-    ///
-    /// - Returns: 单例对象
     class func shared() -> SQLManager {
         guard let instance = _sharedInstance else {
             _sharedInstance = SQLManager()
@@ -44,6 +45,7 @@ class SQLManager: NSObject {
         print("The DB Path:", docPath)
         let dir = docPath + "/db.sqlite"
         
+        ///如果Doc下没有数据库则从Bundle拷贝一份
         if !FileManager.default.fileExists(atPath: dir){
             try? FileManager.default.copyItem(atPath: bundleSqlPath, toPath: dir)
         }
@@ -57,7 +59,14 @@ class SQLManager: NSObject {
                 }
                 return true
             })
-        }catch _ {
+            
+            try db?.run(recordTable.create(temporary: false, ifNotExists: true, withoutRowid: false, block: { (tableBuilder) in
+                tableBuilder.column(RecordModel.id, primaryKey: true)
+                tableBuilder.column(RecordModel.recordNum)
+                tableBuilder.column(RecordModel.date)
+            }))
+        }catch let error {
+            print("数据库连接或创建失败====\(error)")
             db = nil
         }
     } // 私有化init方法
@@ -343,6 +352,89 @@ class SQLManager: NSObject {
             Dprint("数据库查询失败")
         }
         return articleArray
+    }
+    
+    //MARK: 记录表
+    
+    static func queryAllRecords() -> [RecordModel] {
+        var recordArray: [RecordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().recordTable){
+                for item in items {
+                    let model: RecordModel = RecordModel.getData(fromRow: item)
+                    recordArray.append(model)
+                }
+            }
+        } catch _ {
+            Dprint("数据库查询失败")
+        }
+        return recordArray
+    }
+    
+    static func queryRecords(byStartDate startDate: Date, toEndDate endDate: Date) -> [RecordModel]{
+        var recordArray: [RecordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().recordTable.filter(RecordModel.date >= startDate && RecordModel.date <= endDate)){
+                for item in items {
+                    let model: RecordModel = RecordModel.getData(fromRow: item)
+                    recordArray.append(model)
+                }
+            }
+        } catch let err {
+            Dprint("\(err)数据库查询失败")
+        }
+        return recordArray
+    }
+    
+    static func queryRecord(byDate date: Date) -> RecordModel?{
+        var recordArray: [RecordModel] = []
+        do {
+            let db = SQLManager.shared().db
+            if let items = try db?.prepare(SQLManager.shared().recordTable.filter(RecordModel.date == date)){
+                for item in items {
+                    let model: RecordModel = RecordModel.getData(fromRow: item)
+                    recordArray.append(model)
+                }
+            }
+        } catch let err {
+            Dprint("\(err)数据库查询失败")
+        }
+        return recordArray.first
+    }
+    
+    @discardableResult static func insertRecord(_ model: RecordModel) -> Bool {
+        do {
+            let db = SQLManager.shared().db
+            if let model = SQLManager.queryRecord(byDate: model.date){
+                SQLManager.updateRecord(model)
+            }else{
+                let insert = SQLManager.shared().recordTable.insert(RecordModel.id <- model.id, RecordModel.recordNum <- model.recordNum, RecordModel.date <- model.date)
+                if let rowId = try db?.run(insert){
+                    return rowId >= 0
+                }
+            }
+        } catch let err {
+            Dprint("\(err)数据库更新失败")
+        }
+        return false
+    }
+    
+    @discardableResult static func updateRecord(_ model: RecordModel) -> Bool {
+        do {
+            let db = SQLManager.shared().db
+            let update = SQLManager.shared().recordTable.filter(RecordModel.date == model.date).update(RecordModel.recordNum <- model.recordNum, RecordModel.date <- model.date)
+            if let rowId = try db?.run(update){
+                return rowId >= 0
+            }
+        } catch let err {
+            Dprint("\(err)数据库更新失败")
+            model.id += 1
+            model.recordNum = 1
+            SQLManager.insertRecord(model)
+        }
+        return false
     }
     
     

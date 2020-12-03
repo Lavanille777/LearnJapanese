@@ -218,6 +218,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         }
         
         view.addSubview(mineCollectionView)
+        mineCollectionView.layer.masksToBounds = false
         mineCollectionView.snp.makeConstraints { (make) in
             make.top.equalTo(cardV.snp.bottom).offset(WidthScale(40))
             make.left.right.equalToSuperview().inset(WidthScale(25))
@@ -226,7 +227,7 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return userInfo.havePlan ? 3 : 2
+        return userInfo.havePlan ? 4 : 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -239,6 +240,10 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
             cell.titleL.text = "错词本"
             cell.imgV.image = UIImage(named: "wrongbook")
         case 2:
+            cell.titleL.text = "成长记录"
+            cell.imgV.backgroundColor = HEXCOLOR(h: 0xEEE8AA, alpha: 1.0)
+            cell.imgV.image = UIImage(named: "studyprogress")
+        case 3:
             cell.titleL.text = "清除记录"
             cell.imgV.image = UIImage(named: "clear")
         default:
@@ -255,6 +260,8 @@ class MineViewController: LJBaseViewController, TZImagePickerControllerDelegate,
         case 1:
             self.navigationController?.pushViewController(WordsBookViewController(WithStyle: .wrongBook), animated: true)
         case 2:
+            self.navigationController?.pushViewController(StudyProgressViewController(), animated: true)
+        case 3:
             clenBtnAciton()
         default:
             break

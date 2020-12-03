@@ -11,6 +11,11 @@
 		0104ED6224E2E64B00162FDE /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6124E2E64B00162FDE /* DispatchQueue.swift */; };
 		0104ED6424E438A100162FDE /* LJAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6324E438A100162FDE /* LJAlertViewController.swift */; };
 		0104ED6624E51B3C00162FDE /* MineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104ED6524E51B3C00162FDE /* MineCollectionViewCell.swift */; };
+		01165E8A2575EF790054F955 /* CoordinatePointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01165E892575EF790054F955 /* CoordinatePointModel.swift */; };
+		01165F4825774EC70054F955 /* LJCoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01165F4525774EC70054F955 /* LJCoordinateView.swift */; };
+		01165F4925774EC70054F955 /* LJCoordinatePointModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01165F4625774EC70054F955 /* LJCoordinatePointModel.swift */; };
+		01165F4A25774EC70054F955 /* LJBezierPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01165F4725774EC70054F955 /* LJBezierPathView.swift */; };
+		01165F50257769040054F955 /* StudyProgressSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01165F4F257769040054F955 /* StudyProgressSegmentView.swift */; };
 		013114CD24CA926600B5C969 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 013114CC24CA926600B5C969 /* UserModel.swift */; };
 		013114CF24CAC72D00B5C969 /* db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 013114CE24CAC72D00B5C969 /* db.sqlite */; };
 		013114D224CAF11600B5C969 /* Hanzipen.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 013114D024CAED9600B5C969 /* Hanzipen.ttc */; };
@@ -59,6 +64,10 @@
 		018DBD3A24ED24100011D017 /* PronunciationPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018DBD3924ED24100011D017 /* PronunciationPreviewView.swift */; };
 		01958D7E24F258F5000D4593 /* WordsPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01958D7D24F258F5000D4593 /* WordsPreview.swift */; };
 		01958D8024F27D8F000D4593 /* SpellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01958D7F24F27D8F000D4593 /* SpellViewController.swift */; };
+		01A97E51256F9D880023317F /* StudyProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A97E50256F9D880023317F /* StudyProgressViewController.swift */; };
+		01A97E542570AF320023317F /* RecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A97E532570AF320023317F /* RecordModel.swift */; };
+		01A97E572570BD1D0023317F /* DateEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A97E562570BD1D0023317F /* DateEx.swift */; };
+		01A97E5A2570EB310023317F /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A97E592570EB310023317F /* CoordinateView.swift */; };
 		01C7419924A98F7400DC5996 /* MakingPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */; };
 		01D67E0B247655EE00319B3E /* LJMainTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */; };
 		19C144AF2976B4F72E34FDEA /* Pods_LearnJapanese.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8397573D4FB5120421BA66F9 /* Pods_LearnJapanese.framework */; };
@@ -69,6 +78,11 @@
 		0104ED6124E2E64B00162FDE /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		0104ED6324E438A100162FDE /* LJAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJAlertViewController.swift; sourceTree = "<group>"; };
 		0104ED6524E51B3C00162FDE /* MineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCollectionViewCell.swift; sourceTree = "<group>"; };
+		01165E892575EF790054F955 /* CoordinatePointModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatePointModel.swift; sourceTree = "<group>"; };
+		01165F4525774EC70054F955 /* LJCoordinateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJCoordinateView.swift; sourceTree = "<group>"; };
+		01165F4625774EC70054F955 /* LJCoordinatePointModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJCoordinatePointModel.swift; sourceTree = "<group>"; };
+		01165F4725774EC70054F955 /* LJBezierPathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LJBezierPathView.swift; sourceTree = "<group>"; };
+		01165F4F257769040054F955 /* StudyProgressSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyProgressSegmentView.swift; sourceTree = "<group>"; };
 		013114CC24CA926600B5C969 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		013114CE24CAC72D00B5C969 /* db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = db.sqlite; sourceTree = "<group>"; };
 		013114D024CAED9600B5C969 /* Hanzipen.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hanzipen.ttc; sourceTree = "<group>"; };
@@ -119,6 +133,10 @@
 		018DBD3924ED24100011D017 /* PronunciationPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PronunciationPreviewView.swift; sourceTree = "<group>"; };
 		01958D7D24F258F5000D4593 /* WordsPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsPreview.swift; sourceTree = "<group>"; };
 		01958D7F24F27D8F000D4593 /* SpellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellViewController.swift; sourceTree = "<group>"; };
+		01A97E50256F9D880023317F /* StudyProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyProgressViewController.swift; sourceTree = "<group>"; };
+		01A97E532570AF320023317F /* RecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordModel.swift; sourceTree = "<group>"; };
+		01A97E562570BD1D0023317F /* DateEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateEx.swift; sourceTree = "<group>"; };
+		01A97E592570EB310023317F /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
 		01C7419824A98F7400DC5996 /* MakingPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakingPlanViewController.swift; sourceTree = "<group>"; };
 		01D67E0A247655EE00319B3E /* LJMainTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LJMainTableHeaderView.swift; sourceTree = "<group>"; };
 		0F107955AFD77AC2F031B008 /* Pods-LearnJapanese.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LearnJapanese.debug.xcconfig"; path = "Target Support Files/Pods-LearnJapanese/Pods-LearnJapanese.debug.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +157,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01165F4425774EC70054F955 /* LJCoordinate */ = {
+			isa = PBXGroup;
+			children = (
+				01165F4525774EC70054F955 /* LJCoordinateView.swift */,
+				01165F4625774EC70054F955 /* LJCoordinatePointModel.swift */,
+				01165F4725774EC70054F955 /* LJBezierPathView.swift */,
+			);
+			name = LJCoordinate;
+			path = LJCoordinate1;
+			sourceTree = "<group>";
+		};
 		0135EC7E24726C2100AF0F32 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +178,7 @@
 				018DBD2D24EBB7460011D017 /* WordsBookViewController.swift */,
 				018DBD3124ECE7580011D017 /* PronunciationViewController.swift */,
 				0174D9DF246BE9ED00390CEF /* LoginViewController.swift */,
+				01A97E50256F9D880023317F /* StudyProgressViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -156,6 +186,7 @@
 		0135EC7F24750F2F00AF0F32 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				01165F4425774EC70054F955 /* LJCoordinate */,
 				0135EC8024750F5000AF0F32 /* LJBaseViewController.swift */,
 				0174D9DB246BCC3A00390CEF /* Defmacro.swift */,
 				017EC2D724B454C2003364D5 /* UIViewEx.swift */,
@@ -172,6 +203,7 @@
 				0104ED6324E438A100162FDE /* LJAlertViewController.swift */,
 				01895D6524CFBE75001551C7 /* LJSpeechManager.swift */,
 				0182A8B224C93FEA00D691A3 /* SQLManager.swift */,
+				01A97E562570BD1D0023317F /* DateEx.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -190,6 +222,8 @@
 				018DBD3524ECF7D20011D017 /* PronunciationCollectionViewCell.swift */,
 				018DBD3724ED1B4C0011D017 /* PronunciationSegmentView.swift */,
 				018DBD3924ED24100011D017 /* PronunciationPreviewView.swift */,
+				01A97E592570EB310023317F /* CoordinateView.swift */,
+				01165F4F257769040054F955 /* StudyProgressSegmentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -255,6 +289,8 @@
 				013114CC24CA926600B5C969 /* UserModel.swift */,
 				018DBD3324ECF2C50011D017 /* PronunciationModel.swift */,
 				016BC03F24FCD1B5005F0B6E /* ArticleModel.swift */,
+				01A97E532570AF320023317F /* RecordModel.swift */,
+				01165E892575EF790054F955 /* CoordinatePointModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -429,8 +465,11 @@
 				0182A8B124C936DE00D691A3 /* WordModel.swift in Sources */,
 				0182A8A924C7E6A700D691A3 /* LJNavigationBar.swift in Sources */,
 				01895D6624CFBE75001551C7 /* LJSpeechManager.swift in Sources */,
+				01165E8A2575EF790054F955 /* CoordinatePointModel.swift in Sources */,
+				01A97E51256F9D880023317F /* StudyProgressViewController.swift in Sources */,
 				0174D9C8246BCA6000390CEF /* AppDelegate.swift in Sources */,
 				0182A8A724C6CCEC00D691A3 /* LJPopInteractiveTransitioning.swift in Sources */,
+				01A97E572570BD1D0023317F /* DateEx.swift in Sources */,
 				018DBD3024EBB7C00011D017 /* WordsTableViewCell.swift in Sources */,
 				01895D6024CE6C71001551C7 /* LJMainAnimationViewController.swift in Sources */,
 				0182A8A324C6BFBF00D691A3 /* UIImageEx.swift in Sources */,
@@ -450,11 +489,15 @@
 				0104ED6024E2A65400162FDE /* LJToastView.swift in Sources */,
 				018DBD3624ECF7D20011D017 /* PronunciationCollectionViewCell.swift in Sources */,
 				018DBD2E24EBB7460011D017 /* WordsBookViewController.swift in Sources */,
+				01165F4A25774EC70054F955 /* LJBezierPathView.swift in Sources */,
 				0174D9E0246BE9ED00390CEF /* LoginViewController.swift in Sources */,
 				0174D9CA246BCA6000390CEF /* SceneDelegate.swift in Sources */,
+				01165F4925774EC70054F955 /* LJCoordinatePointModel.swift in Sources */,
+				01A97E542570AF320023317F /* RecordModel.swift in Sources */,
 				0182A8B324C93FEA00D691A3 /* SQLManager.swift in Sources */,
 				01958D8024F27D8F000D4593 /* SpellViewController.swift in Sources */,
 				01895D6424CEAD5F001551C7 /* LJCycleProgressView.swift in Sources */,
+				01165F50257769040054F955 /* StudyProgressSegmentView.swift in Sources */,
 				0180B80724D7E59300128A5D /* LJMainTabBarViewController.swift in Sources */,
 				0135EC8124750F5000AF0F32 /* LJBaseViewController.swift in Sources */,
 				013114CD24CA926600B5C969 /* UserModel.swift in Sources */,
@@ -469,9 +512,11 @@
 				0104ED6424E438A100162FDE /* LJAlertViewController.swift in Sources */,
 				0182A8A124C6921B00D691A3 /* LJPushTransitionAnimator.swift in Sources */,
 				017EC2D824B454C2003364D5 /* UIViewEx.swift in Sources */,
+				01165F4825774EC70054F955 /* LJCoordinateView.swift in Sources */,
 				0182A8A524C6C94000D691A3 /* LJPopTransitionAnimator.swift in Sources */,
 				017EC2DA24B5BE3B003364D5 /* LJMainTableFloatView.swift in Sources */,
 				01958D7E24F258F5000D4593 /* WordsPreview.swift in Sources */,
+				01A97E5A2570EB310023317F /* CoordinateView.swift in Sources */,
 				0104ED6624E51B3C00162FDE /* MineCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -613,7 +658,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 9RDTB937LX;
 				INFOPLIST_FILE = LearnJapanese/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -621,6 +666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = lavanille.LearnJapanese;
 				PRODUCT_NAME = "喵嗷";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -636,7 +682,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 9RDTB937LX;
 				INFOPLIST_FILE = LearnJapanese/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -644,6 +690,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = lavanille.LearnJapanese;
 				PRODUCT_NAME = "喵嗷";
 				PROVISIONING_PROFILE_SPECIFIER = "";

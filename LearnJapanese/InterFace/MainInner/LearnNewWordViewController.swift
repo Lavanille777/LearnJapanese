@@ -233,8 +233,10 @@ class LearnNewWordViewController: LJMainAnimationViewController {
             progressCount += 1
             userInfo.todayWordsCount += 1
             userInfo.rememberWordsCount += 1
+            recordInfo.recordNum += 1
             randomWord.isRemembered = true
-            if SQLManager.updateUser(userInfo) && SQLManager.updateWord(randomWord){
+            recordInfo.date = Date.correctToDay()
+            if SQLManager.updateUser(userInfo) && SQLManager.updateWord(randomWord) && SQLManager.updateRecord(recordInfo){
                 Dprint("更新数据库成功")
             }else{
                 Dprint("更新数据库失败")

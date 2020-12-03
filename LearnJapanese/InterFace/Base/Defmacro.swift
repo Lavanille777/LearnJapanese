@@ -13,6 +13,8 @@ let docPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomai
 
 ///用户信息
 var userInfo: UserModel = UserModel()
+///记忆量信息
+var recordInfo: RecordModel = RecordModel()
 
 ///主题色
 let mainColor = 0x333643

@@ -53,7 +53,7 @@ class LJMainTableColVCell: UITableViewCell, UICollectionViewDelegate, UICollecti
     
     func setupUI(){
         self.backgroundColor = .clear
-        addSubview(tableColV)
+        contentView.addSubview(tableColV)
         tableColV.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }

@@ -118,6 +118,16 @@ extension UIView {
         return nil
     }
     
+    func setAnchorPoint(_ anchorPoint: CGPoint){
+        let tempFrame = self.frame
+        self.layer.anchorPoint = anchorPoint
+        self.frame = tempFrame
+    }
+    
+    func correctPosition(){
+        self.layer.position = CGPoint(x: self.frame.origin.x + (self.layer.anchorPoint.x - 0.5) * bounds.size.width, y: self.frame.origin.y + (self.layer.anchorPoint.x - 0.5) * bounds.size.height)
+    }
+    
     class func makeToast(_ str: String){
         DispatchQueue.main.async {
             for view in LJToastView.shared().subviews{

@@ -70,6 +70,9 @@ class MakingPlanViewController: LJBaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         targetTitleL.tag = 100
         targetTitleL.font = UIFont.init(name: FontYuanTiBold, size: WidthScale(24))
         targetTitleL.textColor = HEXCOLOR(h: 0xA0522D, alpha: 1.0)
